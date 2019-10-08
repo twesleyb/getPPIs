@@ -1,36 +1,20 @@
 #!/usr/bin/env Rscript
+#-------------------------------------------------------------------------------
 
 # Load functions.
-source("download.R")
+source("getHitPredict.R")
+source("getHomoloGene.R")
 
 # Directories.
 here <- getwd()
 rootdir <- dirname(here)
 downloads <- file.path(rootdir,"downloads")
 
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-
 # Download HitPredict database.
-hitpredict <- download("HitPredict", downloads)
+hitpredict <- getHitPredict("HitPredict", downloads)
 
-# Download and load NCBI homology gene data.
-url <- "ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data"
-destfile <- file.path(downloads, "homologene.data")
-if (!file.exists(destfile)) {
-	message("Downloading NCBI HomoloGene data...")
-	download.file(url, destfile)
-	homologene <- data.table::fread(destfile, header = FALSE)
-} else {
-	message("Loading NCBI HomoloGene data from file!")
-	homologene <- data.table::fread(destfile, header = FALSE)
-}
-
-# Fix column names.
-# Gene ID is a genes organism specific Entrez ID.
-# HID is the genes homology id.
-homologene <- homologene %>% rename_all(list(~ c("HID", "TaxonomyID", "GeneID",
-						 "GeneSymbol", "ProteinGI", "ProteinAccession")))
+# Download Homology data.
+getHomoloGene()
 
 # Create homology map for human, mouse, and rat.
 homology_map <- as.list(homologene$HID)

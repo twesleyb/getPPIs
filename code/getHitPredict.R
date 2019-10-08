@@ -90,7 +90,7 @@ getHitPredict <- function(organism="HitPredict", downloads=getwd()) {
 		})
 		# Status report.
 		percent_mapped <- round(100*(1-sum(is.na(entrez))/length(entrez)),2)
-		message(paste(percent_mapped, "% of", names(taxids)[taxids==species], 
+		message(paste("    ", percent_mapped, "% of", names(taxids)[taxids==species], 
 			"Uniprot IDs were successfully mapped to Entrez IDs."))
 		# Create protein identifier map.
 		protMap <- as.list(entrez)
