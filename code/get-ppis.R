@@ -1,6 +1,10 @@
 #!/usr/bin/env Rscript
 # Compiling Protein-Protein interctions from HitPredict.
 
+# Mouse, human, and Rat PPIs are downloaded from HitPredict. Uniprot gene
+# identifiers are mapped to Entrez gene identifiers. The subest of genes that
+# are known to be homologous to mouse genes are then extracted. 
+
 #------------------------------------------------------------------------------
 ## Prepare the workspace.
 #------------------------------------------------------------------------------
@@ -12,148 +16,157 @@ suppressPackageStartupMessages({
 	library(org.Hs.eg.db)
 	library(org.Rn.eg.db)
 	library(TBmiscr) 
+	library(dplyr)
 })
 
 # Directories.
 here <- getwd()
-if (strsplit(osVersion," ")[[1]][1]=="Windows") {
-  here <- "D:/projects/iPSD-PTM/data"; setwd(here)
-}
 rootdir <- dirname(here)
 datadir <- file.path(rootdir,"data")
 downloads <- file.path(rootdir,"downloads")
 
 #-------------------------------------------------------------------------------
-## Load HitPredict interactions.
+## 1. Load HitPredict interactions.
 #-------------------------------------------------------------------------------
 
-# Download HitPredict data. This will take several minutes.
-url <- "http://www.hitpredict.org/download/HitPredict_interactions.txt.tgz"
-gzfile <- file.path(downloads, "HitPredict_interactions.txt.tgz")
-if (!file.exists(gzfile)) {
-	message("Downloading PPIs from HitPredict.org...")
-	download.file(url, gzfile)
+if (!file.exists(file.path(datadir,"1_HitPredict.Rds")){
+	    message("Loading 1_HitPredict.Rds from file!")
+	    hitpredict <- readRDS(file.path(datadir,"1_HitPredict.Rds"))
 } else {
-	message("file already exists!")
+	message("Downloading and cleaning up HitPredict database...")
+	# Download HitPredict data. This will take several minutes.
+	url <- "http://www.hitpredict.org/download/HitPredict_interactions.txt.tgz"
+	gzfile <- file.path(downloads, "HitPredict_interactions.txt.tgz")
+	if (!file.exists(gzfile)) {
+		message("Downloading PPIs from HitPredict.org...")
+		download.file(url, gzfile)
+	} else {
+		message("file already exists!")
+	}
+	# Unzip and read data.
+	untar(gzfile, exdir=downloads)
+	myfile <- file.path(downloads, "HitPredict_interactions.txt")
+	hitpredict <- data.table::fread(myfile, header = TRUE, skip = 5)
+	unlink(myfile)
+	# We need to insure that genes are mapped to a stable, unique identifier.
+	# First, replace blanks with NA.
+	hitpredict[hitpredict == ""] <- NA
+	# Subset human, mouse, and rat data.
+	taxids <- c(9606, 10090, 10116)
+	hitpredict <- subset(hitpredict, hitpredict$Taxonomy %in% taxids)
+	# Seperate rows with multiple Entrez values.
+	hitpredict <- tidyr::separate_rows(hitpredict,Entrez1,sep=";")
+	hitpredict <- tidyr::separate_rows(hitpredict,Entrez2,sep=";")
+	# Seperate rows with multiple Ensembl values.
+	hitpredict <- tidyr::separate_rows(hitpredict,Ensembl1,sep=",")
+	hitpredict <- tidyr::separate_rows(hitpredict,Ensembl2,sep=",")
+	# Number of unmapped genes:
+	print(paste(
+		    "Number of unmapped genes in the HitPredict database:",
+		    table(c(is.na(hitpredict$Entrez1), is.na(hitpredict$Entrez2)))[2]))
+	# Save progress.
+	myfile <- file.path(datadir, "1_HitPredict.Rds")
+	saveRDS(hitpredict,myfile)
 }
 
-# Unzip and read data.
-untar(gzfile, exdir=downloads)
-myfile <- file.path(datadir, "HitPredict_interactions.txt")
-hitpredict <- data.table::fread(myfile, header = TRUE, skip = 5)
-unlink(myfile)
-
-# We need to insure that genes are mapped to a stable, unique identifier.
-# First, replace blanks with NA.
-hitpredict[hitpredict == ""] <- NA
-
-# Subset human, mouse, and rat data.
-taxids <- c(9606, 10090, 10116)
-hitpredict <- subset(hitpredict, hitpredict$Taxonomy %in% taxids)
-
-# Seperate rows with multiple Entrez values.
-hitpredict <- separate_rows(hitpredict,Entrez1,sep=";")
-hitpredict <- separate_rows(hitpredict,Entrez2,sep=";")
-
-# Seperate rows with multiple Ensembl values.
-hitpredict <- separate_rows(hitpredict,Ensembl1,sep=",")
-hitpredict <- separate_rows(hitpredict,Ensembl2,sep=",")
-
-# Number of unmapped genes:
-print(paste(
-  "Number of unmapped genes in the HitPredict database:",
-  table(c(is.na(hitpredict$Entrez1), is.na(hitpredict$Entrez2)))[2]
-))
-
 #-------------------------------------------------------------------------------
-## Collect mapping data from Uniprot.
+## 2. Collect mapping data from Uniprot.
 #-------------------------------------------------------------------------------
 
-# Define a function that will download Uniprot mapping data for a given organism.
-build_uniprotDB <- function(taxid){
-  if (taxid == 9606) {
-    message("Collecting human Uniprot mapping data!")
-    db <- "HUMAN_9606"
-  } else if (taxid == 10090) {
-    message("Collecting mouse Uniprot mapping data!")
-    db <- "MOUSE_10090"
-  } else if (taxid == 10116) {
-    message("Collecting rat Uniprot mapping data!")
-    db <- "RAT_10116"
-  } else {
-    stop("Please provide valid taxid c(9606, 10090, 10116).")
-  }
-  # Which database should be downloaded?
-  baseurl <- "ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/"
-  extension <- "_idmapping_selected.tab.gz"
-  url <- paste0(baseurl,db,extension)
-  gzfile <- file.path(datadir,basename(url))
-  destfile <- tools::file_path_sans_ext(gzfile)
-  # Download
-  if (!file.exists(gzfile)) {
-    message(paste0("Downloading ", basename(gzfile),"..."))
-    download.file(url, gzfile, quiet = TRUE)
-  } else {
-    message("file already exists!")
-  }
-  # Unzip
-  if (!file.exists(destfile)) {
-    message(paste0("Unzipping ", basename(destfile),"..."))
-    R.utils::gunzip(gzfile, destname = destfile)
-  } else {
-    message("file already exists!")
-  }
-  # Read data into R.
-  uniprotDB <- fread(destfile, sep="\t", skip =1)
-  colnames(uniprotDB) <- c("UniProtKB-AC", "UniProtKB-ID", "GeneID (EntrezGene)",
-                           "RefSeq", "GI", "PDB", "GO", "UniRef100", "UniRef90",
-                           "UniRef50", "UniParc", "PIR", "NCBI-taxon", "MIM",
-                           "UniGene", "PubMed", "EMBL", "EMBL-CDS", "Ensembl",
-                           "Ensembl_TRS","Ensembl_PRO","Additional PubMed")
-  # Remove unzipped file!
-  unlink(destfile)
-  return(uniprotDB)
+# All PPIs in HitPredict are annotated with Uniprot Accession numbers or 
+# UniprotKB mnemonics. Attempt to map these to Entrez gene IDs.
+
+if (!file.exists(file.path(datadir,"2_uniprotDB.Rds")){
+	    message("Loading 2_uniprotDB.Rds from file!")
+	    uniprotDB <- readRDS(file.path(datadir,"2_uniprotDB.Rds"))
+} else {
+	message("Building uniprot mapping database...")
+	# Define a function that will download Uniprot mapping data for a given organism.
+	build_uniprotDB <- function(taxid){
+	  if (taxid == 9606) {
+	    message("Collecting human Uniprot mapping data!")
+	    db <- "HUMAN_9606"
+	  } else if (taxid == 10090) {
+	    message("Collecting mouse Uniprot mapping data!")
+	    db <- "MOUSE_10090"
+	  } else if (taxid == 10116) {
+	    message("Collecting rat Uniprot mapping data!")
+	    db <- "RAT_10116"
+	  } else {
+	    stop("Please provide valid taxid c(9606, 10090, 10116).")
+	  }
+	  # Which database should be downloaded?
+	  baseurl <- "ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/"
+	  extension <- "_idmapping_selected.tab.gz"
+	  url <- paste0(baseurl,db,extension)
+	  gzfile <- file.path(downloads,basename(url))
+	  destfile <- tools::file_path_sans_ext(gzfile)
+	  # Download
+	  if (!file.exists(gzfile)) {
+	    message(paste0("Downloading ", basename(gzfile),"..."))
+	    download.file(url, gzfile, quiet = TRUE)
+	  } else {
+	    message("file already exists!")
+	  }
+	  # Unzip
+	  if (!file.exists(destfile)) {
+	    message(paste0("Unzipping ", basename(destfile),"..."))
+	    R.utils::gunzip(gzfile, destname = destfile)
+	  } else {
+	    message("file already exists!")
+	  }
+	  # Read data into R.
+	  uniprotDB <- data.table::fread(destfile, sep="\t", skip =1)
+	  colnames(uniprotDB) <- c("UniProtKB-AC", "UniProtKB-ID", "GeneID (EntrezGene)",
+				   "RefSeq", "GI", "PDB", "GO", "UniRef100", "UniRef90",
+				   "UniRef50", "UniParc", "PIR", "NCBI-taxon", "MIM",
+				   "UniGene", "PubMed", "EMBL", "EMBL-CDS", "Ensembl",
+				   "Ensembl_TRS","Ensembl_PRO","Additional PubMed")
+	  # Remove unzipped file!
+	  unlink(destfile)
+	  return(uniprotDB)
+	}
+	# Get Uniprot data for all three organisms.
+	uniprotDB <- lapply(as.list(taxids), build_uniprotDB)
+	names(uniprotDB) <- as.character(taxids)
+	# Add Taxonomy id column and combine into a single data frame.
+	for (i in 1:length(uniprotDB)) {
+	  uniprotDB[[i]] <- tibble::add_column(uniprotDB[[i]],Taxonomy = taxids[i], .after=22)
+	}
+	uniprotDB <- do.call(rbind, uniprotDB)
+	# Seperate rows with multiple Ensembl IDs.
+	uniprotDB <- tidyr::separate_rows(uniprotDB,Ensembl,sep=";")
+	# Create a Ensembl to Entrez map.
+	uniprotDB <- data.table::data.table(UniprotAC = uniprotDB$`UniProtKB-AC`,
+				    UniprotID = uniprotDB$`UniProtKB-ID`,
+				    EntrezID = uniprotDB$`GeneID (EntrezGene)`,
+			            Ensembl = uniprotDB$Ensembl,
+			            Taxonomy = uniprotDB$Taxonomy)
+	# Save this to file.
+	saveRDS(uniprotDB,file.path(datadir,"2_uniprotDB.Rds"))
 }
 
-# Get Uniprot data for all three organisms.
-uniprotDB <- lapply(as.list(taxids), build_uniprotDB)
-names(uniprotDB) <- as.character(taxids)
-
-# Add Taxonomy id column and combine into a single data frame.
-for (i in 1:length(uniprotDB)) {
-  uniprotDB[[i]] <- tibble::add_column(uniprotDB[[i]],Taxonomy = taxids[i], .after=22)
-}
-uniprotDB <- do.call(rbind, uniprotDB)
-
-# Seperate rows with multiple Ensembl IDs.
-uniprotDB <- separate_rows(uniprotDB,Ensembl,sep=";")
-
-# Create a Ensembl to Entrez map.
-uniprotDB <- data.table(UniprotAC = uniprotDB$`UniProtKB-AC`,
-                        UniprotID = uniprotDB$`UniProtKB-ID`,
-                        Entrez = uniprotDB$`GeneID (EntrezGene)`,
-                        Ensembl = uniprotDB$Ensembl)
-
 #-------------------------------------------------------------------------------
-## Map missing Entrez IDs.
+## 3. Map missing Entrez IDs.
 #-------------------------------------------------------------------------------
 
-# Collect all proteins.
-prots <- data.table(UniprotAC = hitpredict %>% select(Uniprot1, Uniprot2) %>% stack(),
-                    UniprotID = hitpredict %>% select(Name1, Name2) %>% stack(),
-                    Entrez = hitpredict %>% select(Entrez1, Entrez2) %>% stack(),
-                    Ensembl = hitpredict %>% select(Ensembl1, Ensembl2) %>% stack(),
-                    Taxonomy = hitpredict %>% select(Taxonomy))
-prots <- prots %>% select(-c(colnames(prots)[grepl("ind",colnames(prots))])) %>%
-  distinct()
-colnames(prots) <- c("UniprotAC","UniprotID","Entrez","Ensembl","Taxonomy")
-
-# Collect protins with missing entrez identifiers.
-missing_prots <- prots %>% filter(is.na(Entrez))
-
-# Map Uniprot IDs to Ensembl ID with UniprotDB map.
-missing_prots$Uniprot_Ensembl <- as.character(
-  uniprotDB$Ensembl[match(missing_prots$UniprotID,uniprotDB$UniprotID)])
+if (!file.exists(file.path(datadir,"3_HitPredict.Rds"))){
+	message("Loading progress from file!")
+	hitpredict <- readRDS(file.path(datadir,"3_HitPredict.Rds"))
+} else {
+	message("Mapping missing entrez IDs...")
+	# Collect all proteins from hitpredict.
+	prots <- data.table::data.table(UniprotAC = hitpredict %>% select(Uniprot1, Uniprot2) %>% stack(),
+					UniprotID = hitpredict %>% select(Name1, Name2) %>% stack(),
+					Entrez = hitpredict %>% select(Entrez1, Entrez2) %>% stack(),
+					Ensembl = hitpredict %>% select(Ensembl1, Ensembl2) %>% stack(),
+					Taxonomy = hitpredict %>% select(Taxonomy))
+	prots <- prots %>% select(-c(colnames(prots)[grepl("ind",colnames(prots))])) %>% distinct()
+	colnames(prots) <- c("UniprotAC","UniprotID","Entrez","Ensembl","Taxonomy")
+	# Collect protins with missing entrez identifiers.
+	missing_prots <- prots %>% filter(is.na(Entrez))
+	# Map Uniprot IDs to Ensembl ID with UniprotDB map.
+	missing_prots$Uniprot_Ensembl <- as.character(uniprotDB$Ensembl[match(missing_prots$UniprotID,uniprotDB$UniprotID)])
 
 # Define a function that utilizes the AnnotationDbi mapIds() function and
 # organism specific databases (e.g. org.Mm.eg.db) to map Uniprot Ids to Entrez IDS.
@@ -213,19 +226,23 @@ print(paste(
   table(c(is.na(hitpredict$Entrez1), is.na(hitpredict$Entrez2)))[2]
 ))
 
+# Save RDS.
+myfile <- file.path(datadir,"3_HitPredict.Rds")
+saveRDS(hitpredict,myfile)
+
 #-------------------------------------------------------------------------------
 ## Map Entrez gene IDs to their homologous mouse gene.
 #-------------------------------------------------------------------------------
 
 # Download and load NCBI homology gene data.
 url <- "ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data"
-destfile <- file.path(datadir, "homologene.data")
+destfile <- file.path(downloads, "homologene.data")
 if (!file.exists(destfile)) {
 	download.file(url, destfile)
 } else {
 	message("file already exists!")
 }
-homology_data <- read.delim(destfile, header = FALSE)
+homology_data <- data.table::fread(destfile, header = FALSE)
 
 # Fix column names.
 # Gene ID is a genes organism specific Entrez ID.
@@ -236,7 +253,7 @@ colnames(homology_data) <- c(
 )
 
 # Create homology map for human, mouse, and rat.
-homology_data <- subset(homology_data, homology_data$TaxonomyID %in% taxids)
+homology_data <- homology_data %>% filter(TaxonomyID %in% taxids)
 homology_map <- as.list(homology_data$HID)
 names(homology_map) <- homology_data$GeneID
 
@@ -246,24 +263,37 @@ names(homology_map) <- homology_data$GeneID
 hitpredict$HIDA <- homology_map[as.character(hitpredict$Entrez1)]
 hitpredict$HIDB <- homology_map[as.character(hitpredict$Entrez2)]
 
+# Save to RDS.
+saveRDS(hitpredict, file.path(datadir,"hitpredict.Rds"))
+
 #-------------------------------------------------------------------------------
 ## Map HIDs to mouse Entrez using data from MGI database.
 #-------------------------------------------------------------------------------
 
 # Download mouse homology data from MGI.
 url <- "http://www.informatics.jax.org/downloads/reports/HGNC_homologene.rpt"
-myfile <- file.path(datadir, "HGNC_homologene.rpt")
+myfile <- file.path(downloads, "HGNC_homologene.rpt")
 if (!file.exists(myfile)) {
   download.file(url, myfile)
 } else {
   message("file already exists!")
 }
-mus_homology_data <- read.delim(myfile, header = TRUE, sep = "\t", row.names = NULL)
+
+mus_homology_data <- data.table::fread(myfile,skip = 1)
+
+read.delim(myfile,nrow=1)
+
+
+
+
+mus_homology_data[1,]
 
 # Fix column names.
 col_names <- colnames(mus_homology_data)[-1]
 mus_homology_data <- mus_homology_data[, -ncol(mus_homology_data)]
 colnames(mus_homology_data) <- col_names
+
+install.packages("epanetReader")
 
 # Map HIDs to Mus Entrez.
 idx <- match(hitpredict$HIDA, mus_homology_data$HomoloGene.ID)
@@ -277,7 +307,7 @@ hitpredict <- hitpredict[keep, ]
 message(paste(dim(hitpredict)[1],"mouse, human, and rat PPIs were compiled from HitPredict."))
 
 #-------------------------------------------------------------------------------
-## Add gene symbols to hitpredict data.
+## Add gene symbols to HitPredict data.
 #-------------------------------------------------------------------------------
 
 # Must be organism specific!
