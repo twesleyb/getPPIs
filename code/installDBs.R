@@ -1,9 +1,8 @@
-#!/usr/bin/env Rscript
 # Installation of organism specific mapping databases.
 
-
 # Install mapping packages.
-install_annotationDBs <- function(){
+# Fixme: should check if package already exists!
+installDBs <- function(){
 	annotationDBs <- list(Anopheles_gambia = list(taxid=7165, database="org.Ag.eg.db", alias=NA),
 			      Arabidopsis_thaliana = list(taxid=7302, database="org.At.tair.db", alias=NA),
 			      Bos_taurus = list(taxid=9913, database="org.Bt.eg.db", alias="bovine"),
