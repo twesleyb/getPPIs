@@ -19,6 +19,8 @@ hitpredict <- getHomoloGene(hitpredict, taxid = 10090, downloads, keepdata=TRUE)
 # Write to file.
 data.table::fwrite(hitpredict,file.path(datadir,"musInteractome.csv"))
 
+quit()
+
 # Load compiled iPSD proteome.
 # Create a network.
 mygenes <-

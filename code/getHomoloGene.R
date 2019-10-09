@@ -37,8 +37,7 @@ getHomoloGene <- function(hitpredict,taxid,downloads=getwd(),keepdata=FALSE){
 	hidB[seq(1:length(hidB))[unlist(lapply(hidB,is.null))]] <- NA
 	hitpredict$HIDB <- unlist(hidB)
 
-	# Subset homologene data.
-	# All genes from your species of interest.
+	# Subset homologene data, keep all genes from your species of interest.
 	homologene <- homologene %>% filter(TaxonomyID==taxid)
 
 	# Taxonomy info.
@@ -48,16 +47,22 @@ getHomoloGene <- function(hitpredict,taxid,downloads=getwd(),keepdata=FALSE){
 	organism <- osDB["alias"]
 
 	# Get entrez associated with these HIDs.
-	hitpredict <- dplyr::mutate(hitpredict,osEntrezA=homologene$GeneID[match(hitpredict$HIDA,homologene$HID)])
-	hitpredict <- dplyr::mutate(hitpredict,osEntrezB=homologene$GeneID[match(hitpredict$HIDB,homologene$HID)])
+	hitpredict <- dplyr::mutate(hitpredict,
+				    osEntrezA=homologene$GeneID[match(hitpredict$HIDA,homologene$HID)])
+	hitpredict <- dplyr::mutate(hitpredict,
+				    osEntrezB=homologene$GeneID[match(hitpredict$HIDB,homologene$HID)])
 
 	# Status report.
 	is_missing <- is.na(hitpredict$osEntrezA) | is.na(hitpredict$osEntrezB) 
 	n <- length(is_missing)
-	message(paste0(round(100*sum(is_missing)/n,2), "% of interactions were mapped to homologous genes in ", organism,"."))
+	message(paste0(round(100*sum(is_missing)/n,2), 
+		       "% of HitPredict interactions were mapped to homologous genes in ", 
+		       organism,"."))
 
 	# Remove rows with NA.
-	hitpredict <- dplyr::filter(hitpredict, is_missing)
+	hitpredict <- dplyr::filter(hitpredict, !is_missing)
+
+	# Status report.
 	nppis <- format(dim(hitpredict)[1],nsmal=0,big.mark=",")
 	ngenes <- format(length(unique(c(hitpredict$osEntrezA,hitpredict$osEntrezB))),
 			 nsmall=0,big.mark=",")
