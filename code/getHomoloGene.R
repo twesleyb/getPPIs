@@ -17,6 +17,7 @@ getHomoloGene <- function(hitpredict,taxid,downloads=getwd(),keepdata=FALSE){
 	if (keepdata==FALSE) {
 		unlink(destfile)
 	}
+
 	# Fix column names.
 	# Gene ID is a genes organism specific Entrez ID.
 	# HID is the genes homology id.
@@ -37,24 +38,32 @@ getHomoloGene <- function(hitpredict,taxid,downloads=getwd(),keepdata=FALSE){
 	hitpredict$HIDB <- unlist(hidB)
 
 	# Subset homologene data.
+	# All genes from your species of interest.
 	homologene <- homologene %>% filter(TaxonomyID==taxid)
 
 	# Taxonomy info.
 	source("annotationDBs.R")
 	osDB <- unlist(annotationDBs[sapply(annotationDBs,"[",1) == taxid])
-
-	organism <- osDB[3]
+	names(osDB) <- sapply(strsplit(names(osDB),"\\."),"[",2)
+	organism <- osDB["alias"]
 
 	# Get entrez associated with these HIDs.
-	colAB <- paste0(organism,c("EntrezA","EntrezB"))
+	hitpredict <- dplyr::mutate(hitpredict,osEntrezA=homologene$GeneID[match(hitpredict$HIDA,homologene$HID)])
+	hitpredict <- dplyr::mutate(hitpredict,osEntrezB=homologene$GeneID[match(hitpredict$HIDB,homologene$HID)])
 
-	hitpredict <- dplyr::mutate(hitpredict,colA=homologene$GeneID[match(hitpredict$HIDA,homologene$HID)])
-	hitpredict <- dplyr::mutate(hitpredict,colB=homologene$GeneID[match(hitpredict$HIDB,homologene$HID)])
 	# Status report.
-
 	is_missing <- is.na(hitpredict$osEntrezA) | is.na(hitpredict$osEntrezB) 
 	n <- length(is_missing)
-	message(paste(round(100*sum(is_missing)/n,2), "of interactions mapped to homologous genes."))
+	message(paste0(round(100*sum(is_missing)/n,2), "% of interactions were mapped to homologous genes in ", organism,"."))
+
+	# Remove rows with NA.
+	hitpredict <- dplyr::filter(hitpredict, is_missing)
+	nppis <- format(dim(hitpredict)[1],nsmal=0,big.mark=",")
+	ngenes <- format(length(unique(c(hitpredict$osEntrezA,hitpredict$osEntrezB))),
+			 nsmall=0,big.mark=",")
+	message(paste0(nppis," protein-protein interactions among ", ngenes,
+		      " genes were compiled from ", organism,"."))
+
 	# Return data with genes mapped to gene specific entrez.
 	return(hitpredict)
 }

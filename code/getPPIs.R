@@ -8,12 +8,18 @@ source("getHomoloGene.R")
 here <- getwd()
 rootdir <- dirname(here)
 downloads <- file.path(rootdir,"downloads")
+datadir <- file.path(rootdir,"data")
 
 # Download HitPredict database.
-hitpredict <- getHitPredict("HitPredict")
+hitpredict <- getHitPredict("HitPredict", downloads, keepdata=TRUE)
 
-# Map genes to homologous gene of a species of interest.
-ppis <- getHomoloGene(hitpredict, taxid = 10090) # Mouse
+# Map genes to homologous mouse genes.
+hitpredict <- getHomoloGene(hitpredict, taxid = 10090, downloads, keepdata=TRUE)
 
+# Write to file.
+data.table::fwrite(hitpredict,file.path(datadir,"musInteractome.csv"))
+
+# Load compiled iPSD proteome.
 # Create a network.
+mygenes <-
 net <- getNetwork(mygenes,ppis)
