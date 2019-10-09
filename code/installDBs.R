@@ -26,6 +26,10 @@ installDBs <- function(){
 	# Loop to install packages.
 		packages <- unlist(sapply(annotationDBs,"[",2))
 		for (package in packages){
-			BiocManager::install(package)
+		       if (package !%in% rownames(installed.packages())) {
+			       BiocManager::install(package)
+		       } else {
+			       message(paste(package,"is already installed!"))
+		       }
 		}
 }
