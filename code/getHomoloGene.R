@@ -63,11 +63,12 @@ getHomoloGene <- function(hitpredict,taxid,downloads=getwd(),keepdata=FALSE){
 	hitpredict <- dplyr::filter(hitpredict, !is_missing)
 
 	# Status report.
+	ntaxid <- length(unique(c(hitpredict$Interactor_A_Taxonomy,hitpredict$Interactor_B_Taxonomy)))
 	nppis <- format(dim(hitpredict)[1],nsmal=0,big.mark=",")
 	ngenes <- format(length(unique(c(hitpredict$osEntrezA,hitpredict$osEntrezB))),
 			 nsmall=0,big.mark=",")
-	message(paste0(nppis," protein-protein interactions among ", ngenes,
-		      " genes were compiled from ", organism,"."))
+	message(paste0(nppis," protein-protein interactions among ", ngenes, 
+		       " ", organism, " genes were compiled from ", ntaxid, " species."))
 
 	# Return data with genes mapped to gene specific entrez.
 	return(hitpredict)
