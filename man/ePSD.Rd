@@ -3,7 +3,7 @@
 \docType{data}
 \name{ePSD}
 \alias{ePSD}
-\title{iPSD proteome}
+\title{ePSD proteome}
 \format{atomic vector (integers) - Entrez IDs}
 \source{
 none
