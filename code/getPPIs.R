@@ -1,11 +1,26 @@
-#!/usr/bin/env Rscript
-
-# Wrapper around getHitPredict, getHomoloGene, and getMethods.
-# Provided a list of genes, get PPIs.
+#' getPPIs(taxid, goi, file="", downloads, path2mi)
+#'
+#' Wrapper around getHitPredict, getHomoloGene, and getMethods.
+#' Provided a list of genes, get PPIs.
+#'
+#' @param none
+#'
+#' @return none
+#'
+#' @author Tyler W Bradshaw, \email{tyler.w.bradshaw@duke.edu}
+#'
+#' @references none
+#'
+#' @keywords none
+#'
+#' @export
+#'
+#' @examples
+#' getPPIs()
 
 # Directories.
 here <- getwd()
-rootdir <- dirname(here)
+rootdir <- here
 downloads <- file.path(rootdir,"downloads")
 datadir <- file.path(rootdir,"data")
 funcdir <- file.path(rootdir,"R")
@@ -26,32 +41,36 @@ path2mi <- file.path(downloads,"mi.owl")
 hitpredict <- getMethods(hitpredict,path2mi, methods = "all", cutoff=0)
 
 # Save
-musInteractome <- hitpredict
-save(musInteractome,file=file.path(datadir,"musInteractome.RData"))
+#musInteractome <- hitpredict
+#save(musInteractome,file=file.path(datadir,"musInteractome.RData"))
 
-# Load compiled iPSD proteome.
-# Create a network.
-myfile <- file.path(prots,"compiled_iPSD.txt")
-myfile <- file.path(prots,"ePSD.txt")
+# Load compiled mouse interactome.
+data(musInteractome)
+hitpredict <- musInteractome
+
+# Load proteins of interest.
+myfile <- file.path(rootdir,"temp","paps.txt")
 mygenes <- data.table::fread(myfile)$Entrez
 
 # Get interactions among genes of interest.
+library(dplyr)
 ppis <- hitpredict %>% filter(osEntrezA %in% mygenes & osEntrezB %in% mygenes)
 
 # Write to file.
-data.table::fwrite(ppis,"ePSD_PPIs.csv")
-
+data.table::fwrite(ppis,file.path(paste0(file,"PPIs.csv")))
 
 # Simple interaction file:
 sif <- ppis %>% dplyr::select(osEntrezA, osEntrezB)
 
 # Create node attribute data.table.
 nodes <- unique(c(sif$osEntrezA,sif$osEntrezB))
+library(org.Mm.eg.db)
 symbols <- AnnotationDbi::mapIds(org.Mm.eg.db,
 				 keys=as.character(nodes),
 				 column="SYMBOL",
 				 keytype="ENTREZID",
 				 multiVals="first") 
+
 noa <- data.table::data.table(node=nodes,symbol=symbols)
 
 # Check.
@@ -59,14 +78,13 @@ if (sum(is.na(symbols)) == 0) {
 	message("All node Entrez IDs mapped to gene symbols!") 
 }
 
-
 # Save data.
-#data.table::fwrite(noa,file.path(datadir,"noa.csv"))
-#data.table::fwrite(sif,file.path(datadir,"sif.csv"))
+data.table::fwrite(noa,file=file.path(rootdir,"temp","noa.csv"))
+data.table::fwrite(sif,file=file.path(rootdir,"temp","sif.csv"))
 
 # Create igraph.
-g <- igraph::graph_from_data_frame(sif, directed = FALSE, vertices = noa)
-
+library(igraph)
+g <- graph_from_data_frame(sif, directed = FALSE, vertices = noa)
 # Simplify to remove redundant edges.
 g <- simplify(g,remove.loops=TRUE)
 
@@ -118,3 +136,9 @@ koptimum <- k[best_resolution]
 best_resolution
 Qmax
 koptimum
+
+# Save partition.
+library(data.table)
+
+fwrite(data.table(Node=names(V(g)),
+		  Cluster = partition), 
