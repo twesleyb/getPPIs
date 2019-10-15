@@ -13,9 +13,10 @@
 #'
 #' @keywords none
 #'
-#' @export none
+#' @export 
 #'
-#' @examples none
+#' @examples 
+#' installDBs()
 
 installDBs <- function(){
 # Fixme: should check if package already exists!

@@ -7,7 +7,7 @@
 #'
 #' @usage data(iPSD)
 #'
-#' @format none
+#' @format atomic vector (integers) - Entrez IDs
 #'
 #' @keywords datasets
 #'

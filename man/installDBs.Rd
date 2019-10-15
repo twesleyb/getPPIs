@@ -16,7 +16,7 @@ none
 Installation of organism specific mapping databases from BioConductor.
 }
 \examples{
-none
+installDBs()
 }
 \references{
 none

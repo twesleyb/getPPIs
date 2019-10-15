@@ -4,7 +4,13 @@
 #' Downloading the NCBI holoogy database. Mapping proteins to species of 
 #' interest.
 #'
-#' @param none
+#' @param hitpredict (data.table) - HitPredict data.
+#'
+#' @param taxid (integer) - taxonomic identifier for species of interest
+#'
+#' @param downloads (character) - directory for downloaded data
+#' 
+#' @param keepdata (logical) - should downloaded data be kept or removed?
 #'
 #' @return none
 #'
@@ -14,9 +20,10 @@
 #'
 #' @keywords none
 #'
-#' @export none
+#' @export 
 #'
-#' @examples none
+#' @examples 
+#' getHomoloGene(hitpredict,taxid=10090)
 
 getHomoloGene <- function(hitpredict,taxid,downloads=getwd(),keepdata=FALSE){
 	# Download and load NCBI homology gene data.

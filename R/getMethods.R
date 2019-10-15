@@ -14,10 +14,10 @@
 #'
 #' @keywords annotation database org.db entrez
 #'
+#' @export
+#'
 #' @examples 
 #' getMethods(hitpredict)
-#'
-#' @export
 
 getMethods <- function(hitpredict, path2mi, methods="all", cutoff=0.485) {
 	#  A method score >= 0.485 is considered to indicate high confidence (Villaveces et al.)

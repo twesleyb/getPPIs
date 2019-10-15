@@ -3,19 +3,24 @@
 #'
 #' Function that facilitates downloading the HitPredict database.
 #'
-#' @param 
+#' @param organism - (character) which organism to be downloaded from HitPredict.
 #'
-#' @return 
+#' @param downloads - (character) optional directory for downloaded data.
+#'
+#' @param keepdata - (logical) should downloaded data be kept or removed?
+#'
+#' @return none
 #'
 #' @author Tyler W Bradshaw, \email{tyler.w.bradshaw@duke.edu}
 #'
-#' @references 
+#' @references none
 #'
-#' @keywords 
+#' @keywords none
 #'
 #' @export 
 #'
 #' @examples 
+#' getHitPredict(organism="HitPredict")
 
 getHitPredict <- function(organism="HitPredict", downloads=getwd(), keepdata=FALSE) {
 	# Imports.

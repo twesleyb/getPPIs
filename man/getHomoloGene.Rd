@@ -7,7 +7,13 @@
 getHomoloGene(hitpredict, taxid, downloads = getwd(), keepdata = FALSE)
 }
 \arguments{
-\item{none}{}
+\item{hitpredict}{(data.table) - HitPredict data.}
+
+\item{taxid}{(integer) - taxonomic identifier for species of interest}
+
+\item{downloads}{(character) - directory for downloaded data}
+
+\item{keepdata}{(logical) - should downloaded data be kept or removed?}
 }
 \value{
 none
@@ -17,7 +23,7 @@ Downloading the NCBI holoogy database. Mapping proteins to species of
 interest.
 }
 \examples{
-none
+getHomoloGene(hitpredict,taxid=10090)
 }
 \references{
 none

@@ -8,7 +8,11 @@ getHitPredict(organism = "HitPredict", downloads = getwd(),
   keepdata = FALSE)
 }
 \arguments{
-\item{none}{}
+\item{organism}{- (character) which organism to be downloaded from HitPredict.}
+
+\item{downloads}{- (character) optional directory for downloaded data.}
+
+\item{keepdata}{- (logical) should downloaded data be kept or removed?}
 }
 \value{
 none
@@ -17,7 +21,7 @@ none
 Function that facilitates downloading the HitPredict database.
 }
 \examples{
-none
+getHitPredict(organism="HitPredict")
 }
 \references{
 none

@@ -18,7 +18,6 @@ and refine PPI list by method type if provided.
 }
 \examples{
 getMethods(hitpredict)
-
 }
 \references{
 none
