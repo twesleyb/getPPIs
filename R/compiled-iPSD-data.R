@@ -4,9 +4,9 @@
 #'
 #' @docType data
 #'
-#' @usage data(compiled-iPSD)
+#' @usage data(compiled_iPSD)
 #'
-#' @format atomic vector
+#' @format atomic vector of entrez IDs (integers)
 #'
 #' @keywords datasets
 #'
@@ -16,5 +16,5 @@
 #' @source Uezu et al., 2013
 #'
 #' @examples
-#' data(compiled-iPSD)
-"compiled-iPSD"
+#' data(compiled_iPSD)
+"compiled_iPSD"
