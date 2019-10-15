@@ -1,12 +1,24 @@
-# Function that facilitates downloading the HitPredict database.
-
 #------------------------------------------------------------------------------
-## Download and compile HitPredict dababase.
-#------------------------------------------------------------------------------
+#' getHitPredict
+#'
+#' Function that facilitates downloading the HitPredict database.
+#'
+#' @param none
+#'
+#' @return none
+#'
+#' @author Tyler W Bradshaw, \email{tyler.w.bradshaw@duke.edu}
+#'
+#' @references none
+#'
+#' @keywords none
+#'
+#' @export none
+#'
+#' @examples none
 
-getHitPredict <- function(organism="HitPredict", 
-			  downloads=getwd(), 
-			  keepdata=FALSE) {
+getHitPredict <- function(organism="HitPredict", downloads=getwd(), keepdata=FALSE) {
+	# Imports.
 	suppressPackageStartupMessages({
 		require(dplyr)})
 	# Parse HitPredict Downloads page.
@@ -110,3 +122,4 @@ getHitPredict <- function(organism="HitPredict",
 	# Return HitPredict data with Entrez IDs.
 	return(data)
 }
+#------------------------------------------------------------------------------
