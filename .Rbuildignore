@@ -1,0 +1,6 @@
+\.git
+\.RData$
+\.Rhistory$
+\.Rprofile$
+\downloads
+\tmp\*
