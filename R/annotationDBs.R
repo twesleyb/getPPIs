@@ -14,7 +14,7 @@
 #'
 #' @keywords annotation database org.db entrez
 #'
-#' @export none
+#' @export 
 #'
 #' @examples 
 #' source("annotationDBs.R")
