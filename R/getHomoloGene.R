@@ -1,4 +1,3 @@
-#------------------------------------------------------------------------------
 #' getHomologene
 #'
 #' Downloading the NCBI holoogy database. Mapping proteins to species of
@@ -108,5 +107,3 @@ getHomoloGene <- function(hitpredict, taxid, downloads = getwd(), keepdata = FAL
   # Return data with genes mapped to gene specific entrez.
   return(hitpredict)
 }
-
-#------------------------------------------------------------------------------

@@ -1,4 +1,3 @@
-#------------------------------------------------------------------------------
 #' getMethods
 #'
 #' Given a HitPredict object (data.table), annotate the PPI-detection methods,
@@ -46,5 +45,3 @@ getMethods <- function(hitpredict, path2mi, methods = "all", cutoff = 0.485) {
     return(hitpredict)
   }
 }
-
-#------------------------------------------------------------------------------

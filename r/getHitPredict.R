@@ -1,4 +1,3 @@
-#------------------------------------------------------------------------------
 #' getHitPredict
 #'
 #' Function that facilitates downloading the HitPredict database.
@@ -142,4 +141,3 @@ getHitPredict <- function(organism = "HitPredict", downloads = getwd(), keepdata
   # Return HitPredict data with Entrez IDs.
   return(data)
 }
-#------------------------------------------------------------------------------
