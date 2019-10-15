@@ -3,7 +3,6 @@
 # Wrapper around getHitPredict, getHomoloGene, and getMethods.
 # Provided a list of genes, get PPIs.
 
-
 # Directories.
 here <- getwd()
 rootdir <- dirname(here)
@@ -12,10 +11,8 @@ datadir <- file.path(rootdir,"data")
 funcdir <- file.path(rootdir,"R")
 
 # Load functions.
-
-source(file.path(funcdir))"getHitPredict.R")
-source("getHomoloGene.R")
-source("getMethods.R")
+#devtools::install_github("twesleyb/getPPIs")
+library(getPPIs)
 
 # Download HitPredict database.
 hitpredict <- getHitPredict("HitPredict", downloads, keepdata=TRUE)
