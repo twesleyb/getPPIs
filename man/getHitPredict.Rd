@@ -21,7 +21,7 @@ none
 Function that facilitates downloading the HitPredict database.
 }
 \examples{
-getHitPredict(organism="HitPredict")
+getHitPredict(organism = "HitPredict")
 }
 \references{
 none

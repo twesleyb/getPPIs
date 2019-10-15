@@ -1,5 +1,5 @@
 #' ePSD proteome
-#' 
+#'
 #' The excitatory synapse postsynaptic proteome (iPSD) identified
 #' by Uezu et al., (2016) by PSD-95 iBioID.
 #'

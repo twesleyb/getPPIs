@@ -1,7 +1,7 @@
 #' iPSD proteome
-#' 
+#'
 #' The inhibitory synapse postsynaptic proteome (iPSD) identified
-#' by Uezu et al., (2016). 
+#' by Uezu et al., (2016).
 #'
 #' @docType data
 #'

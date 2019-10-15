@@ -19,11 +19,11 @@ getHomoloGene(hitpredict, taxid, downloads = getwd(), keepdata = FALSE)
 none
 }
 \description{
-Downloading the NCBI holoogy database. Mapping proteins to species of 
+Downloading the NCBI holoogy database. Mapping proteins to species of
 interest.
 }
 \examples{
-getHomoloGene(hitpredict,taxid=10090)
+getHomoloGene(hitpredict, taxid = 10090)
 }
 \references{
 none

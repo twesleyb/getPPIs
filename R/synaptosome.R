@@ -1,5 +1,5 @@
 #' Synaptosome proteome
-#' 
+#'
 #' A synaptosome proteome.
 #'
 #' @docType data

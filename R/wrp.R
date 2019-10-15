@@ -1,7 +1,7 @@
 #' Wrp iBioID proteome
-#' 
+#'
 #' The proteome of developing excitatory synapses identified by Wrp iBioID by
-#' Spence et al., (2019). 
+#' Spence et al., (2019).
 #'
 #' @docType data
 #'

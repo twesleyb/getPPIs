@@ -1,5 +1,5 @@
 #' compiled iPSD proteome
-#' 
+#'
 #' A proteome of inhibitory synapses compile from several studies.
 #'
 #' @docType data
