@@ -17,6 +17,8 @@
 #'
 #' @keywords none
 #'
+#' @import getPPIs
+#'
 #' @export 
 #'
 #' @examples 

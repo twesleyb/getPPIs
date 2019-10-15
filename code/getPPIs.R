@@ -17,6 +17,8 @@ library(getPPIs)
 # Download HitPredict database.
 hitpredict <- getHitPredict("HitPredict", downloads, keepdata=TRUE)
 
+quit()
+
 # Map genes to homologous mouse genes.
 hitpredict <- getHomoloGene(hitpredict, taxid = 10090, downloads, keepdata=TRUE)
 
