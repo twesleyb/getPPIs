@@ -1,0 +1,4 @@
+#!/usr/bin/env Rscript
+
+# Install from GitHub.
+devtools::install_github("twesleyb/getPPIs")
