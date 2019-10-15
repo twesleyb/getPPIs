@@ -6,14 +6,14 @@
 #'
 #' @usage data(compiled-iPSD)
 #'
-#' @format none
+#' @format atomic vector
 #'
 #' @keywords datasets
 #'
 #' @references Uezu et al. (2013) Science 353(6304):1123-9.
 #' (\href{https://www.ncbi.nlm.nih.gov/pubmed/27609886}{PubMed})
 #'
-#' @source none
+#' @source Uezu et al., 2013
 #'
 #' @examples
 #' data(compiled-iPSD)

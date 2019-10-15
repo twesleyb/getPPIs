@@ -3,19 +3,19 @@
 #'
 #' Function that facilitates downloading the HitPredict database.
 #'
-#' @param none
+#' @param 
 #'
-#' @return none
+#' @return 
 #'
 #' @author Tyler W Bradshaw, \email{tyler.w.bradshaw@duke.edu}
 #'
-#' @references none
+#' @references 
 #'
-#' @keywords none
+#' @keywords 
 #'
-#' @export none
+#' @export 
 #'
-#' @examples none
+#' @examples 
 
 getHitPredict <- function(organism="HitPredict", downloads=getwd(), keepdata=FALSE) {
 	# Imports.
