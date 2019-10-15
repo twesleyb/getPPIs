@@ -11,13 +11,11 @@ datadir <- file.path(rootdir,"data")
 funcdir <- file.path(rootdir,"R")
 
 # Load functions.
-#devtools::install_github("twesleyb/getPPIs")
+#devtools::install_github("twesleyb/getPPIs") # installation
 library(getPPIs)
 
 # Download HitPredict database.
 hitpredict <- getHitPredict("HitPredict", downloads, keepdata=TRUE)
-
-quit()
 
 # Map genes to homologous mouse genes.
 hitpredict <- getHomoloGene(hitpredict, taxid = 10090, downloads, keepdata=TRUE)
