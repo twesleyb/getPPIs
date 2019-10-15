@@ -1,4 +1,24 @@
-# Define organism specific mapping databases:
+#------------------------------------------------------------------------------
+#' annotationDBs
+#'
+#' annotationDBs is an R object that contains information about organism 
+#' specific mapping databases in BioConductor. Used to map gene identifiers.
+#'
+#' @param none
+#'
+#' @return none
+#'
+#' @author Tyler W Bradshaw, \email{tyler.w.bradshaw@duke.edu}
+#'
+#' @references none
+#'
+#' @keywords annotation database org.db entrez
+#'
+#' @export none
+#'
+#' @examples 
+#' source("annotationDBs.R")
+
 annotationDBs <- list(Anopheles_gambia = list(taxid=7165, database="org.Ag.eg.db", alias="anopheles"),
 		      Arabidopsis_thaliana = list(taxid=7302, database="org.At.tair.db", alias="arabidopsis"),
 		      Bos_taurus = list(taxid=9913, database="org.Bt.eg.db", alias="bovine"),
@@ -18,3 +38,5 @@ annotationDBs <- list(Anopheles_gambia = list(taxid=7165, database="org.Ag.eg.db
 		      Saccharomyces_cerevisiae = list(taxid=4932,database="org.Sc.sgd.db",alias="yeast"),
 		      Sus_scrofa = list(taxid=9823,database="org.Ss.eg.db",alias="pig"),
 		      Xenopus_laevis= list(taxid=8355,database="org.Xl.eg.db",alias="frog"))
+
+#------------------------------------------------------------------------------

@@ -1,8 +1,25 @@
-# Installation of organism specific mapping databases.
+#------------------------------------------------------------------------------
+#' installDBs
+#'
+#' Installation of organism specific mapping databases.
+#'
+#' @param none
+#'
+#' @return none
+#'
+#' @author Tyler W Bradshaw, \email{tyler.w.bradshaw@duke.edu}
+#'
+#' @references none
+#'
+#' @keywords none
+#'
+#' @export none
+#'
+#' @examples none
 
+installDBs <- function(){
 # Install mapping packages.
 # Fixme: should check if package already exists!
-installDBs <- function(){
 	annotationDBs <- list(Anopheles_gambia = list(taxid=7165, database="org.Ag.eg.db", alias=NA),
 			      Arabidopsis_thaliana = list(taxid=7302, database="org.At.tair.db", alias=NA),
 			      Bos_taurus = list(taxid=9913, database="org.Bt.eg.db", alias="bovine"),
@@ -33,3 +50,4 @@ installDBs <- function(){
 		       }
 		}
 }
+#------------------------------------------------------------------------------

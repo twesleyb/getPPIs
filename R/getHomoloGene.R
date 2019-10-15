@@ -1,8 +1,25 @@
-# Downloading NCBI homology database. And mapping proteins to a species of interst.
+#------------------------------------------------------------------------------
+#' getHomologene
+#'
+#' Downloading the NCBI holoogy database. Mapping proteins to species of 
+#' interest.
+#'
+#' @param none
+#'
+#' @return none
+#'
+#' @author Tyler W Bradshaw, \email{tyler.w.bradshaw@duke.edu}
+#'
+#' @references none
+#'
+#' @keywords none
+#'
+#' @export none
+#'
+#' @examples none
 
-# Download and load NCBI homology gene data.
 getHomoloGene <- function(hitpredict,taxid,downloads=getwd(),keepdata=FALSE){
-
+	# Download and load NCBI homology gene data.
 	url <- "ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data"
 	destfile <- file.path(downloads, "homologene.data")
 	if (!file.exists(destfile)) {
@@ -74,3 +91,4 @@ getHomoloGene <- function(hitpredict,taxid,downloads=getwd(),keepdata=FALSE){
 	return(hitpredict)
 }
 
+#------------------------------------------------------------------------------

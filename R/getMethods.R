@@ -1,4 +1,23 @@
-# Given a HitPredict object (data.table), annotate the methods, refine list by method type.
+#------------------------------------------------------------------------------
+#' getMethods
+#'
+#' Given a HitPredict object (data.table), annotate the PPI-detection methods,
+#' and refine PPI list by method type if provided.
+#'
+#' @param none
+#'
+#' @return none
+#'
+#' @author Tyler W Bradshaw, \email{tyler.w.bradshaw@duke.edu}
+#'
+#' @references none
+#'
+#' @keywords annotation database org.db entrez
+#'
+#' @examples 
+#' getMethods(hitpredict)
+#'
+#' @export
 
 getMethods <- function(hitpredict, path2mi, methods="all", cutoff=0.485) {
 	#  A method score >= 0.485 is considered to indicate high confidence (Villaveces et al.)
@@ -28,3 +47,5 @@ getMethods <- function(hitpredict, path2mi, methods="all", cutoff=0.485) {
 		return(hitpredict)
 	}
 }
+
+#------------------------------------------------------------------------------
