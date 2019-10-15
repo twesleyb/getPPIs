@@ -15,7 +15,11 @@ For more information, please see authors' original publications:
 * Patil and Nakamura [BMC Bioinformatics 2005](https://www.ncbi.nlm.nih.gov/pubmed/15833142)
 
 ## Usage
-Download the getPPIs R package.
+Download the getPPIs R package from GitHub.
 ```
+devtools::install_github("twesleyb/getPPIs")
+
+library(getPPIs)
+
 ```
 
