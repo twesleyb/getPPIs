@@ -25,9 +25,9 @@
 #' @examples
 #' getHomoloGene(hitpredict, taxid = 10090)
 getHomoloGene <- function(hitpredict, taxid, downloads = getwd(), keepdata = FALSE) {
-	suppressMessages({
-		require(getPPIs)
-	})
+  suppressMessages({
+    require(getPPIs)
+  })
   # Download and load NCBI homology gene data.
   url <- "ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data"
   destfile <- file.path(downloads, "homologene.data")
@@ -69,7 +69,7 @@ getHomoloGene <- function(hitpredict, taxid, downloads = getwd(), keepdata = FAL
   homologene <- homologene %>% filter(TaxonomyID == taxid)
 
   # Taxonomy info.
-  annotationDBs.R <- getDBs()
+  annotationDBs <- getDBs()
   osDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 1) == taxid])
   names(osDB) <- sapply(strsplit(names(osDB), "\\."), "[", 2)
   organism <- osDB["alias"]
