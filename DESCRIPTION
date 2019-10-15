@@ -8,7 +8,7 @@ Authors@R:
            email = "tyler.w.bradshaw@duke.edu",
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: Download and compile protein-protein interactions.
-License: What license it uses
+License: GNU V3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
