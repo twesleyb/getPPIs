@@ -26,7 +26,8 @@ path2mi <- file.path(downloads,"mi.owl")
 hitpredict <- getMethods(hitpredict,path2mi, methods = "all", cutoff=0)
 
 # Save
-save(hitpredict,file=file.path(datadir,"musInteractome.RData"))
+musInteractome <- hitpredict
+save(musInteractome,file=file.path(datadir,"musInteractome.RData"))
 
 # Load compiled iPSD proteome.
 # Create a network.

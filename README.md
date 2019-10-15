@@ -26,6 +26,9 @@ Mapping Uniprot IDs to Entrez IDs...
 17,761 (3.54%) of all interactions (rows) are incompletely mapped to Entrez IDs and will be discarded.
 483,477 Protein-protein interactions from 12 species were compiled from the HitPredict database and successfully mapped to Entrez IDs.
 ```
+#### Summary
+21.95% of HitPredict interactions were mapped to homologous genes in mouse.  
+377,352 protein-protein interactions among 15,945 mouse genes were compiled from 10 species.  
 
 For more information, please see authors' original publications:
 * Lopez _et al.,_ [Database 2015](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4691340/)
