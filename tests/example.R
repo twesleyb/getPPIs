@@ -11,5 +11,12 @@ data(iPSD)
 head(iPSD)
 
 # getPPIs
-getPPIs(organism = "HitPredict", taxid = 10090, 
+hitpredict <- getPPIs(organism = "HitPredict", 
+		      mygenes = iPSD, 
+		      taxid = 10090, 
+	              methods = "all", 
+		      cutoff = 0,
+	       	      file = "",
+		      downloads = "../downloads"),
+		      keepdata = TRUE)
 

@@ -33,7 +33,7 @@ getPPIs <- function(organism = "HitPredict",
                     keepdata = FALSE,
                     saveppis = FALSE) {
   # Imports.
-  suppressPackageStartupMessage({
+  suppressPackageStartupMessages({
     require(getPPIs)
     require(dplyr)
     require(org.Mm.eg.db)
