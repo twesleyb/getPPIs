@@ -24,28 +24,29 @@ devtools::install_github("twesleyb/getPPIs")
 
 ## Usage
 The package contains several key functions:
-1. getHitPredict() - facilitates download of HitPredict data and mapping protein identifiers to stable Entrez gene IDs.
-2. getHomoloGene() - automates download of NCBI homology database and maps genes to their homolog in a species of interest.
-3. getMethods() - annotates the HitPredict data with more human-readable names cooresponding to detection methods.
-4. getPPIs() - wrapper function that does the work getHitPredict, getHomoloGene, and getPPIs.
-5. buildNetwork() - builds a protein-protein interaction graph given some genes of interest.
+1. __getHitPredict__ - facilitates download of HitPredict data and mapping protein identifiers to stable Entrez gene IDs.
+2. __getHomoloGene__ - automates download of NCBI homology database and maps genes to their homolog in a species of interest.
+3. __getMethods__ - annotates the HitPredict data with more human-readable names cooresponding to detection methods.
+4. __getPPIs__ - wrapper function that does the work getHitPredict, getHomoloGene, and getPPIs.
+5. __buildNetwork__ - builds a protein-protein interaction graph given some genes of interest (only works for mouse currently).
 
-To use `getPPIs`, just try this:
+To get mouse PPIs use `getPPIs`:
 ```
 library(getPPIs)
 data(iPSD)
 ppis <- getPPIs(organism="HitPredict", iPSD, taxid=10090)
-
 ```
 
-Then, build a PPI graph:
+Then, build a PPI graph with `buildNetwork`:
 ```
-g <- buildNetwork(ppis,taxid=10090)
+g <- buildNetwork(ppis, taxid=10090)
 ```
+
 ## Additional Datasets
+The package contains several other useful datasets.
 
 #### Mouse interactome
-PPIs among mouse proteins were compiled. You can easily load this data with:
+PPIs among mouse proteins were compiled. You can quickly and easily load this data with:
 ```
 data(musInteractome)
 
@@ -58,8 +59,8 @@ The package contains several published iBioID datasets. To access them, use the
 ```
 library(getPPIs)
 
-data(Wrp)
-data(iPSD)
-data(compiled_iPSD)
-data(ePSD)
+data(Wrp) # Wrp-BioID from Spence et al., 2019.
+data(iPSD) # iPSD data from Uezu et al., 2016.
+data(compiled_iPSD) # A iPSD proteome compiled from several studies.
+data(ePSD) # PSD-96-BioID data from Uezu et al., 2016.
 ```
