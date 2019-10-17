@@ -4,12 +4,17 @@
 \alias{getPPIs}
 \title{getPPIs}
 \usage{
-getPPIs(organism = "HitPredict", mygenes, taxid = 10090, prots,
-  methods = "all", cutoff = 0, file = "", downloads = getwd(),
-  keepdata = FALSE)
+getPPIs(organism = "HitPredict", mygenes, taxid, methods = "all",
+  cutoff = 0, downloads = getwd(), keepdata = FALSE,
+  saveppis = FALSE)
 }
 \arguments{
-\item{none}{}
+\item{organism}{(character) organism to be downloaded from HitPredict.
+One of c("HitPredict",...)}
+
+\item{mygenes}{(character or vector of integers) a character specifying the
+file containing Entrez IDs for your genes of interest. Should contain a column,
+Entrez with your genes. Alternatively, can be a vector of integers, Entrez IDs.}
 }
 \value{
 none
