@@ -21,6 +21,19 @@ In R, download the package from GitHub:
 ```R
 devtools::install_github("twesleyb/getPPIs")
 ```
+## Dependencies
+* data.table
+* dplyr
+* igraph
+* xml2
+* rvest
+* tools
+* AnnotationDbi
+* ontologyIndex
+* BiocManager
+
+#### Installation of annotation databases.
+`installDBs` automates the installation of several gene ID mapping databases.
 
 ## Usage
 The package contains several key functions:
