@@ -1,9 +1,10 @@
 #' getMethods
 #'
-#' Given a HitPredict object (data.table), annotate the PPI-detection methods,
-#' and refine PPI list by method type if provided.
+#' Given a HitPredict object (data.table), annotate the PPI-detection methods.
+#' Note: A method score >= 0.485 is considered to indicate high confidence 
+#' according to Villaveces et al.
 #'
-#' @param none
+#' @param hitpredict (data.table) 
 #'
 #' @return none
 #'
@@ -17,9 +18,9 @@
 #'
 #' @examples
 #' getMethods(hitpredict)
+#'
 getMethods <- function(hitpredict) {
-  # A method score >= 0.485 is considered to indicate high confidence (Villaveces et al.)
-  # Download the Molecular Interactions Controlled Vocabulary.
+  # Download the molecular ontology.
   downloads <- getwd()
   myfile <- file.path(downloads, "mi.owl")
   url <- "https://github.com/HUPO-PSI/psi-mi-CV/raw/master/psi-mi.obo"
@@ -34,6 +35,7 @@ getMethods <- function(hitpredict) {
     return(z)
   }
   # Get method names.
+  message("Annotating hitpredict data with more detailed method names...")
   mi <- hitpredict$Interaction_detection_methods
   meth <- lapply(mi, getMethod)
   namen <- unlist(lapply(meth, function(x) paste(x, collapse = " | ")))

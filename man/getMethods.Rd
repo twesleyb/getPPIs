@@ -7,17 +7,19 @@
 getMethods(hitpredict)
 }
 \arguments{
-\item{none}{}
+\item{hitpredict}{(data.table)}
 }
 \value{
 none
 }
 \description{
-Given a HitPredict object (data.table), annotate the PPI-detection methods,
-and refine PPI list by method type if provided.
+Given a HitPredict object (data.table), annotate the PPI-detection methods.
+Note: A method score >= 0.485 is considered to indicate high confidence 
+according to Villaveces et al.
 }
 \examples{
 getMethods(hitpredict)
+
 }
 \references{
 none
