@@ -7,4 +7,4 @@ devtools::install_github("twesleyb/getPPIs")
 library(getPPIs)
 
 # Load an example dataset.
-data(wrp)
+data(iPSD)
