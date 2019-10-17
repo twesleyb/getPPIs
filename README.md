@@ -57,7 +57,8 @@ The package contains several other useful datasets.
 #### Mouse interactome
 PPIs among mouse proteins were compiled. Download the data 
 [here](https://github.com/twesleyb/getPPIs/blob/master/data/musInteractome.zip).
-Or load the data in R with `data(musInteractome)`.
+Or load the data in R with `data(musInteractome)`. See this [script](./example.R)
+for a usage example.
 
 #### Proteomics datasets
 The package contains several published proteomics datasets. To access them, use the
