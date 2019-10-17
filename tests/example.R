@@ -16,7 +16,8 @@ hitpredict <- getPPIs(organism = "HitPredict",
 		      taxid = 10090, 
 	              methods = "all", 
 		      cutoff = 0,
-	       	      file = "",
-		      downloads = "../downloads"),
+		      downloads = "../downloads",
 		      keepdata = TRUE)
 
+
+# 
