@@ -51,12 +51,17 @@ buildNetwork <- function(hitpredict, mygenes, taxid = 10090, save = TRUE) {
     keytype = "ENTREZID",
     multiVals = "first"
   )
+  # Node attribute table.
   noa <- data.table::data.table(node = nodes, symbol = symbols)
   # Check.
+  not_mapped <- nodes[is.na(symbols)]
   if (sum(is.na(symbols)) != 0) {
-    stop("Unable to map Entrez IDs to gene symbols!")
+    stop("Unable to map all Entrez IDs to gene symbols!")
   }
-  # Build igraph object.
+  # Remove from sif and noa.
+  sif <- filter(sif, sif$osEntrezA %in% not_mapped | sif$osEntrezB %in% not_mapped) 
+  noa <- filter(noa, nodes %in% not_mapped)
+# Build igraph object.
   g <- graph_from_data_frame(sif, directed = FALSE, vertices = noa)
   g <- simplify(g) # remove any redundant edges.
   nNodes <- length(V(g))
