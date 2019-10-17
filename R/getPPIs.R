@@ -6,6 +6,8 @@
 #' @param organism (character) organism to be downloaded from HitPredict.
 #' One of c("HitPredict",...)
 #'
+#' @param taxid (integer) taxonomic identifier for organism of interest.
+#'
 #' @param mygenes (character or vector of integers) a character specifying the
 #' file containing Entrez IDs for your genes of interest. Should contain a column,
 #' Entrez with your genes. Alternatively, can be a vector of integers, Entrez IDs.
@@ -24,24 +26,16 @@
 #'
 #' @examples
 #' getPPIs()
-getPPIs <- function(organism = "HitPredict",
-                    mygenes,
-                    taxid,
-                    methods = "all",
-                    cutoff = 0,
-                    downloads = getwd(),
-                    keepdata = FALSE,
-                    saveppis = FALSE) {
+getPPIs <- function(organism, taxid, mygenes) {
   # Imports.
   suppressPackageStartupMessages({
     require(getPPIs)
     require(dplyr)
-    require(org.Mm.eg.db)
   })
   # Download HitPredict database.
-  hitpredict <- getHitPredict(organism, downloads, keepdata)
+  hitpredict <- getHitPredict(organism)
   # Map genes to homologous mouse genes.
-  hitpredict <- getHomoloGene(hitpredict, taxid, downloads, keepdata)
+  hitpredict <- getHomoloGene(hitpredict, taxid)
   # Annotate hitpredict data with method names.
   hitpredict <- getMethods(hitpredict, methods = "all", cutoff)
   # Load proteins of interest.
@@ -54,11 +48,6 @@ getPPIs <- function(organism = "HitPredict",
   }
   # Get interactions among genes of interest.
   ppis <- hitpredict %>% filter(osEntrezA %in% mygenes & osEntrezB %in% mygenes)
-  # Write to file.
-  if (saveppis == TRUE) {
-    message("Saving compiled protein-protein interactions to file!")
-    data.table::fwrite(ppis, file.path(paste0(file, "PPIs.csv")))
-  }
   # Return all ppis among proteins of interest.
   return(ppis)
 }

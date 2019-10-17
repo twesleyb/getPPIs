@@ -14,12 +14,11 @@ none
 }
 \description{
 Given a HitPredict object (data.table), annotate the PPI-detection methods.
-Note: A method score >= 0.485 is considered to indicate high confidence 
+Note: A method score >= 0.485 is considered to indicate high confidence
 according to Villaveces et al.
 }
 \examples{
 getMethods(hitpredict)
-
 }
 \references{
 none

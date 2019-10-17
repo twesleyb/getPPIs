@@ -4,13 +4,13 @@
 \alias{getPPIs}
 \title{getPPIs}
 \usage{
-getPPIs(organism = "HitPredict", mygenes, taxid, methods = "all",
-  cutoff = 0, downloads = getwd(), keepdata = FALSE,
-  saveppis = FALSE)
+getPPIs(organism, taxid, mygenes)
 }
 \arguments{
 \item{organism}{(character) organism to be downloaded from HitPredict.
 One of c("HitPredict",...)}
+
+\item{taxid}{(integer) taxonomic identifier for organism of interest.}
 
 \item{mygenes}{(character or vector of integers) a character specifying the
 file containing Entrez IDs for your genes of interest. Should contain a column,

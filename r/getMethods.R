@@ -1,10 +1,10 @@
 #' getMethods
 #'
 #' Given a HitPredict object (data.table), annotate the PPI-detection methods.
-#' Note: A method score >= 0.485 is considered to indicate high confidence 
+#' Note: A method score >= 0.485 is considered to indicate high confidence
 #' according to Villaveces et al.
 #'
-#' @param hitpredict (data.table) 
+#' @param hitpredict (data.table)
 #'
 #' @return none
 #'
@@ -18,7 +18,6 @@
 #'
 #' @examples
 #' getMethods(hitpredict)
-#'
 getMethods <- function(hitpredict) {
   # Download the molecular ontology.
   downloads <- getwd()
