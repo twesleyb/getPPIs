@@ -3,8 +3,8 @@
 #' Function that facilitates downloading the HitPredict database.
 #'
 #' @param organism - (character) which organism to be downloaded from HitPredict.
-#' One of HitPredict (all interactions), H_sapiens, M_musculus, R_norvegicus, 
-#' A_thaliana, C_elegans, C_jejuni, D_melanogaster, E_coli, H_pylori, P_falciparum, 
+#' One of HitPredict (all interactions), H_sapiens, M_musculus, R_norvegicus,
+#' A_thaliana, C_elegans, C_jejuni, D_melanogaster, E_coli, H_pylori, P_falciparum,
 #' S_cerevisiae, or S_pombe.
 #'
 #' @return none
@@ -21,7 +21,6 @@
 #'
 #' @examples
 #' getHitPredict(organism = "HitPredict")
-#'
 getHitPredict <- function(organism = "HitPredict") {
   # Imports.
   suppressPackageStartupMessages({

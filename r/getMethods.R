@@ -17,51 +17,28 @@
 #'
 #' @examples
 #' getMethods(hitpredict)
-#' #
-getMethods <- function(hitpredict, downloads = getwd(), keepdata = FALSE,
-                       methods = "all", cutoff = 0.485) {
+getMethods <- function(hitpredict) {
   # A method score >= 0.485 is considered to indicate high confidence (Villaveces et al.)
   # Download the Molecular Interactions Controlled Vocabulary.
-
+  downloads <- getwd()
   myfile <- file.path(downloads, "mi.owl")
   url <- "https://github.com/HUPO-PSI/psi-mi-CV/raw/master/psi-mi.obo"
-
-  if (!file.exists(myfile)) {
-    message("Downloading molecular ontology!")
-    download.file(url, destfile = myfile)
-    ontology <- ontologyIndex::get_ontology(myfile)
-  } else {
-    message("Using previously downloaded molecular ontology database!")
-    ontology <- ontologyIndex::get_ontology(myfile)
-  }
-
-  # Remove downloaded files?
-  if (keepdata == FALSE) {
-    unlink(myfile)
-  }
-
+  message("Downloading molecular ontology!")
+  download.file(url, destfile = myfile)
+  ontology <- ontologyIndex::get_ontology(myfile)
+  unlink(myfile)
   # Function to extact method names.
   getMethod <- function(x) {
     y <- gsub("psi-mi:", "", unlist(strsplit(x, "\\|")))
     z <- ontology$name[y]
     return(z)
   }
-
   # Get method names.
   mi <- hitpredict$Interaction_detection_methods
   meth <- lapply(mi, getMethod)
   namen <- unlist(lapply(meth, function(x) paste(x, collapse = " | ")))
   # Add this to hitpredict.
   hitpredict <- hitpredict %>% dplyr::mutate(Methods = namen)
-  # Filter by Confidence_score
-  subdat <- hitpredict %>% filter(Confidence_score > cutoff)
-
-  # Filter by methods.
-  if (methods == "all") {
-    return(hitpredict)
-  } else {
-    hitpredict <- hitpredict %>%
-      dplyr::filter(Interaction_detection_methods %in% methods)
-    return(hitpredict)
-  }
+  # Return data.
+  return(hitpredict)
 }

@@ -4,8 +4,7 @@
 \alias{getMethods}
 \title{getMethods}
 \usage{
-getMethods(hitpredict, downloads = getwd(), keepdata = FALSE,
-  methods = "all", cutoff = 0.485)
+getMethods(hitpredict)
 }
 \arguments{
 \item{none}{}
@@ -19,7 +18,6 @@ and refine PPI list by method type if provided.
 }
 \examples{
 getMethods(hitpredict)
-#
 }
 \references{
 none
