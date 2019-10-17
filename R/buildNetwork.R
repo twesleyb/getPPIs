@@ -56,7 +56,7 @@ buildNetwork <- function(hitpredict, mygenes, taxid = 10090, save = TRUE) {
   # Check.
   not_mapped <- nodes[is.na(symbols)]
   if (sum(is.na(symbols)) != 0) {
-    stop("Unable to map all Entrez IDs to gene symbols!")
+    message(paste("Unable to map",length(not_mapped),"Entrez IDs to gene symbols!"))
   }
   # Remove from sif and noa.
   sif <- filter(sif, sif$osEntrezA %in% not_mapped | sif$osEntrezB %in% not_mapped) 
