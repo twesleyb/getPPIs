@@ -8,10 +8,6 @@ getHitPredict(organism = "HitPredict")
 }
 \arguments{
 \item{organism}{- (character) which organism to be downloaded from HitPredict.}
-
-\item{downloads}{- (character) optional directory for downloaded data.}
-
-\item{keepdata}{- (logical) should downloaded data be kept or removed?}
 }
 \value{
 none

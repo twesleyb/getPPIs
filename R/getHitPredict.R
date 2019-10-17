@@ -4,10 +4,6 @@
 #'
 #' @param organism - (character) which organism to be downloaded from HitPredict.
 #'
-#' @param downloads - (character) optional directory for downloaded data.
-#'
-#' @param keepdata - (logical) should downloaded data be kept or removed?
-#'
 #' @return none
 #'
 #' @author Tyler W Bradshaw, \email{tyler.w.bradshaw@duke.edu}
