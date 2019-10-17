@@ -17,12 +17,26 @@
 #'
 #' @examples
 #' getMethods(hitpredict)
-getMethods <- function(hitpredict, path2mi, methods = "all", cutoff = 0.485) {
-  #  A method score >= 0.485 is considered to indicate high confidence (Villaveces et al.)
-  # Load the Molecular Interactions Controlled Vocabulary.
-  path2mi <- file.path(downloads, "mi.owl")
-  ontology <- ontologyIndex::get_ontology(path2mi)
-  # Declare a quick function that will map MI IDs to method names.
+#' #
+getMethods <- function(hitpredict, downloads = getwd(), keepdata = FALSE,
+                       methods = "all", cutoff = 0.485) {
+  # A method score >= 0.485 is considered to indicate high confidence (Villaveces et al.)
+  # Download the Molecular Interactions Controlled Vocabulary.
+  myfile <- file.path(downloads, "mi.owl")
+  url <- "https://github.com/HUPO-PSI/psi-mi-CV/raw/master/psi-mi.obo"
+  if (!file.exists(myfile)) {
+    message("Downloading molecular ontology!")
+    download.file(url, destfile = myfile)
+    ontology <- ontologyIndex::get_ontology(myfile)
+  } else {
+    message("Using previously downloaded molecular ontology database!")
+    ontology <- ontologyIndex::get_ontology(myfile)
+  }
+  # Remove downloaded files?
+  if (keepdata == FALSE) {
+    unlink(myfile)
+  }
+  # Function to extact method names.
   getMethod <- function(x) {
     y <- gsub("psi-mi:", "", unlist(strsplit(x, "\\|")))
     z <- ontology$name[y]
