@@ -18,6 +18,8 @@ library(leiden)
 profile <- list()
 resolution <- seq(0,1,0.01)
 
+
+
 for (i in 1:length(resolution)){
 	print(i)
 	partition <- leiden(g, partition_type = "ModularityVertexPartition",

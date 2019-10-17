@@ -19,7 +19,7 @@
 #'
 #' @examples
 #' buildNetwork()
-buildNetwork <- function(hitpredict, mygenes, taxid = 10090) {
+buildNetwork <- function(hitpredict, mygenes, taxid = 10090, save = TRUE) {
   # Fixme: Only works for mouse!!!
   # Imports.
   suppressPackageStartupMessages({
@@ -53,8 +53,8 @@ buildNetwork <- function(hitpredict, mygenes, taxid = 10090) {
   )
   noa <- data.table::data.table(node = nodes, symbol = symbols)
   # Check.
-  if (sum(is.na(symbols)) == 0) {
-    message("All node Entrez IDs mapped to gene symbols!")
+  if (sum(is.na(symbols)) != 0) {
+    error("Unable to map Entrez IDs to gene symbols!")
   }
   # Build igraph object.
   g <- graph_from_data_frame(sif, directed = FALSE, vertices = noa)
@@ -62,5 +62,11 @@ buildNetwork <- function(hitpredict, mygenes, taxid = 10090) {
   nNodes <- length(V(g))
   nEdges <- length(E(g))
   message(paste(nEdges, "edges identified among", nNodes, "nodes!"))
+  # Save the noa and sif files.
+  if (save == TRUE) {
+    data.table::fwrite(noa, "noa.csv")
+    data.table::fwrite(sif, "sif.csv")
+  }
+  # Return igraph object.
   return(g)
 }
