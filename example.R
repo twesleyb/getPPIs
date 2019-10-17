@@ -30,12 +30,19 @@ data(musInteractome)
 data(compiled_iPSD)
 
 # Build Synaptosome PPI graph.
-# Fix buildNetwork to supress 
+# FIXME: buildNetwork to supress unwanted text output!
 g <- buildNetwork(hitpredict=musInteractome, mygenes=compiled_iPSD, taxid=10090)
 
 # Community detection with the Leiden algorithm.
+library(leiden)
 
+partition <- leiden(g, partition_type = "ModularityVertexPartition",
+		    resolution_parameter = 1, seed = NULL, n_iterations = -1)
 
+nodes <- names(V(g))
+names(nodes) <- vertex_attr(g, "symbol")
+
+"insyn2" %in% tolower(names(nodes))
 
 #------------------------------------------------------------------------------
 ## Building an interactome from scratch.

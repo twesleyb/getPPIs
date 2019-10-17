@@ -13,12 +13,11 @@ buildNetwork(hitpredict, mygenes, taxid = 10090)
 none
 }
 \description{
-Given a HitPredict data.frame (PPIs) and a vector of entrez IDs, build a 
+Given a HitPredict data.frame (PPIs) and a vector of entrez IDs, build a
 protein-protein interaction graph.
 }
 \examples{
 buildNetwork()
-
 }
 \references{
 none
