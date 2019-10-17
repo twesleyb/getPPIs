@@ -4,8 +4,7 @@
 \alias{getHitPredict}
 \title{getHitPredict}
 \usage{
-getHitPredict(organism = "HitPredict", downloads = getwd(),
-  keepdata = FALSE)
+getHitPredict(organism = "HitPredict")
 }
 \arguments{
 \item{organism}{- (character) which organism to be downloaded from HitPredict.}

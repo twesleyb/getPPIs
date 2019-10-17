@@ -22,13 +22,14 @@
 #'
 #' @examples
 #' getHitPredict(organism = "HitPredict")
-getHitPredict <- function(organism = "HitPredict", downloads = getwd(), keepdata = FALSE) {
+getHitPredict <- function(organism = "HitPredict") {
   # Imports.
   suppressPackageStartupMessages({
     require(getPPIs)
     require(dplyr)
   })
   # Parse HitPredict Downloads page.
+  downloads <- getwd()
   url <- "http://www.hitpredict.org/download.html"
   pg <- xml2::read_html(url)
   nodes <- rvest::html_nodes(pg, "a")
@@ -41,20 +42,12 @@ getHitPredict <- function(organism = "HitPredict", downloads = getwd(), keepdata
   url <- file.path("http://www.hitpredict.org", hrefs[[organism]])
   gzfile <- file.path(downloads, basename(url))
   myfile <- tools::file_path_sans_ext(gzfile)
-  if (!file.exists(gzfile)) {
-    message(paste("Downloading", organism, "PPIs from HitPredict.org..."))
-    download.file(url, gzfile)
-    untar(gzfile, exdir = downloads)
-    rawdat <- data.table::fread(myfile, header = TRUE, skip = 5)
-  } else {
-    message("Using previously downloaded HitPredict data!")
-    untar(gzfile, exdir = downloads)
-    rawdat <- data.table::fread(myfile, header = TRUE, skip = 5)
-  }
-  if (keepdata == FALSE) {
-    unlink(gzfile)
-    unlink(myfile)
-  }
+  message(paste("Downloading", organism, "PPIs from HitPredict.org..."))
+  download.file(url, gzfile)
+  untar(gzfile, exdir = downloads)
+  rawdat <- data.table::fread(myfile, header = TRUE, skip = 5)
+  unlink(gzfile)
+  unlink(myfile)
   # Clean up the raw data.
   cleandat <- rawdat %>% rename_all(list(~ gsub(" ", "_", .)))
   cleandat$Interactor_A_ID <- gsub("uniprotkb:", "", cleandat$Interactor_A_ID)

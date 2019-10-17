@@ -48,4 +48,5 @@ hitpredict <- getHomoloGene(hitpredict, taxid = 10090)
 # Keep all experimental evidence, no confidence score cutoff.
 hitpredict <- getMethods(hitpredict, methods="all", cutoff = 0)
 
+# This is the mouse interactome...
 
