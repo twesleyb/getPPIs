@@ -26,20 +26,29 @@ devtools::install_github("twesleyb/getPPIs")
 The package contains several key functions:
 1. __getHitPredict__ - facilitates download of HitPredict data and mapping protein identifiers to stable Entrez gene IDs.
 2. __getHomoloGene__ - automates download of NCBI homology database and maps genes to their homolog in a species of interest.
-3. __getMethods__ - annotates the HitPredict data with more human-readable names cooresponding to detection methods.
+3. __getMethods__ - annotates the HitPredict detection methods with more human-readable names.
 4. __getPPIs__ - wrapper function that does the work getHitPredict, getHomoloGene, and getPPIs.
 5. __buildNetwork__ - builds a protein-protein interaction graph given some genes of interest (only works for mouse currently).
 
-To get mouse PPIs use `getPPIs`:
+#### Example
 ```
 library(getPPIs)
-data(iPSD)
-ppis <- getPPIs(organism="HitPredict", iPSD, taxid=10090)
-```
 
-Then, build a PPI graph with `buildNetwork`:
-```
+# 1. Download HitPredict database.
+hitpredict <- getHitPredict("HitPredict")
+
+# 2. Map genes to homologous mouse genes.
+hitpredict <- getHomoloGene(hitpredict, taxid=10090)
+
+# 3. Annotate hitpredict data with method names.
+hitpredict <- getMethods(hitpredict)
+
+# 4. Equivalently, steps 1-3 are performed by `getPPIs`:
+getPPIs("HitPredict", taxid = 10090)
+
+# 5. Build a PPI graph:
 g <- buildNetwork(ppis, taxid=10090)
+
 ```
 
 ## Additional Datasets
