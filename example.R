@@ -15,52 +15,22 @@ library(getPPIs)
 # Load an example dataset.
 data(compiled_iPSD)
 
-# Get PPIs amongst iPSD proteins (mouse).
+# Get all HitPredict PPIs. 
 # Keep all PPIs that are homologous to mouse genes.
-ppis <- getPPIs(organism="HitPredict", mygenes=compiled_iPSD, taxid=10090)
-
-# Example: Building a ppi network with igraph.
-library(org.Mm.eg.db)
-
-sif <- ppis %>% dplyr::select(osEntrezA, osEntrezB)
-
-nodes <- unique(c(sif$osEntrezA, sif$osEntrezB))
-
-symbols <- AnnotationDbi::mapIds(org.Mm.eg.db,
-				 keys = as.character(nodes),
-				 column = "SYMBOL",
-				 keytype = "ENTREZID",
-				 multiVals = "first")
-noa <- data.table::data.table(node = nodes, symbol = symbols)
-
-# Check.
-if (sum(is.na(symbols)) == 0) {
-	message("All node Entrez IDs mapped to gene symbols!")
-}
-
-# Build igraph object.
-g <- igraph::graph_from_data_frame(sif, directed = FALSE, vertices = nodes)
-
-# Insure that the graph is simple.
-g <- igraph::simplify(g)
-
-# Basic graph properties.
-length(V(g))
-length(E(g))
-
-# You can save these files to work with them in Cystoscape.
-data.table::fwrite(noa,"noa.csv")
-data.table::fwrite(sif,"sif.csv")
-
-# Alternatively, check out the RCy3 package to interface with Cytscape from R!
+ppis <- getPPIs(organism="HitPredict", taxid=10090)
 
 #------------------------------------------------------------------------------
 ## Using the prebuild mouse Interactome.
 #------------------------------------------------------------------------------
 
+library(getPPIs)
+
+# Load the mouse interactome.
 data(musInteractome)
+data(compiled_iPSD)
 
-
+# Build Synaptosome PPI graph.
+g <- buildNetwork(hitpredict=musInteractome, mygenes=compiled_iPSD, taxid=10090)
 
 #------------------------------------------------------------------------------
 ## Building an interactome from scratch.
