@@ -25,10 +25,10 @@ devtools::install_github("twesleyb/getPPIs")
 ## Usage
 The package contains several key functions:
 1. __getHitPredict__ - facilitates download of HitPredict data and mapping protein identifiers to stable Entrez gene IDs.
-2. __getHomoloGene__ - automates download of NCBI homology database and maps genes to their homolog in a species of interest.
+2. __getHomoloGene__ - maps genes to homologs in a species of interest.
 3. __getMethods__ - annotates the HitPredict detection methods with more human-readable names.
 4. __getPPIs__ - wrapper function that does the work getHitPredict, getHomoloGene, and getPPIs.
-5. __buildNetwork__ - builds a protein-protein interaction graph given some genes of interest (only works for mouse currently).
+5. __buildNetwork__ - builds a PPI graph given some genes of interest (currently only works for mouse).
 
 #### Example
 ```
@@ -55,19 +55,19 @@ g <- buildNetwork(ppis, taxid=10090)
 The package contains several other useful datasets.
 
 #### Mouse interactome
-PPIs among mouse proteins were compiled.   
-Download the data [here](https://github.com/twesleyb/getPPIs/blob/master/data/musInteractome.zip).  
+PPIs among mouse proteins were compiled. Download the data 
+[here](https://github.com/twesleyb/getPPIs/blob/master/data/musInteractome.zip).
 Or load the data in R with `data(musInteractome)`.
 
-#### BioID datasets
-The package contains several published iBioID datasets. To access them, use the
+#### Proteomics datasets
+The package contains several published proteomics datasets. To access them, use the
 `data()` function:
 
 ```
 library(getPPIs)
 
-data(Wrp) # Wrp-BioID from Spence et al., 2019.
-data(iPSD) # iPSD data from Uezu et al., 2016.
+data(Wrp)           # Wrp-BioID from Spence et al., 2019.
+data(iPSD)          # iPSD data from Uezu et al., 2016.
 data(compiled_iPSD) # A iPSD proteome compiled from several studies.
-data(ePSD) # PSD-96-BioID data from Uezu et al., 2016.
+data(ePSD)          # PSD-96-BioID data from Uezu et al., 2016.
 ```
