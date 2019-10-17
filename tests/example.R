@@ -16,11 +16,11 @@ library(getPPIs)
 data(iPSD)
 
 # Get PPIs amongst iPSD proteins (mouse).
-# Keep all PPIs amongst homologous proteins.
-# Keep all experimental evidence (no confidence cutoff).
-# Keep downloaded files.
-# Save PPIs to file.
+# Keep all PPIs that are homologous to mouse genes.
 hitpredict <- getPPIs(organism="HitPredict", mygenes=iPSD, taxid=10090)
+
+# Build a protein-protein interaction network.
+
 
 #------------------------------------------------------------------------------
 ## Building an interactome from scratch.

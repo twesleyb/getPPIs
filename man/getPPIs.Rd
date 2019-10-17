@@ -13,8 +13,9 @@ One of c("HitPredict",...)}
 \item{taxid}{(integer) taxonomic identifier for organism of interest.}
 
 \item{mygenes}{(character or vector of integers) a character specifying the
-file containing Entrez IDs for your genes of interest. Should contain a column,
-Entrez with your genes. Alternatively, can be a vector of integers, Entrez IDs.}
+file containing Entrez IDs for your genes of interest. The file should contain
+a column with your genes of interest with the word "Entrez" in its title. 
+Alternatively, can be a vector of integers, Entrez IDs.}
 }
 \value{
 none
@@ -24,7 +25,8 @@ Wrapper around getHitPredict, getHomoloGene, and getMethods.
 Provided a list of genes, get PPIs amongst these proteins.
 }
 \examples{
-getPPIs()
+getPPIs(organism="HitPredict",taxid=10090, mygenes=data(iPSD))
+
 }
 \references{
 none

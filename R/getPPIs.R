@@ -9,8 +9,9 @@
 #' @param taxid (integer) taxonomic identifier for organism of interest.
 #'
 #' @param mygenes (character or vector of integers) a character specifying the
-#' file containing Entrez IDs for your genes of interest. Should contain a column,
-#' Entrez with your genes. Alternatively, can be a vector of integers, Entrez IDs.
+#' file containing Entrez IDs for your genes of interest. The file should contain
+#' a column with your genes of interest with the word "Entrez" in its title. 
+#' Alternatively, can be a vector of integers, Entrez IDs.
 #'
 #' @return none
 #'
@@ -25,7 +26,8 @@
 #' @export
 #'
 #' @examples
-#' getPPIs()
+#' getPPIs(organism="HitPredict",taxid=10090, mygenes=data(iPSD))
+#'
 getPPIs <- function(organism, taxid, mygenes) {
   # Imports.
   suppressPackageStartupMessages({
@@ -37,11 +39,14 @@ getPPIs <- function(organism, taxid, mygenes) {
   # Map genes to homologous mouse genes.
   hitpredict <- getHomoloGene(hitpredict, taxid)
   # Annotate hitpredict data with method names.
-  hitpredict <- getMethods(hitpredict, methods = "all", cutoff)
+  hitpredict <- getMethods(hitpredict)
   # Load proteins of interest.
   if (is.character(mygenes)) {
     # if character, then read file into R.
     myprots <- data.table::fread(mygenes)$Entrez
+    idy <- grep("entrez",tolower(colnames(myprots)))
+    mygenes <- unlist(myprots[,..idy])
+    names(mygenes) <- NULL
   } else {
     # Use genes passed by user.
     myprots <- mygenes
