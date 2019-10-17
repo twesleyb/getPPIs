@@ -20,7 +20,7 @@ data(compiled_iPSD)
 ppis <- getPPIs(organism="HitPredict", taxid=10090)
 
 #------------------------------------------------------------------------------
-## Using the prebuild mouse Interactome.
+## Using the pre-built mouse Interactome.
 #------------------------------------------------------------------------------
 
 library(getPPIs)
@@ -30,7 +30,12 @@ data(musInteractome)
 data(compiled_iPSD)
 
 # Build Synaptosome PPI graph.
+# Fix buildNetwork to supress 
 g <- buildNetwork(hitpredict=musInteractome, mygenes=compiled_iPSD, taxid=10090)
+
+# Community detection with the Leiden algorithm.
+
+
 
 #------------------------------------------------------------------------------
 ## Building an interactome from scratch.

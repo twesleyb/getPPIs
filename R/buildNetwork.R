@@ -57,9 +57,10 @@ buildNetwork <- function(hitpredict, mygenes, taxid = 10090) {
     message("All node Entrez IDs mapped to gene symbols!")
   }
   # Build igraph object.
-  g <- graph_from_data_frame(sif, directed = FALSE, vertices = nodes)
+  g <- graph_from_data_frame(sif, directed = FALSE, vertices = noa)
   g <- simplify(g) # remove any redundant edges.
   nNodes <- length(V(g))
   nEdges <- length(E(g))
+  message(paste(nEdges,"identified among","nNodes!"))
   return(g)
 }
