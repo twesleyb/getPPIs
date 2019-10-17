@@ -34,6 +34,14 @@ ppis <- getPPIs(organism="HitPredict", iPSD, taxid=10090)
 ```
 
 ## Additional Datasets
+
+#### Mouse interactome.
+PPIs among mouse proteins were compiled. You can easily load this data with:
+```
+data(musInteractome)
+```
+
+#### BioID datasets
 The package contains several published iBioID datasets. To access them, use the
 `data()` function:
 
