@@ -43,7 +43,7 @@ getPPIs <- function(organism = "HitPredict",
   # Map genes to homologous mouse genes.
   hitpredict <- getHomoloGene(hitpredict, taxid, downloads, keepdata)
   # Annotate hitpredict data with method names.
-  hitpredict <- getMethods(hitpredict, methods, cutoff)
+  hitpredict <- getMethods(hitpredict, methods = "all", cutoff)
   # Load proteins of interest.
   if (is.character(mygenes)) {
     # if character, then read file into R.

@@ -2,6 +2,7 @@
 ## Installation.
 #------------------------------------------------------------------------------
 
+# Install from github.
 devtools::install_github("twesleyb/getPPIs")
 
 # Load the library.
@@ -15,6 +16,10 @@ library(getPPIs)
 data(iPSD)
 
 # Get PPIs amongst iPSD proteins (mouse).
+# Keep all PPIs amongst homologous proteins.
+# Keep all experimental evidence (no confidence cutoff).
+# Keep downloaded files.
+# Save PPIs to file.
 hitpredict <- getPPIs(organism = "HitPredict", 
 		      mygenes = iPSD, 
 		      taxid = 10090, 
