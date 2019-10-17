@@ -4,16 +4,12 @@
 \alias{getHomoloGene}
 \title{getHomologene}
 \usage{
-getHomoloGene(hitpredict, taxid, downloads = getwd(), keepdata = FALSE)
+getHomoloGene(hitpredict, taxid)
 }
 \arguments{
 \item{hitpredict}{(data.table) - HitPredict data.}
 
 \item{taxid}{(integer) - taxonomic identifier for species of interest}
-
-\item{downloads}{(character) - directory for downloaded data}
-
-\item{keepdata}{(logical) - should downloaded data be kept or removed?}
 }
 \value{
 none
