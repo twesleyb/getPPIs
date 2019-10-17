@@ -54,7 +54,7 @@ buildNetwork <- function(hitpredict, mygenes, taxid = 10090, save = TRUE) {
   noa <- data.table::data.table(node = nodes, symbol = symbols)
   # Check.
   if (sum(is.na(symbols)) != 0) {
-    error("Unable to map Entrez IDs to gene symbols!")
+    stop("Unable to map Entrez IDs to gene symbols!")
   }
   # Build igraph object.
   g <- graph_from_data_frame(sif, directed = FALSE, vertices = noa)
