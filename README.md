@@ -46,11 +46,9 @@ g <- buildNetwork(ppis, taxid=10090)
 The package contains several other useful datasets.
 
 #### Mouse interactome
-PPIs among mouse proteins were compiled. You can quickly and easily load this data with:
-```
-data(musInteractome)
-
-```
+PPIs among mouse proteins were compiled.   
+Download the data [here](https://github.com/twesleyb/getPPIs/blob/master/data/musInteractome.zip).  
+Or load the data in R with `data(musInteractome)`.
 
 #### BioID datasets
 The package contains several published iBioID datasets. To access them, use the
