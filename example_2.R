@@ -2,6 +2,8 @@
 ## Using the pre-built mouse Interactome.
 #------------------------------------------------------------------------------
 
+devtools::install_github("twesleyb/getPPIs")
+
 library(getPPIs)
 
 # Load the mouse interactome.
@@ -9,7 +11,7 @@ data(musInteractome)
 data(compiled_iPSD)
 
 # Build Synaptosome PPI graph.
-g <- buildNetwork(hitpredict=musInteractome, mygenes=compiled_iPSD, taxid=10090)
+g <- buildNetwork(musInteractome, compiled_iPSD)
 
 # Community detection with the Leiden algorithm.
 library(leiden)
@@ -17,7 +19,6 @@ library(leiden)
 # Loop to partition network at several resolutions.
 profile <- list()
 resolution <- seq(0,1,0.01)
-
 
 
 for (i in 1:length(resolution)){
