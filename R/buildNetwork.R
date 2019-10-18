@@ -56,12 +56,12 @@ buildNetwork <- function(hitpredict, mygenes, taxid = 10090, save = TRUE) {
   # Check.
   not_mapped <- nodes[is.na(symbols)]
   if (sum(is.na(symbols)) != 0) {
-    message(paste("Unable to map",length(not_mapped),"Entrez IDs to gene symbols!"))
+    message(paste("Unable to map", length(not_mapped), "Entrez IDs to gene symbols!"))
   }
   # Remove genes that are not mapped from sif and noa.
-  sif<- sif %>% filter(!osEntrezA %in% not_mapped | !osEntrezB %in% not_mapped) 
+  sif <- sif %>% filter(!osEntrezA %in% not_mapped | !osEntrezB %in% not_mapped)
   noa <- noa %>% filter(!nodes %in% not_mapped)
-# Build igraph object.
+  # Build igraph object.
   g <- graph_from_data_frame(sif, directed = FALSE, vertices = noa)
   g <- simplify(g) # remove any redundant edges.
   nNodes <- length(V(g))

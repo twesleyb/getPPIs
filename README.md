@@ -1,5 +1,7 @@
 # getPPIs
 
+![network](./figs/network.jpeg)
+
 An R package that facilitates the compilation of experimentally identified and 
 confidence-scored protein-protein interactions (PPIs) from the 
 [HitPredict](http://hintdb.hgc.jp/htp/) database.
