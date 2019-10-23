@@ -1,7 +1,7 @@
 # getPPIs
 
-An R package that facilitates the compilation of experimentally identified and 
-confidence-scored protein-protein interactions (PPIs) from the 
+An __R__ package that facilitates the compilation of experimentally identified and 
+confidence-scored protein-protein interactions (PPIs) from 
 [HitPredict](http://hintdb.hgc.jp/htp/).
 
 #### HitPredict:
