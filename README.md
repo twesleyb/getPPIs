@@ -1,8 +1,6 @@
 # getPPIs
-
-An __R__ package that facilitates the compilation of experimentally identified and 
-confidence-scored protein-protein interactions (PPIs) from 
-[HitPredict](http://hintdb.hgc.jp/htp/).
+Facilitates the compilation of experimentally identified protein-protein interactions (PPIs) from 
+[HitPredict](http://hintdb.hgc.jp/htp/)
 
 #### HitPredict:
 > Protein-protein interactions from IntAct, BioGRID, HPRD, MINT and DIP are 
