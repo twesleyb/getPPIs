@@ -1,7 +1,5 @@
 # getPPIs
 
-![network](./figs/network.jpeg)
-
 An R package that facilitates the compilation of experimentally identified and 
 confidence-scored protein-protein interactions (PPIs) from the 
 [HitPredict](http://hintdb.hgc.jp/htp/) database.
@@ -23,19 +21,6 @@ In R, download the package from GitHub:
 ```R
 devtools::install_github("twesleyb/getPPIs")
 ```
-## Dependencies
-* data.table
-* dplyr
-* igraph
-* xml2
-* rvest
-* tools
-* AnnotationDbi
-* ontologyIndex
-* BiocManager
-
-#### Installation of annotation databases.
-`installDBs` automates the installation of several gene ID mapping databases.
 
 ## Usage
 The package contains several key functions:
@@ -62,7 +47,7 @@ hitpredict <- getMethods(hitpredict)
 getPPIs("HitPredict", taxid = 10090)
 
 # 5. Build a PPI graph:
-g <- buildNetwork(ppis, taxid=10090)
+g <- buildNetwork(ppis, mytaxid=10090)
 
 ```
 
@@ -86,4 +71,24 @@ data(Wrp)           # Wrp-BioID from Spence et al., 2019.
 data(iPSD)          # iPSD data from Uezu et al., 2016.
 data(compiled_iPSD) # A iPSD proteome compiled from several studies.
 data(ePSD)          # PSD-96-BioID data from Uezu et al., 2016.
+
+g <- buildNetwork(musInteractome, mygenes = iPSD, taxid=10090, save = TRUE)
+# save = TRUE will save sif.csv and noa.csv files.
+
 ```
+
+## Dependencies
+* data.table
+* dplyr
+* igraph
+* xml2
+* rvest
+* tools
+* AnnotationDbi
+* ontologyIndex
+* BiocManager
+
+#### Installation of annotation databases.
+`installDBs` automates the installation of several gene ID mapping databases
+which are utilized to map organism specific Uniprot entries to Entrez gene
+identifiers, a unique stable identifier for every gene in every organism.
