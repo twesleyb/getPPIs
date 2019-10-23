@@ -39,39 +39,53 @@ buildNetwork <- function(hitpredict, mygenes, taxid = 10090, save = TRUE) {
     # Use genes passed by user.
     myprots <- mygenes
   }
+
   # Get interactions among genes of interest.
   ppis <- hitpredict %>% filter(osEntrezA %in% mygenes & osEntrezB %in% mygenes)
-  # Create graph.
-  sif <- ppis %>% dplyr::select(osEntrezA, osEntrezB)
-  nodes <- unique(c(sif$osEntrezA, sif$osEntrezB))
+  # keep relevant columns.
+  sif <- ppis %>% dplyr::select(osEntrezA, osEntrezB,Source_database,
+				Interaction_detection_methods, Methods, 
+				EntrezA, EntrezB, 
+				Interactor_A_Taxonomy, Interactor_B_Taxonomy,
+				Publications)
+  # Node attributes.
+  entrez <- unique(c(sif$osEntrezA, sif$osEntrezB, mygenes))
   # Get gene symbols, suppress output with sink.
   symbols <- AnnotationDbi::mapIds(org.Mm.eg.db,
-    keys = as.character(nodes),
+    keys = as.character(entrez),
     column = "SYMBOL",
     keytype = "ENTREZID",
     multiVals = "first"
   )
-  # Node attribute table.
-  noa <- data.table::data.table(node = nodes, symbol = symbols)
-  # Check.
-  not_mapped <- nodes[is.na(symbols)]
+  # Check that all nodes (entrez) are mapped to gene symbols.
+  not_mapped <- entrez[is.na(symbols)]
   if (sum(is.na(symbols)) != 0) {
     message(paste("Unable to map", length(not_mapped), "Entrez IDs to gene symbols!"))
   }
-  # Remove genes that are not mapped from sif and noa.
-  sif <- sif %>% filter(!osEntrezA %in% not_mapped | !osEntrezB %in% not_mapped)
-  noa <- noa %>% filter(!nodes %in% not_mapped)
+  # Remove nodes that were not successfully mapped.
+  nodes <- symbols
+  names(nodes) <- entrez
+  nodes <- na.omit(nodes)
+  # Node attribute table.
+  noa <- data.table::data.table(entrez = names(nodes), symbol = nodes)
+  rownames(noa) <- noa$entrez
+  # Insure that any interactions among unmapped genes are removed.
+  out <- sif$osEntrezA %in% not_mapped | sif$osEntrezB %in% not_mapped
+  sif <- subset(sif,!out)
   # Build igraph object.
   g <- graph_from_data_frame(sif, directed = FALSE, vertices = noa)
   g <- simplify(g) # remove any redundant edges.
-  nNodes <- length(V(g))
-  nEdges <- length(E(g))
+  # Change node names to symbols.
+  g <- set.vertex.attribute(g, "name", value=vertex_attr(g,"symbol"))
+  # Status report.
+  nNodes <- format(length(V(g)), 1, nsmall=1, big.mark=",")
+  nEdges <- format(length(E(g)), 1, nsmall=1, big.mark=",")
   message(paste(nEdges, "edges identified among", nNodes, "nodes!"))
   # Save the noa and sif files.
   if (save == TRUE) {
     data.table::fwrite(noa, "noa.csv")
     data.table::fwrite(sif, "sif.csv")
   }
-  # Return igraph object.
-  return(g)
+  # Return igraph object and noa an sif, which can be imported into Cytoscape..
+  return(list("network" = g, "noa" = noa, "sif" = sif))
 }
