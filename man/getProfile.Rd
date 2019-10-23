@@ -7,7 +7,12 @@
 getProfile(g, partition_type, nsteps = 1, ...)
 }
 \arguments{
-\item{none}{}
+\item{g}{- igraph object}
+
+\item{partition_type}{- Leiden algorithm method to be used.}
+
+\item{nsteps}{- number of resolutions to be analyzed. If 1 then, 
+the native resolution (r=0) will be used.}
 }
 \value{
 none
