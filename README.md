@@ -1,5 +1,6 @@
 # getPPIs
-getPPIs facilitates the compilation of experimentally identified 
+
+`getPPIs` facilitates the compilation of experimentally identified 
 protein-protein interactions (PPIs) from [HitPredict](http://hintdb.hgc.jp/htp/).
 
 #### HitPredict:
@@ -51,9 +52,9 @@ g <- buildNetwork(ppis, mygenes, mytaxid=10090)
 ```
 
 ## Additional Datasets
-`getPPIs` contains several other useful datasets.
+`getPPIs` contains several other useful datasets, including:
 
-#### Mouse interactome:
+#### Mouse interactome
 PPIs among mouse proteins were compiled. Download the a csv verion of the data 
 [here](https://github.com/twesleyb/getPPIs/blob/master/data/musInteractome.zip).
 Or load the data in R with `data(musInteractome)`. See this [script](./example.R)
@@ -64,6 +65,7 @@ The package contains several published proteomics datasets. To access them, use 
 `data()` function:
 
 ```
+# Loading getPPIs datasets.
 library(getPPIs)
 
 data(Wrp)           # Wrp-BioID from Spence et al., 2019.
@@ -88,7 +90,7 @@ g <- buildNetwork(musInteractome, mygenes = iPSD, taxid=10090, save = TRUE)
 * ontologyIndex
 * BiocManager
 
-#### Installation of annotation databases.
+#### Installation of annotation databases
 The script `installDBs` automates the installation of several gene ID mapping databases
 which are utilized to map organism specific Uniprot entries to Entrez gene
 identifiers, a unique stable identifier for every gene in every organism.
