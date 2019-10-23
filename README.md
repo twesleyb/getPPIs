@@ -1,6 +1,6 @@
 # getPPIs
-Facilitates the compilation of experimentally identified protein-protein interactions (PPIs) from 
-[HitPredict](http://hintdb.hgc.jp/htp/)
+getPPIs facilitates the compilation of experimentally identified 
+protein-protein interactions (PPIs) from [HitPredict](http://hintdb.hgc.jp/htp/).
 
 #### HitPredict:
 > Protein-protein interactions from IntAct, BioGRID, HPRD, MINT and DIP are 
