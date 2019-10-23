@@ -1,5 +1,5 @@
 Package: getPPIs
-Title: What the Package Does (One Line, Title Case)
+Title: Compiles Experimentally-determined PPIs from the HitPredict Database
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Tyler",
