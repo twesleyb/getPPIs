@@ -17,33 +17,46 @@ library(getPPIs)
 # stable, unique gene identifier, and discard those which are not mapped.
 hitpredict <- getHitPredict(organism="HitPredict")
 
-# Map genes to mouse homologs.
+# Map genes to homologs in your species of interest (mouse = 10090)..
 hitpredict <- getHomoloGene(hitpredict, taxid = 10090)
 
 # Annotate hitpredict data with more descriptive method names.
 # Keep all experimental evidence, no confidence score cutoff.
 hitpredict <- getMethods(hitpredict)
 
+# getPPIs does the previous three steps.
+hitpredict <- getPPIs("HitPredict", taxid=10090)
+
 #------------------------------------------------------------------------------
 ## Using the pre-built mouse Interactome.
 #------------------------------------------------------------------------------
+# If you work in mice, and you just want to find PPIs among your proteins of
+# interest, you can skip building your own interactome, and just load the 
+# mouse interactome.
 
 library(getPPIs)
 
 # Load the mouse interactome.
-data(compiled_iPSD)
+data(musInteractome)
 
+# Load your genes of interest.
+# For example, Uniprot identifiers for the iPSD proteome were mapped to Entrez
+# IDs using the MGI website: http://www.informatics.jax.org/batch.
+# You data just needs to have a column labeled 'entrez'.
+myfile <- file.path("./data","MGIBatchReport_20191024_171834.txt")
+
+# Collect PPIs among your proteins and build a PPI graph.
+ppis <- buildNetwork(musInteractome,mygenes=myfile,taxid=10090)
+
+#------------------------------------------------------------------------------
+## Using the 
+#------------------------------------------------------------------------------
 # Build some graphs.
 ipsd <- buildNetwork(hitpredict=musInteractome, mygenes=compiled_iPSD, taxid=10090)
 wrp <- buildNetwork(hitpredict=musInteractome, mygenes=Wrp, taxid=10090)
 epsd <- buildNetwork(hitpredict=musInteractome, mygenes=ePSD, taxid=10090)
 
 
-plot(ipsd$network)
-
-plot(wrp$network)
-
-plot(epsd$network) 
 
 #------------------------------------------------------------------------------
 ## Using the RCy3 module to interact with Cytoscape. 
@@ -150,5 +163,22 @@ partition <- getProfile(g,partition_type="ModularityVertexPartition",nsteps=1)
 
 partition_type="ModularityVertexPartition"
 nsteps=1
+
+
+#------------------------------------------------------------------------------
+# Finding the shortest path between proteins.
+#------------------------------------------------------------------------------
+
+library(getPPIs)
+
+# The mouse interactome.
+genes <- unique(c(musInteractome$osEntrezA, musInteractome$osEntrezB))
+
+genes <- compiled_iPSD
+netDat <- buildNetwork(musInteractome,genes)
+g <- netDat$network
+
+# Find shortest paths between two proteins.
+paths <- shortest_paths(g, from="Gphn", to="Nrcam", output = c("vpath", "epath", "both"))
 
 

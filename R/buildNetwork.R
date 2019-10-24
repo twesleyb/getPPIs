@@ -19,7 +19,7 @@
 #'
 #' @examples
 #' buildNetwork()
-buildNetwork <- function(hitpredict, mygenes, taxid = 10090, save = TRUE) {
+buildNetwork <- function(hitpredict, mygenes, taxid = 10090) {
   # Fixme: Only works for mouse!!!
   # Imports.
   suppressPackageStartupMessages({
@@ -31,34 +31,31 @@ buildNetwork <- function(hitpredict, mygenes, taxid = 10090, save = TRUE) {
   # Load proteins of interest.
   if (is.character(mygenes)) {
     # if character, then read file into R.
-    myprots <- data.table::fread(mygenes)$Entrez
+    myprots <- data.table::fread(mygenes)
     idy <- grep("entrez", tolower(colnames(myprots)))
-    mygenes <- unlist(myprots[, ..idy])
+    mygenes <- na.omit(unlist(myprots[, ..idy]))
     names(mygenes) <- NULL
   } else {
     # Use genes passed by user.
-    myprots <- mygenes
   }
-
   # Get interactions among genes of interest.
   ppis <- hitpredict %>% filter(osEntrezA %in% mygenes & osEntrezB %in% mygenes)
   # keep relevant columns.
   sif <- ppis %>% dplyr::select(
     osEntrezA, osEntrezB, Source_database,
     Interaction_detection_methods, Methods,
-    EntrezA, EntrezB,
-    Interactor_A_Taxonomy, Interactor_B_Taxonomy,
+    Interactor_A_Taxonomy, EntrezA, EntrezB,
     Publications
   )
   # Node attributes.
   entrez <- unique(c(sif$osEntrezA, sif$osEntrezB, mygenes))
   # Get gene symbols, suppress output with sink.
-  symbols <- AnnotationDbi::mapIds(org.Mm.eg.db,
+  symbols <- silently(AnnotationDbi::mapIds(org.Mm.eg.db,
     keys = as.character(entrez),
     column = "SYMBOL",
     keytype = "ENTREZID",
     multiVals = "first"
-  )
+  ))
   # Check that all nodes (entrez) are mapped to gene symbols.
   not_mapped <- entrez[is.na(symbols)]
   if (sum(is.na(symbols)) != 0) {

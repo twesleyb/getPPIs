@@ -73,13 +73,15 @@ The proteome of the inhibitory post-synaptic density (iPSD) is understudied rela
 The compiled iPSD is a list of proteins that have been identified at inhibitory synapses by a variety of methods.
 
 | Study                   | Method                                                                         |  nProteins  | Ref.|
-|-------------------------|-----------------------------------------------------------------------------------------|----|-----|
-| Heller _et al._, 2012   | Affinity purification of Venus eGFP-tagged GABAARa1 transgenic mouse              | 18 | [5] |
-| Kang _et al._, 2014     | Affinity purification of His6-FLAG-YFP-NL2 transgenic mouse                       | 75 | [6] |
-| Uezu _et al._, 2016     | Gephyrin, InSyn1, and Collybistin iBioID                                          | 181| [4] |
-| Loh _et al._, 2016      | Lenti-viral expression of Slitrk3 and Nlgn2 APEX in cultured rat neurons          | 42 | [7] |
-| Nakamura _et al._, 2016 | Affinity purification of pHluorin tagged GABAARa2 transgenic mouse                | 174| [8] |
-| Yamasaki _et al._, 2017 | GABAARa1 immunoprecipitation                                                      | 7 | [7] |
+|:-----------------------:|:------------------------------------------------------------------------------:|:-----------:|:---:|
+| Heller _et al._, 2012   | Affinity purification of Venus eGFP-tagged GABAARa1 transgenic mouse           | 18  | [5] |
+| Kang _et al._, 2014     | Affinity purification of His6-FLAG-YFP-NL2 transgenic mouse                    | 75  | [6] |
+| Uezu _et al._, 2016     | Gephyrin, InSyn1, and Collybistin iBioID                                       | 181 | [4] |
+| Loh _et al._, 2016      | Lenti-viral expression of Slitrk3 and Nlgn2 APEX in cultured rat neurons       | 42  | [7] |
+| Nakamura _et al._, 2016 | Affinity purification of pHluorin tagged GABAARa2 transgenic mouse             | 174 | [8] |
+| Yamasaki _et al._, 2017 | GABAARa1 immunoprecipitation                                                   | 7   | [7] |
+
+You can download the compiled iPSD proteome [here](./link).
 
 ## Dependencies
 The script `installDBs` automates the installation of several gene ID mapping databases
