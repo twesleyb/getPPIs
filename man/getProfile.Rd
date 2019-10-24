@@ -11,7 +11,7 @@ getProfile(g, partition_type, nsteps = 1, ...)
 
 \item{partition_type}{- Leiden algorithm method to be used.}
 
-\item{nsteps}{- number of resolutions to be analyzed. If 1 then, 
+\item{nsteps}{- number of resolutions to be analyzed. If 1 then,
 the native resolution (r=0) will be used.}
 }
 \value{
