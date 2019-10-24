@@ -1,3 +1,10 @@
+---
+title: getPPIs  
+author: Tyler W. Bradshaw   
+bibliography: bibliography.bib  
+
+---
+
 # getPPIs
 
 `getPPIs` facilitates the compilation of experimentally identified 
@@ -10,9 +17,9 @@ protein-protein interactions (PPIs) from [HitPredict](http://hintdb.hgc.jp/htp/)
 > functional annotations of the interacting proteins.
 
 For more information about HitPredict, please see authors' original publications:
-* Lopez _et al.,_ [Database 2015](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4691340/)
-* Patil _et al.,_ [Nucleic Acids Res. 2011](https://www.ncbi.nlm.nih.gov/pubmed/20947562)
-* Patil and Nakamura [BMC Bioinformatics 2005](https://www.ncbi.nlm.nih.gov/pubmed/15833142)
+* [Lopez _et al.,_ 2015](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4691340/)[@patil_2004]
+* [Patil _et al.,_ 2011](https://www.ncbi.nlm.nih.gov/pubmed/20947562)
+* [Patil and Nakamura 2005](https://www.ncbi.nlm.nih.gov/pubmed/15833142)
 
 ## Installation
 In R, download `getPPIs` from GitHub:
@@ -95,3 +102,6 @@ Other libraries utilized by `getPPIs` include:
 * AnnotationDbi
 * ontologyIndex
 * BiocManager
+
+## References
+
