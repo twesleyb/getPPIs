@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-#' getDBs()
+#' mappingDBs()
 #'
 #' Returns a list of annotation databases.
 #'
@@ -17,7 +17,7 @@
 #'
 #' @examples
 #' annotationDBs <- getDBs()
-getDBs <- function() {
+mappingDBs <- function() {
   annotationDBs <- list(
     Anopheles_gambia = list(taxid = 7165, database = "org.Ag.eg.db", alias = "anopheles"),
     Arabidopsis_thaliana = list(taxid = 7302, database = "org.At.tair.db", alias = "arabidopsis"),
