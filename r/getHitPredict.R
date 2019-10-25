@@ -52,7 +52,7 @@ getHitPredict <- function(organism = "HitPredict") {
   cleandat$Interactor_A_ID <- gsub("uniprotkb:", "", cleandat$Interactor_A_ID)
   cleandat$Interactor_B_ID <- gsub("uniprotkb:", "", cleandat$Interactor_B_ID)
   # Load organism specific mapping databases:
-  annotationDBs <- getDBs()
+  annotationDBs <- mappingDBs()
   # Subset HitPredict data, keep interactions from species with mapping databases...
   dbs <- unlist(sapply(annotationDBs, "[", 1))
   data <- data.table::as.data.table({

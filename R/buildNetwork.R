@@ -26,6 +26,7 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
     require(dplyr)
     require(igraph)
   })
+
   # Parse users proteins of interest.
   mygenes <- tryCatch(
     expr = {
@@ -42,7 +43,8 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
       # If warning, then input looks like a filepath.
       df <- data.table::fread(mygenes)
       idy <- grep("entrez", tolower(colnames(df)))
-      mygenes <- unlist(df[, ..idy]) # ..idy is not a mistake!
+      namen <- colnames(df)[idy]
+      mygenes <- unlist(df %>% select(namen)) # ..idy does not work!
       names(mygenes) <- NULL
       return(mygenes)
     },
@@ -50,6 +52,7 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
       # Do last.
     }
   )
+
   # Check for NA entries.
   is_NA <- is.na(mygenes)
   if (sum(is_NA) > 0) {
@@ -72,7 +75,7 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
   # Map entrez IDs to gene symbols.
   entrez <- unique(c(sif$osEntrezA, sif$osEntrezB, mygenes))
   # Get organism specific mapping database.
-  annotationDBs <- getDBs()
+  annotationDBs <- mappingDBs()
   orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 1) == taxid])
   names(orgDB) <- sapply(strsplit(names(orgDB), "\\."), "[", 2)
   suppressPackageStartupMessages({
