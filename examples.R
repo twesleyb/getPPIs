@@ -54,8 +54,13 @@ ppis <- buildNetwork(musInteractome,mygenes=myfile,taxid=10090)
 
 library(getPPIs)
 
+# Load the data.
+data(iPSD)
+data(Wrp)
+data(ePSD)
+
 # Build some graphs.
-ipsd <- buildNetwork(hitpredict=musInteractome, mygenes=compiled_iPSD, taxid=10090)
+ipsd <- buildNetwork(hitpredict=musInteractome, mygenes=iPSD, taxid=10090)
 wrp <- buildNetwork(hitpredict=musInteractome, mygenes=Wrp, taxid=10090)
 epsd <- buildNetwork(hitpredict=musInteractome, mygenes=ePSD, taxid=10090)
 
