@@ -13,7 +13,7 @@
 #'
 #' @keywords none
 #'
-#' @import dplyr igraph
+#' @import 
 #'
 #' @export
 #'
