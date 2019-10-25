@@ -4,7 +4,7 @@
 \alias{buildNetwork}
 \title{buildNetwork}
 \usage{
-buildNetwork(hitpredict, mygenes, taxid = 10090)
+buildNetwork(hitpredict, mygenes, taxid)
 }
 \arguments{
 \item{none}{}

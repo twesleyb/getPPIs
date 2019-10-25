@@ -19,13 +19,11 @@
 #'
 #' @examples
 #' buildNetwork()
-buildNetwork <- function(hitpredict, mygenes, taxid = 10090) {
-  # Fixme: Only works for mouse!!!
+buildNetwork <- function(hitpredict, mygenes, taxid) {
   # Imports.
   suppressPackageStartupMessages({
     require(getPPIs)
     require(dplyr)
-    require(org.Mm.eg.db)
     require(igraph)
   })
   # Parse users proteins of interest.
@@ -44,7 +42,7 @@ buildNetwork <- function(hitpredict, mygenes, taxid = 10090) {
       # If warning, then input looks like a filepath.
       df <- data.table::fread(mygenes)
       idy <- grep("entrez", tolower(colnames(df)))
-      mygenes <- unlist(df[, ..idy])
+      mygenes <- unlist(df[, ..idy]) # ..idy is not a mistake!
       names(mygenes) <- NULL
       return(mygenes)
     },
