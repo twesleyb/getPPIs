@@ -27,7 +27,7 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
     require(igraph)
   })
   # Parse users proteins of interest.
-result <- tryCatch(
+  result <- tryCatch(
     expr = {
       # Use genes passed by user, coerce to integer.
       mygenes <- as.integer(mygenes)
