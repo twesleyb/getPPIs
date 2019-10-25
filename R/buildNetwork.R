@@ -26,9 +26,8 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
     require(dplyr)
     require(igraph)
   })
-
   # Parse users proteins of interest.
-  mygenes <- tryCatch(
+result <- tryCatch(
     expr = {
       # Use genes passed by user, coerce to integer.
       mygenes <- as.integer(mygenes)
@@ -52,7 +51,6 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
       # Do last.
     }
   )
-
   # Check for NA entries.
   is_NA <- is.na(mygenes)
   if (sum(is_NA) > 0) {

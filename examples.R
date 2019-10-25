@@ -57,11 +57,13 @@ library(getPPIs)
 
 # Load the data.
 data(iPSD)
+
 data(Wrp)
 data(ePSD)
 
 # Build some graphs.
-ipsd <- buildNetwork(hitpredict=musInteractome, mygenes=iPSD, taxid=10090)
+ipsd <- getPPIs::buildNetwork(hitpredict=musInteractome, mygenes=iPSD, taxid=10090)
+
 wrp <- buildNetwork(hitpredict=musInteractome, mygenes=Wrp, taxid=10090)
 epsd <- buildNetwork(hitpredict=musInteractome, mygenes=ePSD, taxid=10090)
 
@@ -81,6 +83,8 @@ library(AnnotationDbi)
 myfile <- file.path("./data","Uezu_et_al_2016_TableS6.xlsx")
 data <- read_excel(myfile)
 genes <- data$"Gene name"
+
+mapIDs <- function() {}
 
 # Map gene symbols to entrez with AnnotationDbi::mapIds() and org.Mm.eg.db.
 entrez <- mapIds(org.Mm.eg.db,keys=genes,column="ENTREZID",keytype="SYMBOL",multiVals="first")
