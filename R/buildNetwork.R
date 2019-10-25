@@ -13,7 +13,7 @@
 #'
 #' @keywords none
 #'
-#' @import 
+#' @import dplyr
 #'
 #' @export
 #'
