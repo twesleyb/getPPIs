@@ -43,6 +43,7 @@ data(musInteractome)
 # For example, Uniprot identifiers for the iPSD proteome were mapped to Entrez
 # IDs using the MGI website: http://www.informatics.jax.org/batch.
 # Your data just needs to have a column containing the word 'entrez' (case-insensitive).
+# Data file should be `.txt` or `.csv` format. 
 myfile <- file.path("./data","MGIBatchReport_20191024_171834.txt")
 
 # Collect PPIs among your proteins and build a PPI graph.
