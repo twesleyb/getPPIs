@@ -81,10 +81,9 @@ library(readxl)
 myfile <- file.path("./data","Uezu_et_al_2016_TableS6.xlsx")
 data <- read_excel(myfile)
 genes <- data$"Gene name"
+head(genes)
 
-
-# Map gene symbols to entrez with AnnotationDbi::mapIds() and org.Mm.eg.db.
-
+mapIDs(identifiers=genes,from="symbol",to="entrez",species="mouse")
 
 mapIDs <- function(identifiers,from,to,species,...) {
 	# Wrapper around AnnotationDbi::mapIds()

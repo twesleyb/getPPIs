@@ -47,10 +47,12 @@ mapIDs <- function(identifiers, from, to, species, ...) {
     )
   })
   # Check that all nodes (entrez) are mapped to gene symbols.
-  not_mapped <- entrez[is.na(output)]
+  not_mapped <- is.na(output)
+
   if (sum(is.na(output)) != 0) {
-    message(paste("Unable to map", length(not_mapped), "Entrez IDs to gene symbols!"))
+    message(paste0("Warning: Unable to map ", sum(not_mapped)," ",species," ",
+		   from,"(s)"," to ",to," identifiers!"))
   }
-  names(output) <- indentifiers
+  names(output) <- identifiers
   return(output)
 }
