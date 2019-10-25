@@ -28,16 +28,30 @@ buildNetwork <- function(hitpredict, mygenes, taxid = 10090) {
     require(org.Mm.eg.db)
     require(igraph)
   })
-  # Load proteins of interest.
-  if (is.character(mygenes)) {
-    # if character, then read file into R.
-    myprots <- data.table::fread(mygenes)
-    idy <- grep("entrez", tolower(colnames(myprots)))
-    mygenes <- na.omit(unlist(myprots[, ..idy]))
-    names(mygenes) <- NULL
-  } else {
-    # Use genes passed by user.
-  }
+  # Parse users proteins of interest.
+  mygenes <- tryCatch(
+    expr = {
+      # Use genes passed by user, coerce to integer.
+      mygenes <- as.integer(mygenes)
+      return(mygenes)
+    },
+    error = function(e) {
+      # If error then...
+      # message("Check that mygenes is a vector of entrez ids (integers).")
+      # print(e)
+    },
+    warning = function(w) {
+      # If warning, then input looks like a filepath.
+      myprots <- data.table::fread(mygenes)
+      idy <- grep("entrez", tolower(colnames(myprots)))
+      mygenes <- unlist(myprots[, ..idy])
+      names(mygenes) <- NULL
+      return(mygenes)
+    },
+    finally = {
+      # Do last.
+    }
+  )
   # Get interactions among genes of interest.
   ppis <- hitpredict %>% filter(osEntrezA %in% mygenes & osEntrezB %in% mygenes)
   # keep relevant columns.
@@ -80,11 +94,6 @@ buildNetwork <- function(hitpredict, mygenes, taxid = 10090) {
   nNodes <- format(length(V(g)), 1, nsmall = 1, big.mark = ",")
   nEdges <- format(length(E(g)), 1, nsmall = 1, big.mark = ",")
   message(paste(nEdges, "edges identified among", nNodes, "nodes!"))
-  # Save the noa and sif files.
-  if (save == TRUE) {
-    data.table::fwrite(noa, "noa.csv")
-    data.table::fwrite(sif, "sif.csv")
-  }
-  # Return igraph object and noa an sif, which can be imported into Cytoscape..
-  return(list("network" = g, "noa" = noa, "sif" = sif))
+  # Return igraph object.
+  return(g)
 }

@@ -49,13 +49,37 @@ myfile <- file.path("./data","MGIBatchReport_20191024_171834.txt")
 ppis <- buildNetwork(musInteractome,mygenes=myfile,taxid=10090)
 
 #------------------------------------------------------------------------------
-## Using the 
+## Using the BioID datasets.
 #------------------------------------------------------------------------------
+
+library(getPPIs)
+
 # Build some graphs.
 ipsd <- buildNetwork(hitpredict=musInteractome, mygenes=compiled_iPSD, taxid=10090)
 wrp <- buildNetwork(hitpredict=musInteractome, mygenes=Wrp, taxid=10090)
 epsd <- buildNetwork(hitpredict=musInteractome, mygenes=ePSD, taxid=10090)
 
+#------------------------------------------------------------------------------
+## Mapping gene identifiers programmatically.
+#------------------------------------------------------------------------------
+# Load the InSyn1 GFP-trap data from Uezu et al., 2016. Map gene names to 
+# Entrez Ids.
+
+library(getPPIs)
+library(readxl)
+library(org.Mm.eg.db)
+library(AnnotationDbi)
+
+## Load your data with readxl::read_excel.
+# File path to your data.
+myfile <- file.path("./data","Uezu_et_al_2016_TableS6.xlsx")
+data <- read_excel(myfile)
+genes <- data$"Gene name"
+
+# Map gene symbols to entrez with AnnotationDbi::mapIds() and org.Mm.eg.db.
+entrez <- mapIds(org.Mm.eg.db,keys=genes,column="ENTREZID",keytype="SYMBOL",multiVals="first")
+not_mapped <- is.na(entrez)
+mygenes <- entrez[!not_mapped]
 
 
 #------------------------------------------------------------------------------
