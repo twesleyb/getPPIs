@@ -75,8 +75,6 @@ epsd <- buildNetwork(hitpredict=musInteractome, mygenes=ePSD, taxid=10090)
 
 library(getPPIs)
 library(readxl)
-library(org.Mm.eg.db)
-library(AnnotationDbi)
 
 ## Load your data with readxl::read_excel.
 # File path to your data.
@@ -84,12 +82,43 @@ myfile <- file.path("./data","Uezu_et_al_2016_TableS6.xlsx")
 data <- read_excel(myfile)
 genes <- data$"Gene name"
 
-mapIDs <- function() {}
 
 # Map gene symbols to entrez with AnnotationDbi::mapIds() and org.Mm.eg.db.
-entrez <- mapIds(org.Mm.eg.db,keys=genes,column="ENTREZID",keytype="SYMBOL",multiVals="first")
-not_mapped <- is.na(entrez)
-mygenes <- entrez[!not_mapped]
+
+
+mapIDs <- function(identifiers,from,to,species,...) {
+	# Wrapper around AnnotationDbi::mapIds()
+	#c("ACCNUM", "ALIAS", "ENSEMBL", "ENSEMBLPROT", "ENSEMBLTRANS",
+	#  "ENTREZID", "ENZYME", "EVIDENCE", "EVIDENCEALL", "GENENAME", 
+	#  "GO", "GOALL", "IPI", "MGI", "ONTOLOGY", "ONTOLOGYALL", "PATH",
+	#  "PFAM", "PMID", "PROSITE", "REFSEQ", "SYMBOL", "UNIGENE", "UNIPROT")
+	# Imports.
+	require(getPPIs)
+	# Get organism specific mapping database.
+	annotationDBs <- mappingDBs()
+	orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 3) == tolower(species)])
+	names(orgDB) <- sapply(strsplit(names(orgDB),"\\."),"[",2)
+	suppressPackageStartupMessages({
+		eval(parse(text = paste0("require(", orgDB[["database"]], ",quietly=TRUE)")))
+	})
+	osDB <- eval(parse(text = orgDB[["database"]]))
+	# Map gene identifiers. Suppress messages.
+      	suppressMessages({
+		output <- AnnotationDbi::mapIds(osDB,
+						keys = as.character(identifiers),
+						column = toupper(to),
+						keytype = keytype,
+						multiVals = "first",
+						)
+	})
+	# Check that all nodes (entrez) are mapped to gene symbols.
+	not_mapped <- entrez[is.na(output)]
+	if (sum(is.na(output)) != 0) {
+	       message(paste("Unable to map", length(not_mapped), "Entrez IDs to gene symbols!"))
+	}
+	names(output) <- indentifiers
+	return(output)
+}
 
 
 #------------------------------------------------------------------------------
