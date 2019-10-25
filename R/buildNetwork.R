@@ -42,9 +42,9 @@ buildNetwork <- function(hitpredict, mygenes, taxid = 10090) {
     },
     warning = function(w) {
       # If warning, then input looks like a filepath.
-      myprots <- data.table::fread(mygenes)
-      idy <- grep("entrez", tolower(colnames(myprots)))
-      mygenes <- unlist(myprots[, ..idy])
+      df <- data.table::fread(mygenes)
+      idy <- grep("entrez", tolower(colnames(df)))
+      mygenes <- unlist(df[, ..idy])
       names(mygenes) <- NULL
       return(mygenes)
     },
@@ -52,6 +52,16 @@ buildNetwork <- function(hitpredict, mygenes, taxid = 10090) {
       # Do last.
     }
   )
+  # Check for NA entries.
+  is_NA <- is.na(mygenes)
+  if (sum(is_NA) > 0) {
+    message(paste(
+      "Warning:", sum(is_NA),
+      "missing or NA entries found in mygenes.",
+      "These will be omitted."
+    ))
+    mygenes <- mygenes[!is_NA]
+  }
   # Get interactions among genes of interest.
   ppis <- hitpredict %>% filter(osEntrezA %in% mygenes & osEntrezB %in% mygenes)
   # keep relevant columns.
@@ -61,15 +71,25 @@ buildNetwork <- function(hitpredict, mygenes, taxid = 10090) {
     Interactor_A_Taxonomy, EntrezA, EntrezB,
     Publications
   )
-  # Node attributes.
+  # Map entrez IDs to gene symbols.
   entrez <- unique(c(sif$osEntrezA, sif$osEntrezB, mygenes))
-  # Get gene symbols, suppress output with sink.
-  symbols <- silently(AnnotationDbi::mapIds(org.Mm.eg.db,
-    keys = as.character(entrez),
-    column = "SYMBOL",
-    keytype = "ENTREZID",
-    multiVals = "first"
-  ))
+  # Get organism specific mapping database.
+  annotationDBs <- getDBs()
+  orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 1) == taxid])
+  names(orgDB) <- sapply(strsplit(names(orgDB), "\\."), "[", 2)
+  suppressPackageStartupMessages({
+    eval(parse(text = paste0("require(", orgDB[["database"]], ",quietly=TRUE)")))
+  })
+  osDB <- eval(parse(text = orgDB[["database"]]))
+  # Get gene symbols, suppress messages.
+  suppressMessages({
+    symbols <- AnnotationDbi::mapIds(osDB,
+      keys = as.character(entrez),
+      column = "SYMBOL",
+      keytype = "ENTREZID",
+      multiVals = "first"
+    )
+  })
   # Check that all nodes (entrez) are mapped to gene symbols.
   not_mapped <- entrez[is.na(symbols)]
   if (sum(is.na(symbols)) != 0) {

@@ -32,17 +32,17 @@ hitpredict <- getPPIs("HitPredict", taxid=10090)
 #------------------------------------------------------------------------------
 # If you work in mice, and you just want to find PPIs among your proteins of
 # interest, you can skip building your own interactome, and just load the 
-# mouse interactome.
+# pre-built mouse interactome.
 
 library(getPPIs)
 
 # Load the mouse interactome.
 data(musInteractome)
 
-# Load your genes of interest.
+# Load your genes of interest into R.
 # For example, Uniprot identifiers for the iPSD proteome were mapped to Entrez
 # IDs using the MGI website: http://www.informatics.jax.org/batch.
-# You data just needs to have a column labeled 'entrez'.
+# Your data just needs to have a column containing the word 'entrez' (case-insensitive).
 myfile <- file.path("./data","MGIBatchReport_20191024_171834.txt")
 
 # Collect PPIs among your proteins and build a PPI graph.
