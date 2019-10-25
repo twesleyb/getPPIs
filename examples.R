@@ -62,8 +62,7 @@ data(Wrp)
 data(ePSD)
 
 # Build some graphs.
-ipsd <- getPPIs::buildNetwork(hitpredict=musInteractome, mygenes=iPSD, taxid=10090)
-
+ipsd <- buildNetwork(hitpredict=musInteractome, mygenes=iPSD, taxid=10090)
 wrp <- buildNetwork(hitpredict=musInteractome, mygenes=Wrp, taxid=10090)
 epsd <- buildNetwork(hitpredict=musInteractome, mygenes=ePSD, taxid=10090)
 
@@ -83,42 +82,12 @@ data <- read_excel(myfile)
 genes <- data$"Gene name"
 head(genes)
 
-mapIDs(identifiers=genes,from="symbol",to="entrez",species="mouse")
+# Map gene symbols to entrez.
+entrez <- mapIDs(identifiers=genes,from="symbol",to="entrez",species="mouse")
 
-mapIDs <- function(identifiers,from,to,species,...) {
-	# Wrapper around AnnotationDbi::mapIds()
-	#c("ACCNUM", "ALIAS", "ENSEMBL", "ENSEMBLPROT", "ENSEMBLTRANS",
-	#  "ENTREZID", "ENZYME", "EVIDENCE", "EVIDENCEALL", "GENENAME", 
-	#  "GO", "GOALL", "IPI", "MGI", "ONTOLOGY", "ONTOLOGYALL", "PATH",
-	#  "PFAM", "PMID", "PROSITE", "REFSEQ", "SYMBOL", "UNIGENE", "UNIPROT")
-	# Imports.
-	require(getPPIs)
-	# Get organism specific mapping database.
-	annotationDBs <- mappingDBs()
-	orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 3) == tolower(species)])
-	names(orgDB) <- sapply(strsplit(names(orgDB),"\\."),"[",2)
-	suppressPackageStartupMessages({
-		eval(parse(text = paste0("require(", orgDB[["database"]], ",quietly=TRUE)")))
-	})
-	osDB <- eval(parse(text = orgDB[["database"]]))
-	# Map gene identifiers. Suppress messages.
-      	suppressMessages({
-		output <- AnnotationDbi::mapIds(osDB,
-						keys = as.character(identifiers),
-						column = toupper(to),
-						keytype = keytype,
-						multiVals = "first",
-						)
-	})
-	# Check that all nodes (entrez) are mapped to gene symbols.
-	not_mapped <- entrez[is.na(output)]
-	if (sum(is.na(output)) != 0) {
-	       message(paste("Unable to map", length(not_mapped), "Entrez IDs to gene symbols!"))
-	}
-	names(output) <- indentifiers
-	return(output)
-}
-
+# build a ppi graph.
+data(musInteractome)
+g <- buildNetwork(musInteractome,entrez,taxid=10090)
 
 #------------------------------------------------------------------------------
 ## Using the RCy3 module to interact with Cytoscape. 

@@ -20,12 +20,14 @@
 #' @examples
 #' buildNetwork()
 buildNetwork <- function(hitpredict, mygenes, taxid) {
+
   # Imports.
   suppressPackageStartupMessages({
     require(getPPIs)
     require(dplyr)
     require(igraph)
   })
+
   # Parse users proteins of interest.
   result <- tryCatch(
     expr = {
@@ -61,8 +63,10 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
     ))
     mygenes <- mygenes[!is_NA]
   }
+
   # Get interactions among genes of interest.
   ppis <- hitpredict %>% filter(osEntrezA %in% mygenes & osEntrezB %in% mygenes)
+
   # keep relevant columns.
   sif <- ppis %>% dplyr::select(
     osEntrezA, osEntrezB, Source_database,
@@ -70,15 +74,19 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
     Interactor_A_Taxonomy, EntrezA, EntrezB,
     Publications
   )
+
   # Map entrez IDs to gene symbols.
   entrez <- unique(c(sif$osEntrezA, sif$osEntrezB, mygenes))
+
   # Get organism specific mapping database.
   annotationDBs <- mappingDBs()
+
   orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 1) == taxid])
   names(orgDB) <- sapply(strsplit(names(orgDB), "\\."), "[", 2)
   suppressPackageStartupMessages({
     eval(parse(text = paste0("require(", orgDB[["database"]], ",quietly=TRUE)")))
   })
+
   osDB <- eval(parse(text = orgDB[["database"]]))
   # Get gene symbols, suppress messages.
   suppressMessages({
@@ -114,5 +122,6 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
   nEdges <- format(length(E(g)), 1, nsmall = 1, big.mark = ",")
   message(paste(nEdges, "edges identified among", nNodes, "nodes!"))
   # Return igraph object.
+
   return(g)
 }
