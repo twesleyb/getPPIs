@@ -24,7 +24,7 @@
 #' @export
 #'
 #' @examples
-#' mapIDs(mygenes, from = "symbols", to = "entrez", species = "mouse")
+#' mapIDs(mygenes, from = "symbol", to = "entrez", species = "mouse")
 mapIDs <- function(identifiers, from, to, species, ...) {
   # Wrapper around AnnotationDbi::mapIds()
   # Imports.
@@ -46,6 +46,7 @@ mapIDs <- function(identifiers, from, to, species, ...) {
       multiVals = "first",
     )
   })
+
   # Check that all nodes (entrez) are mapped to gene symbols.
   not_mapped <- is.na(output)
 
