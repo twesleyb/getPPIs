@@ -3,6 +3,7 @@
 export(buildNetwork)
 export(getHitPredict)
 export(getHomoloGene)
+export(getHomologs)
 export(getMethods)
 export(getPPIs)
 export(getProfile)

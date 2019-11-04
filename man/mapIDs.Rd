@@ -25,7 +25,7 @@ none
 Mapping gene identifiers.
 }
 \examples{
-mapIDs(mygenes, from = "symbols", to = "entrez", species = "mouse")
+mapIDs(mygenes, from = "symbol", to = "entrez", species = "mouse")
 }
 \references{
 none
