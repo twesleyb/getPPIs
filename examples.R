@@ -83,11 +83,13 @@ genes <- data$"Gene name"
 head(genes)
 
 # Map gene symbols to entrez.
-entrez <- mapIDs(identifiers=genes,from="symbol",to="entrez",species="mouse")
+mygenes <- mapIDs(identifiers=genes,from="symbol",to="entrez",species="mouse")
+
+# load the mouse interactome.
+data(musInteractome)
 
 # build a ppi graph.
-data(musInteractome)
-g <- buildNetwork(musInteractome,entrez,taxid=10090)
+g <- buildNetwork(musInteractome,mygenes,taxid=10090)
 
 #------------------------------------------------------------------------------
 ## Using the RCy3 module to interact with Cytoscape. 
