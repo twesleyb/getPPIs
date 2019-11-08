@@ -62,7 +62,7 @@ getHomologs <- function(entrez, taxid) {
     "% of supplied entrez IDs were mapped to homologous genes in ",
     organism, "."
   ))
-  #osEntrez <- osEntrez[!is_missing]
+  # osEntrez <- osEntrez[!is_missing]
   # Return data with genes mapped to gene specific entrez.
   return(osEntrez)
 }

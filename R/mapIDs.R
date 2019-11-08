@@ -51,8 +51,10 @@ mapIDs <- function(identifiers, from, to, species, ...) {
   not_mapped <- is.na(output)
 
   if (sum(is.na(output)) != 0) {
-    message(paste0("Warning: Unable to map ", sum(not_mapped)," ",species," ",
-		   from,"(s)"," to ",to," identifiers!"))
+    message(paste0(
+      "Warning: Unable to map ", sum(not_mapped), " ", species, " ",
+      from, "(s)", " to ", to, " identifiers!"
+    ))
   }
   names(output) <- identifiers
   return(output)

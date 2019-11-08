@@ -19,7 +19,6 @@
 #'
 #' @examples
 #' buildNetwork()
-
 buildNetwork <- function(hitpredict, mygenes, taxid) {
   # Imports.
   suppressPackageStartupMessages({
@@ -27,7 +26,6 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
     require(dplyr)
     require(igraph)
   })
-
   # Parse users proteins of interest.
   result <- tryCatch(
     expr = {
@@ -53,9 +51,6 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
       # Do last.
     }
   )
-
-  print("check1")
-
   # Check for NA entries.
   is_NA <- is.na(mygenes)
   if (sum(is_NA) > 0) {
@@ -66,7 +61,6 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
     ))
     mygenes <- mygenes[!is_NA]
   }
-
   # Get interactions among genes of interest.
   ppis <- hitpredict %>% filter(osEntrezA %in% mygenes & osEntrezB %in% mygenes)
   # keep relevant columns.
@@ -119,8 +113,6 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
   nNodes <- format(length(V(g)), 1, nsmall = 1, big.mark = ",")
   nEdges <- format(length(E(g)), 1, nsmall = 1, big.mark = ",")
   message(paste(nEdges, "edges identified among", nNodes, "nodes!"))
-
   # Return igraph object.
   return(g)
-
 }
