@@ -69,7 +69,10 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
   # Check that all nodes (entrez) are mapped to gene symbols.
   not_mapped <- entrez[is.na(symbols)]
   if (sum(is.na(symbols)) != 0) {
-    message(paste("Unable to map", length(not_mapped), "Entrez IDs to gene symbols!"))
+    message(paste(
+      "Warning: Unable to map", length(not_mapped),
+      "Entrez ID(s) to gene symbol(s)."
+    ))
   }
   # Remove nodes that were not successfully mapped.
   nodes <- symbols
@@ -85,7 +88,7 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
   g <- graph_from_data_frame(sif, directed = FALSE, vertices = noa)
   g <- simplify(g) # remove any redundant edges.
   # Change node names to symbols.
-  g <- set.vertex.attribute(g, "name", value = vertex_attr(g, "symbol"))
+  # g <- set.vertex.attribute(g, "name", value = vertex_attr(g, "symbol"))
   # Status report.
   nNodes <- format(length(V(g)), 1, nsmall = 1, big.mark = ",")
   nEdges <- format(length(E(g)), 1, nsmall = 1, big.mark = ",")
