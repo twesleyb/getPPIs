@@ -26,31 +26,8 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
     require(dplyr)
     require(igraph)
   })
-  # Parse users proteins of interest.
-  result <- tryCatch(
-    expr = {
       # Use genes passed by user, coerce to integer.
       mygenes <- as.integer(mygenes)
-      return(mygenes)
-    },
-    error = function(e) {
-      # If error then...
-      # message("Check that mygenes is a vector of entrez ids (integers).")
-      # print(e)
-    },
-    warning = function(w) {
-      # If warning, then input looks like a filepath.
-      df <- data.table::fread(mygenes)
-      idy <- grep("entrez", tolower(colnames(df)))
-      namen <- colnames(df)[idy]
-      mygenes <- unlist(df %>% select(namen)) # ..idy does not work!
-      names(mygenes) <- NULL
-      return(mygenes)
-    },
-    finally = {
-      # Do last.
-    }
-  )
   # Check for NA entries.
   is_NA <- is.na(mygenes)
   if (sum(is_NA) > 0) {
