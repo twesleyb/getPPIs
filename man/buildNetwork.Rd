@@ -7,7 +7,7 @@
 buildNetwork(hitpredict, mygenes, taxid)
 }
 \arguments{
-\item{none}{}
+\item{hitpredict}{}
 }
 \value{
 none

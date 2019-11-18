@@ -3,7 +3,7 @@
 #' Given a HitPredict data.frame (PPIs) and a vector of entrez IDs, build a
 #' protein-protein interaction graph.
 #'
-#' @param none
+#' @param hitpredict
 #'
 #' @return none
 #'
@@ -26,8 +26,8 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
     require(dplyr)
     require(igraph)
   })
-      # Use genes passed by user, coerce to integer.
-      mygenes <- as.integer(mygenes)
+  # Use genes passed by user, coerce to integer.
+  mygenes <- as.integer(mygenes)
   # Check for NA entries.
   is_NA <- is.na(mygenes)
   if (sum(is_NA) > 0) {
@@ -43,8 +43,8 @@ buildNetwork <- function(hitpredict, mygenes, taxid) {
   # keep relevant columns.
   sif <- ppis %>% dplyr::select(
     osEntrezA, osEntrezB, Source_database,
-    Interaction_detection_methods, Methods,
-    Interactor_A_Taxonomy, EntrezA, EntrezB,
+    Interaction_detection_methods, Confidence_score,
+    Methods, Interactor_A_Taxonomy, EntrezA, EntrezB,
     Publications
   )
   # Map entrez IDs to gene symbols.
