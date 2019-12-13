@@ -32,7 +32,7 @@ getCommunity <- function(graph, seeds, k = 2) {
   }
   seeds <- seeds[keep]
   # Get neighborhood of every seed. Slow if there are many seeds.
-  node_list <- adjacent_vertices(graph, v = match(seeds, names(V(graph))))
+  node_list <- adjacent_vertices(graph, seeds)
   adj_nodes <- unlist(sapply(node_list, names))
   # Extract community nodes and create new graph.
   subg <- induced_subgraph(graph, adj_nodes)
@@ -42,7 +42,7 @@ getCommunity <- function(graph, seeds, k = 2) {
   dm <- adjm[rownames(adjm) %in% seeds, ]
   ds <- apply(dm, 2, sum)
   keep <- names(ds)[ds >= k]
-  community <- unique(c(seeds, all_nodes[all_nodes %in% keep]))
+  community <- unique(c(seeds, keep))
   community_graph <- induced_subgraph(graph, community)
   return(community_graph)
 }

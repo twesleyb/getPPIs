@@ -27,6 +27,7 @@
 #' mapIDs(mygenes, from = "symbol", to = "entrez", species = "mouse")
 mapIDs <- function(identifiers, from, to, species, ...) {
   # Wrapper around AnnotationDbi::mapIds()
+  # Note: MGI ids should be in the following format: "MGI:MGI:3649456"
   # Imports.
   require(getPPIs)
   # Get organism specific mapping database.
