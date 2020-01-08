@@ -19,7 +19,7 @@
 #'
 #' @examples
 #' getHomoloGene(hitpredict, taxid = 10090)
-getHomoloGene <- function(hitpredict, taxid) {
+getHomoloGene <- function(hitpredict, taxid, quiet = TRUE) {
   suppressMessages({
     require(getPPIs)
   })
@@ -28,7 +28,7 @@ getHomoloGene <- function(hitpredict, taxid) {
   url <- "ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data"
   destfile <- file.path(downloads, "homologene.data")
   message("Downloading NCBI HomoloGene data...")
-  download.file(url, destfile)
+  download.file(url, destfile, quiet)
   homologene <- data.table::fread(destfile, header = FALSE)
   # Remove raw data.
   unlink(destfile)
