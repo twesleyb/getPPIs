@@ -4,7 +4,7 @@
 \alias{getHomologs}
 \title{getHomologs}
 \usage{
-getHomologs(entrez, taxid)
+getHomologs(entrez, taxid, verbose = FALSE)
 }
 \arguments{
 \item{taxid}{(integer) - taxonomic identifier for species of interest}

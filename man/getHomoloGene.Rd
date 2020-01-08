@@ -4,7 +4,7 @@
 \alias{getHomoloGene}
 \title{getHomologene}
 \usage{
-getHomoloGene(hitpredict, taxid)
+getHomoloGene(hitpredict, taxid, quiet = TRUE)
 }
 \arguments{
 \item{hitpredict}{(data.table) - HitPredict data.}
