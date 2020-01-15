@@ -30,7 +30,7 @@ getHomologs <- function(entrez, taxid, verbose = FALSE) {
   if (verbose) {
     message("Downloading NCBI HomoloGene data...")
   }
-  download.file(url, destfile, quiet = verbose)
+  download.file(url, destfile, quiet = !verbose)
   homologene <- data.table::fread(destfile, header = FALSE)
   # Remove raw data.
   unlink(destfile)
