@@ -1,6 +1,6 @@
 #' mapIds
 #'
-#' Mapping gene identifiers. 
+#' Mapping gene identifiers.
 #' An easier to use wrapper around AnnotationDbi::mapIds().
 #'
 #' @param identifiers
@@ -43,8 +43,8 @@ mapIds <- function(identifiers, from, to, species, ...) {
   suppressMessages({
     output <- AnnotationDbi::mapIds(osDB,
       keys = as.character(identifiers),
-      column = columns(osDB)[grep(paste0(toupper(to),"$"), columns(osDB))],
-      keytype = columns(osDB)[grep(paste0(toupper(from),"$"), columns(osDB))],
+      column = columns(osDB)[grep(paste0(toupper(to), "$"), columns(osDB))],
+      keytype = columns(osDB)[grep(paste0(toupper(from), "$"), columns(osDB))],
       multiVals = "first",
     )
   })
