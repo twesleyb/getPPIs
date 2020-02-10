@@ -40,12 +40,14 @@ mapIds <- function(identifiers, from, to, species, ...) {
   })
   osDB <- eval(parse(text = orgDB[["database"]]))
   # Map gene identifiers. Suppress messages.
+  colIDto <- grep(toupper(to), columns(osDB))
+  colIDfrom <- grep(toupper(from), columns(osDB))
   suppressMessages({
     output <- AnnotationDbi::mapIds(osDB,
       keys = as.character(identifiers),
-      column = columns(osDB)[grep(paste0(toupper(to), "$"), columns(osDB))],
-      keytype = columns(osDB)[grep(paste0(toupper(from), "$"), columns(osDB))],
-      multiVals = "first",
+      column = columns(osDB)[colIDto],
+      keytype = columns(osDB)[colIDfrom],
+      multiVals = "first"
     )
   })
   # Check that all nodes (entrez) are mapped to gene symbols.
