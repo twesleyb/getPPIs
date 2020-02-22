@@ -22,6 +22,7 @@
 #' @examples
 #' getPPIs()
 getPPIs <- function(organism, taxid) {
+
   # Download HitPredict database.
   hitpredict <- getHitPredict(organism)
   # Map genes to homologous mouse genes.
