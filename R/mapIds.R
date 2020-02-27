@@ -1,4 +1,4 @@
-#' mapIds
+#' mapIDs
 #'
 #' Mapping gene identifiers.
 #' An easier to use wrapper around AnnotationDbi::mapIds().
@@ -26,7 +26,7 @@
 #'
 #' @examples
 #' mapIds(mygenes, from = "symbol", to = "entrez", species = "mouse")
-mapIds <- function(identifiers, from, to, species, ...) {
+mapIDs <- function(identifiers, from, to, species, ...) {
   # Wrapper around AnnotationDbi::mapIds()
   # Note: MGI ids should be in the following format: "MGI:MGI:3649456"
   # Imports.
