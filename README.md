@@ -65,8 +65,6 @@ See additional usage examples [here](./examples.R).
 * `data(ePSD)` PSD95-BioID from Uezu _et al._, 2016.<sup>[4]<sup>
 * `data(compiled_iPSD)` An iPSD proteome compiled from several studies.<sup>[4-8]<sup>
 
-Download the compiled mouse interactome
-[here](https://github.com/twesleyb/getPPIs/blob/master/data/musInteractome.zip).
 
 ## The Compiled iPSD proteome
 The proteome of the inhibitory post-synaptic density (iPSD) is understudied relative to its excitatory, PSD conterpart. 

@@ -28,9 +28,11 @@
 #' mapIds(mygenes, from = "symbol", to = "entrez", species = "mouse")
 mapIDs <- function(identifiers, from, to, species, multiVals="first", ...) {
   # Wrapper around AnnotationDbi::mapIds()
-  # Note: MGI ids should be in the following format: "MGI:MGI:3649456"
-  # Imports.
   #require(getPPIs)
+  # Check input identifiers.
+  if (sum(is.na(identifiers))) {
+	  message("Warning: missing values (NA) detected in input identifiers.")
+  }
   # Get organism specific mapping database.
   annotationDBs <- mappingDBs()
   orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 3) == tolower(species)])
@@ -51,6 +53,14 @@ mapIDs <- function(identifiers, from, to, species, multiVals="first", ...) {
   }
   if (length(colIDfrom) > 1) { 
 	  stop(paste("Multiple matching keys (from).\n",msg)) 
+  }
+  # Check MGI format if input is MGI.
+  if (columns(osDB)[colIDfrom] == "MGI") {
+	  if (!any(grepl("MGI:",identifiers))) {
+		  stop("Please provide MGI identifiers as MGI:ID")
+	  }
+	  identifiers <- paste0("MGI:MGI:",
+				sapply(strsplit(identifiers,"MGI:"),tail,1))
   }
   # Map gene identifiers.
   suppressMessages({
