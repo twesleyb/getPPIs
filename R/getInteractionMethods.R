@@ -20,13 +20,13 @@
 #'
 #' @examples
 #' getInteractionMethods(hitpredict)
-getInteractionMethods <- function(hitpredict) {
+getInteractionMethods <- function(hitpredict,quiet=TRUE) {
   # Download the molecular ontology.
   downloads <- getwd()
   myfile <- file.path(downloads, "mi.owl")
   url <- "https://github.com/HUPO-PSI/psi-mi-CV/raw/master/psi-mi.obo"
   message("Downloading molecular ontology!")
-  download.file(url, destfile = myfile)
+  download.file(url, destfile = myfile,quiet=quiet)
   ontology <- ontologyIndex::get_ontology(myfile)
   unlink(myfile)
   # Function to extact method names.

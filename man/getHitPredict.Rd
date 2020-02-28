@@ -4,7 +4,7 @@
 \alias{getHitPredict}
 \title{getHitPredict}
 \usage{
-getHitPredict(dataset = "all")
+getHitPredict(dataset = "all", quiet = TRUE)
 }
 \arguments{
 \item{dataset}{- (character) which dataset to be downloaded from HitPredict.

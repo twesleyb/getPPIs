@@ -21,7 +21,7 @@
 #'
 #' @examples
 #' getHitPredict(dataset = "HitPredict")
-getHitPredict <- function(dataset = "all") {
+getHitPredict <- function(dataset = "all",quiet=TRUE) {
   # Imports.
   suppressPackageStartupMessages({
     require(getPPIs)
@@ -64,7 +64,7 @@ getHitPredict <- function(dataset = "all") {
   gzfile <- file.path(downloads, basename(url))
   myfile <- tools::file_path_sans_ext(gzfile)
   message(paste("Downloading", dataset, "PPIs from HitPredict.org..."))
-  download.file(url, gzfile)
+  download.file(url, gzfile,quiet=quiet)
   untar(gzfile, exdir = downloads)
   rawdat <- data.table::fread(myfile, header = TRUE, skip = 5)
   unlink(gzfile)

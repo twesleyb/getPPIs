@@ -4,7 +4,7 @@
 \alias{getInteractionMethods}
 \title{getInteractionMethods}
 \usage{
-getInteractionMethods(hitpredict)
+getInteractionMethods(hitpredict, quiet = TRUE)
 }
 \arguments{
 \item{hitpredict}{(data.table)}
