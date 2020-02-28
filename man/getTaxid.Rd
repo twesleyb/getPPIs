@@ -2,10 +2,22 @@
 % Please edit documentation in R/getTaxid.R
 \name{getTaxid}
 \alias{getTaxid}
-\title{getTaxid}
+\title{getTaxid
+taxonomic id given a species alias}
 \usage{
 getTaxid(species)
 }
+\value{
+none
+}
 \description{
 getTaxid
+taxonomic id given a species alias
 }
+\references{
+none
+}
+\author{
+Tyler W Bradshaw, \email{tyler.w.bradshaw@duke.edu}
+}
+\keyword{none}
