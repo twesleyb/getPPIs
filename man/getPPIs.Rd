@@ -4,13 +4,13 @@
 \alias{getPPIs}
 \title{getPPIs}
 \usage{
-getPPIs(organism, taxid)
+getPPIs(dataset, species)
 }
 \arguments{
-\item{organism}{(character) organism to be downloaded from HitPredict.
+\item{dataset}{(character) dataset to be downloaded from HitPredict.
 One of c("HitPredict",...)}
 
-\item{taxid}{(integer) taxonomic identifier for organism of interest.}
+\item{species}{(character) species alias for organism of interest.}
 }
 \value{
 none

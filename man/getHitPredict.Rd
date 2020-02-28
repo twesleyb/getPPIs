@@ -4,10 +4,10 @@
 \alias{getHitPredict}
 \title{getHitPredict}
 \usage{
-getHitPredict(organism = "HitPredict")
+getHitPredict(dataset = "HitPredict")
 }
 \arguments{
-\item{organism}{- (character) which organism to be downloaded from HitPredict.
+\item{dataset}{- (character) which dataset to be downloaded from HitPredict.
 One of HitPredict (all interactions), H_sapiens, M_musculus, R_norvegicus,
 A_thaliana, C_elegans, C_jejuni, D_melanogaster, E_coli, H_pylori, P_falciparum,
 S_cerevisiae, or S_pombe.}
@@ -19,7 +19,7 @@ none
 Function that facilitates downloading the HitPredict database.
 }
 \examples{
-getHitPredict(organism = "HitPredict")
+getHitPredict(dataset = "HitPredict")
 }
 \references{
 none
