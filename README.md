@@ -27,11 +27,11 @@ devtools::install_github("twesleyb/getPPIs")
 
 ## Usage
 The package contains several key functions:
-1. __getHitPredict__ - facilitates download of HitPredict data and mapping protein identifiers to stable Entrez gene IDs.
-2. __getHomoloGene__ - maps genes to homologs in a species of interest (e.g. map human PPIs to mouse).
-3. __getMethods__ - annotates the HitPredict detection methods with more human-readable names.
-4. __getPPIs__ - wrapper function that does the work getHitPredict, getHomoloGene, and getPPIs.
-5. __buildNetwork__ - builds a PPI graph given some genes of interest (currently only works for mouse).
+1. __getPPIs__ - Build a protein-protein interaction database. 
+A wrapper function that the work getHitPredict, getHomoloGene, and getInteractionMethods.
+2. __mapIDs__ - Map gene IDs from one format to another (e.g. uniprot to entrez).
+3. __getHomologs__ - Map gene identifiers to homologs in another species.
+4. __buildNetwork__ - builds a PPI graph given some genes of interest (currently only works for mouse).
 
 ### Usage Examples:
 ```R
@@ -41,13 +41,13 @@ library(getPPIs)
 hitpredict <- getHitPredict("HitPredict")
 
 # 2. Map all genes to mouse homologs.
-hitpredict <- getHomoloGene(hitpredict, taxid=10090)
+hitpredict <- getHomoloGene(hitpredict, species="mouse")
 
 # 3. Annotate HitPredict data with method names.
-hitpredict <- getMethods(hitpredict)
+hitpredict <- getInteractionMethods(hitpredict)
 
 # 4. Equivalently, steps 1-3 are performed by the wrapper function `getPPIs`:
-ppis <- getPPIs("HitPredict", taxid = 10090)
+ppis <- getPPIs("HitPredict", species = "mouse")
 
 # 5. Given some genes, build a PPI graph:
 mygenes <- unique(c(ppis$osEntrezA,ppis$osEntrezB))
@@ -56,36 +56,11 @@ g <- buildNetwork(ppis, mygenes, mytaxid=10090) # This is the mouse interactome.
 ```
 See additional usage examples [here](./examples.R).
 
-## Additional Datasets
-`getPPIs` contains several useful datasets, access them in R with the `data()` function:
-
-* `data(musInteractome)` All HitPredict interactions mapped to mouse.
-* `data(Wrp)` Wrp-BioID from Spence _et al._, 2019.<sup>[3]<sup>
-* `data(iPSD)` iPSD-BioID from Uezu _et al._, 2016.<sup>[4]<sup>
-* `data(ePSD)` PSD95-BioID from Uezu _et al._, 2016.<sup>[4]<sup>
-* `data(compiled_iPSD)` An iPSD proteome compiled from several studies.<sup>[4-8]<sup>
-
-
-## The Compiled iPSD proteome
-The proteome of the inhibitory post-synaptic density (iPSD) is understudied relative to its excitatory, PSD conterpart. 
-The compiled iPSD is a list of proteins that have been identified at inhibitory synapses by a variety of methods.
-
-| Study                   | Method                                                                         |  nProteins  | Ref.|
-|:-----------------------:|:------------------------------------------------------------------------------:|:-----------:|:---:|
-| Heller _et al._, 2012   | Affinity purification of Venus eGFP-tagged GABAARa1 transgenic mouse           | 18  | [5] |
-| Kang _et al._, 2014     | Affinity purification of His6-FLAG-YFP-NL2 transgenic mouse                    | 75  | [6] |
-| Uezu _et al._, 2016     | Gephyrin, InSyn1, and Collybistin iBioID                                       | 181 | [4] |
-| Loh _et al._, 2016      | Lenti-viral expression of Slitrk3 and Nlgn2 APEX in cultured rat neurons       | 42  | [7] |
-| Nakamura _et al._, 2016 | Affinity purification of pHluorin tagged GABAARa2 transgenic mouse             | 174 | [8] |
-| Yamasaki _et al._, 2017 | GABAARa1 immunoprecipitation                                                   | 7   | [7] |
-
-You can download the compiled iPSD proteome [here](./link).
-
 ## Dependencies
 The script `installDBs` automates the installation of several gene ID mapping databases
 which are utilized to map organism specific Uniprot entries to Entrez gene IDs.
 
-Other libraries utilized by `getPPIs` include:
+Other key libraries utilized by `getPPIs` include:
 * data.table
 * dplyr
 * igraph
@@ -103,10 +78,6 @@ Other libraries utilized by `getPPIs` include:
 [2] Patil, A., Nakai, K. & Nakamura, H. HitPredict: a database of quality assessed protein-protein interactions in nine species. Nucleic Acids Res. 39, D744-9 (2011).  
 
 [3] López, Y., Nakai, K. & Patil, A. HitPredict version 4: comprehensive reliability scoring of physical protein-protein interactions from more than 100 species. Database (Oxford) 2015, (2015).  
-
-[4] Uezu, A. et al. Identification of an elaborate complex mediating postsynaptic inhibition. Science 353, 1123–1129 (2016).  
-
-[5] Spence, E. F. et al. In vivo proximity proteomics of nascent synapses reveals a novel regulator of cytoskeleton-mediated synaptic maturation. Nat. Commun. 10, 386 (2019).  
 
 ## License
 This program is free software; you can redistribute it and/or modify it under 
