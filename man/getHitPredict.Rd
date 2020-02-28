@@ -4,19 +4,19 @@
 \alias{getHitPredict}
 \title{getHitPredict}
 \usage{
-getHitPredict(dataset = "HitPredict")
+getHitPredict(dataset = "all")
 }
 \arguments{
 \item{dataset}{- (character) which dataset to be downloaded from HitPredict.
 One of HitPredict (all interactions), H_sapiens, M_musculus, R_norvegicus,
-A_thaliana, C_elegans, C_jejuni, D_melanogaster, E_coli, H_pylori, P_falciparum,
-S_cerevisiae, or S_pombe.}
+A_thaliana, C_elegans, C_jejuni, D_melanogaster, E_coli, H_pylori, 
+P_falciparum, S_cerevisiae, or S_pombe.}
 }
 \value{
-none
+data - (data.table) HitPredict dataset with genes mapped to entrez.
 }
 \description{
-Function that facilitates downloading the HitPredict database.
+Download a HitPredict database.
 }
 \examples{
 getHitPredict(dataset = "HitPredict")

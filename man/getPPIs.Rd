@@ -4,11 +4,10 @@
 \alias{getPPIs}
 \title{getPPIs}
 \usage{
-getPPIs(dataset = "HitPredict", species)
+getPPIs(dataset = "all", species)
 }
 \arguments{
-\item{dataset}{(character) dataset to be downloaded from HitPredict.
-One of c("HitPredict",...)}
+\item{dataset}{(character) dataset to be downloaded from HitPredict.}
 
 \item{species}{(character) species alias for organism of interest.}
 }
@@ -16,7 +15,7 @@ One of c("HitPredict",...)}
 none
 }
 \description{
-Wrapper around getHitPredict, getHomoloGene, and getInteractionMethods.
+Wrapper around getHitPredict, getHomologs, and getInteractionMethods.
 }
 \examples{
 getPPIs()
