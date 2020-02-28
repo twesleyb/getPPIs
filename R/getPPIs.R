@@ -2,10 +2,10 @@
 #'
 #' Wrapper around getHitPredict, getHomoloGene, and getInteractionMethods.
 #'
-#' @param organism (character) organism to be downloaded from HitPredict.
+#' @param dataset (character) dataset to be downloaded from HitPredict.
 #' One of c("HitPredict",...)
 #'
-#' @param taxid (integer) taxonomic identifier for organism of interest.
+#' @param species (character) species alias for organism of interest.
 #'
 #' @return none
 #'
@@ -21,11 +21,11 @@
 #'
 #' @examples
 #' getPPIs()
-getPPIs <- function(organism, taxid) {
-
+getPPIs <- function(dataset, species) {
   # Download HitPredict database.
-  hitpredict <- getHitPredict(organism)
+  hitpredict <- getHitPredict(dataset)
   # Map genes to homologous mouse genes.
+  taxid <- getTaxid(species)
   hitpredict <- getHomoloGene(hitpredict, taxid)
   # Annotate hitpredict data with method names.
   hitpredict <- getInteractionMethods(hitpredict)

@@ -2,7 +2,7 @@
 #'
 #' Function that facilitates downloading the HitPredict database.
 #'
-#' @param organism - (character) which organism to be downloaded from HitPredict.
+#' @param dataset - (character) which dataset to be downloaded from HitPredict.
 #' One of HitPredict (all interactions), H_sapiens, M_musculus, R_norvegicus,
 #' A_thaliana, C_elegans, C_jejuni, D_melanogaster, E_coli, H_pylori, P_falciparum,
 #' S_cerevisiae, or S_pombe.
@@ -20,8 +20,8 @@
 #' @export
 #'
 #' @examples
-#' getHitPredict(organism = "HitPredict")
-getHitPredict <- function(organism = "HitPredict") {
+#' getHitPredict(dataset = "HitPredict")
+getHitPredict <- function(dataset = "HitPredict") {
   # Imports.
   suppressPackageStartupMessages({
     require(getPPIs)
@@ -38,10 +38,10 @@ getHitPredict <- function(organism = "HitPredict") {
   hrefs <- as.list(hrefs)
   names(hrefs) <- namen
   # Download HitPredict database as MITAB-2.5 format.
-  url <- file.path("http://www.hitpredict.org", hrefs[[organism]])
+  url <- file.path("http://www.hitpredict.org", hrefs[[dataset]])
   gzfile <- file.path(downloads, basename(url))
   myfile <- tools::file_path_sans_ext(gzfile)
-  message(paste("Downloading", organism, "PPIs from HitPredict.org..."))
+  message(paste("Downloading", dataset, "PPIs from HitPredict.org..."))
   download.file(url, gzfile)
   untar(gzfile, exdir = downloads)
   rawdat <- data.table::fread(myfile, header = TRUE, skip = 5)

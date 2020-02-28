@@ -1,7 +1,10 @@
 #!/usr/bin/env Rscript
 
+## Build a human interactome using the getPPIs package.
+
 library(getPPIs)
 
-# getPPIs does the previous three steps.
-hitpredict <- getPPIs("HitPredict", taxid=9606)
+hsInteractome <- getPPIs("HitPredict", taxid=9606)
+
+save(hsInteractome,file="hsInteractome.rda")
 
