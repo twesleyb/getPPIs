@@ -1,17 +1,8 @@
 # getPPIs
 
 ## Description
-_getPPIs_ is an __R__ package that facilitates the compilation of protein-protein 
-interactions from [HitPredict](http://hintdb.hgc.jp/htp/).
-
-#### HitPredict
-> HitPredict is a database of experimentally identified, confidence scored 
-> protein-protein interactions (PPIs) compiled from several databases, including:
-> [IntAct](https://www.ebi.ac.uk/intact/), 
-> [BioGRID](https://thebiogrid.org/), 
-> [HPRD](https://hprd.org/), 
-> [MINT](https://mint.bio.uniroma2.it/), and 
-> [DIP](https://dip.doe-mbi.ucla.edu/dip/Main.cgi).
+_getPPIs_ is an __R__ package that facilitates the compilation of experimentally identified,
+confidence scored protein-protein interactions (PPIs) from [HitPredict](http://hintdb.hgc.jp/htp/).
 
 For more information about HitPredict, please see authors' original publications:
 * [Lopez _et al.,_ 2015](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4691340/) <sup>[1]<sup>
