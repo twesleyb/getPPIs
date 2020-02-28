@@ -31,7 +31,8 @@ getPPIs <- function(dataset="all", species) {
   hitpredict <- subset(hitpredict,!is_missing)
   # Status report.
   nPPIs <- formatC(nrow(hitpredict),big.mark=",")
-  message(paste("Compiled",nPPIs, species, "HitPredict PPIs."))
+  message(paste(nPPIs,"Protein-protein interactions were successfully",
+	       	"mapped to", species,"Entrez IDs."))
   # Annotate hitpredict data with method names.
   hitpredict <- getInteractionMethods(hitpredict)
   # Status.

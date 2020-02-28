@@ -9,5 +9,5 @@ library(getPPIs)
 msInteractome <- getPPIs("HitPredict", species="mouse")
 
 # Save as rda object.
-save(msInteractome,file="msInteractome.rda")
+#save(msInteractome,file="msInteractome.rda")
 
