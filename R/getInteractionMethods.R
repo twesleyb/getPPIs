@@ -1,4 +1,4 @@
-#' getMethods
+#' getInteractionMethods
 #'
 #' Given a HitPredict object (data.table), annotate the PPI-detection methods.
 #' Note: A method score >= 0.485 is considered to indicate high confidence
@@ -17,8 +17,8 @@
 #' @export
 #'
 #' @examples
-#' getMethods(hitpredict)
-getMethods <- function(hitpredict) {
+#' getInteractionMethods(hitpredict)
+getInteractionMethods <- function(hitpredict) {
   # Download the molecular ontology.
   downloads <- getwd()
   myfile <- file.path(downloads, "mi.owl")

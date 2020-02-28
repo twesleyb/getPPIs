@@ -1,6 +1,6 @@
 #' getPPIs
 #'
-#' Wrapper around getHitPredict, getHomoloGene, and getMethods.
+#' Wrapper around getHitPredict, getHomoloGene, and getInteractionMethods.
 #'
 #' @param organism (character) organism to be downloaded from HitPredict.
 #' One of c("HitPredict",...)
@@ -28,7 +28,7 @@ getPPIs <- function(organism, taxid) {
   # Map genes to homologous mouse genes.
   hitpredict <- getHomoloGene(hitpredict, taxid)
   # Annotate hitpredict data with method names.
-  hitpredict <- getMethods(hitpredict)
+  hitpredict <- getInteractionMethods(hitpredict)
   # Status.
   message("Complete!")
   return(hitpredict)
