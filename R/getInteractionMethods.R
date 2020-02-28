@@ -14,6 +14,8 @@
 #'
 #' @keywords annotation database org.db entrez
 #'
+#' @import ontologyIndex
+#'
 #' @export
 #'
 #' @examples
