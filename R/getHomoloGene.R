@@ -53,7 +53,7 @@ getHomoloGene <- function(hitpredict, taxid, quiet = TRUE) {
   # Subset homologene data, keep all genes from your species of interest.
   homologene <- homologene %>% filter(TaxonomyID == taxid)
   # Taxonomy info.
-  annotationDBs <- getDBs()
+  annotationDBs <- mappingDBs()
   osDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 1) == taxid])
   names(osDB) <- sapply(strsplit(names(osDB), "\\."), "[", 2)
   organism <- osDB["alias"]
