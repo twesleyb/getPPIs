@@ -16,7 +16,7 @@ none
 Returns a list of annotation databases.
 }
 \examples{
-annotationDBs <- getDBs()
+dbs <- mappingDBs()
 }
 \references{
 none

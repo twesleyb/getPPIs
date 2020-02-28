@@ -16,7 +16,7 @@ One of c("HitPredict",...)}
 none
 }
 \description{
-Wrapper around getHitPredict, getHomoloGene, and getMethods.
+Wrapper around getHitPredict, getHomoloGene, and getInteractionMethods.
 }
 \examples{
 getPPIs()
