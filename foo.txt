@@ -1,0 +1,13 @@
+HitPredict
+H_sapiens
+M_musculus
+R_norvegicus
+A_thaliana
+D_melanogaster
+C_elegans
+C_jejuni
+S_cerevisiae
+S_pombe
+E_coli
+H_pylori
+P_falciparum

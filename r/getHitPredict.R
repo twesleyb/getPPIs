@@ -1,13 +1,13 @@
 #' getHitPredict
 #'
-#' Function that facilitates downloading the HitPredict database.
+#' Download a HitPredict database.
 #'
 #' @param dataset - (character) which dataset to be downloaded from HitPredict.
 #' One of HitPredict (all interactions), H_sapiens, M_musculus, R_norvegicus,
-#' A_thaliana, C_elegans, C_jejuni, D_melanogaster, E_coli, H_pylori, P_falciparum,
-#' S_cerevisiae, or S_pombe.
+#' A_thaliana, C_elegans, C_jejuni, D_melanogaster, E_coli, H_pylori, 
+#' P_falciparum, S_cerevisiae, or S_pombe.
 #'
-#' @return none
+#' @return data - (data.table) HitPredict dataset with genes mapped to entrez.
 #'
 #' @author Tyler W Bradshaw, \email{tyler.w.bradshaw@duke.edu}
 #'
@@ -21,12 +21,34 @@
 #'
 #' @examples
 #' getHitPredict(dataset = "HitPredict")
-getHitPredict <- function(dataset = "HitPredict") {
+getHitPredict <- function(dataset = "all") {
   # Imports.
   suppressPackageStartupMessages({
     require(getPPIs)
     require(dplyr)
   })
+  # Available HitPredict datasets:
+  datasets <- list(all="HitPredict",
+		   human="H_sapiens",
+		   mouse="M_musculus",
+		   rat="R_norvegicus",
+		   arabidopsis="A_thaliana",
+		   fly="D_melanogaster",
+		   worm="C_elegans",
+		   campylobacter="C_jejuni",
+		   yeast="S_cerevisiae",
+		   pombe="S_pombe",
+		   ecoli="E_coli",
+		   pylori="H_pylori",
+		   plasmodium="P_falciparum")
+  # Check that the provided dataset is valid.
+  check1 <- any(grepl(tolower(dataset),tolower(names(datasets))))
+  check2 <- any(grepl(tolower(dataset),tolower(datasets)))
+  if (!check1 & !check2) {
+	  stop(paste("Please provide a valid dataset alias. One of:",
+		   paste(names(datasets),collapse=", ")))
+  }
+  if (check1) { dataset <- datasets[[tolower(dataset)]] }
   # Parse HitPredict Downloads page.
   downloads <- getwd()
   url <- "http://www.hitpredict.org/download.html"
@@ -53,7 +75,8 @@ getHitPredict <- function(dataset = "HitPredict") {
   cleandat$Interactor_B_ID <- gsub("uniprotkb:", "", cleandat$Interactor_B_ID)
   # Load organism specific mapping databases:
   annotationDBs <- mappingDBs()
-  # Subset HitPredict data, keep interactions from species with mapping databases...
+  # Subset HitPredict data.
+  # Keep interactions from species with mapping databases.
   dbs <- unlist(sapply(annotationDBs, "[", 1))
   data <- data.table::as.data.table({
     cleandat %>% filter(Interactor_A_Taxonomy %in% dbs & Interactor_B_Taxonomy %in% dbs)
@@ -71,8 +94,7 @@ getHitPredict <- function(dataset = "HitPredict") {
     filtdat <- data %>% dplyr::filter(Interactor_A_Taxonomy != species & Interactor_B_Taxonomy != species)
     uniprot <- subdat %>%
       dplyr::select(Interactor_A_ID, Interactor_B_ID) %>%
-      stack() %>%
-      pull(values)
+      stack() %>% pull(values)
     # Get organism specific mapping database.
     orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 1) == species])
     names(orgDB) <- sapply(strsplit(names(orgDB), "\\."), "[", 2)
@@ -80,7 +102,7 @@ getHitPredict <- function(dataset = "HitPredict") {
       eval(parse(text = paste0("require(", orgDB[["database"]], ",quietly=TRUE)")))
     })
     myDB <- eval(parse(text = orgDB[["database"]]))
-    # Perform Uniprot 3 Entrez mapping
+    # Perform Uniprot to Entrez ID mapping.
     suppressMessages({
       entrez <- AnnotationDbi::mapIds(myDB,
         keys = uniprot,

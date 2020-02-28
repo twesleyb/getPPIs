@@ -1,9 +1,8 @@
 #' getPPIs
 #'
-#' Wrapper around getHitPredict, getHomoloGene, and getInteractionMethods.
+#' Wrapper around getHitPredict, getHomologs, and getInteractionMethods.
 #'
 #' @param dataset (character) dataset to be downloaded from HitPredict.
-#' One of c("HitPredict",...)
 #'
 #' @param species (character) species alias for organism of interest.
 #'
@@ -21,13 +20,18 @@
 #'
 #' @examples
 #' getPPIs()
-getPPIs <- function(dataset="HitPredict", species) {
-  #TODO: Replace the getHomoloGene script with getHomologs().
+getPPIs <- function(dataset="all", species) {
   # Download HitPredict database.
   hitpredict <- getHitPredict(dataset)
   # Map genes to homologous mouse genes.
-  taxid <- getTaxid(species)
-  hitpredict <- getHomoloGene(hitpredict, taxid)
+  hitpredict$osEntrezA <- getHomologs(hitpredict$EntrezA,species)
+  hitpredict$osEntrezB <- getHomologs(hitpredict$EntrezB,species)
+  # Remove missing ids.
+  is_missing <- is.na(hitpredict$osEntrezA) | is.na(hitpredict$osEntrezB)
+  hitpredict <- subset(hitpredict,!is_missing)
+  # Status report.
+  nPPIs <- formatC(nrow(hitpredict),big.mark=",")
+  message(paste("Compiled",nPPIs, species, "HitPredict PPIs."))
   # Annotate hitpredict data with method names.
   hitpredict <- getInteractionMethods(hitpredict)
   # Status.
