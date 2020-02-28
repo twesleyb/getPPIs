@@ -5,7 +5,7 @@
 #'
 #' @param hitpredict (data.table) - HitPredict data.
 #'
-#' @param taxid (integer) - taxonomic identifier for species of interest
+#' @param species (character) - species alias for species of interest
 #'
 #' @return none
 #'
@@ -18,11 +18,20 @@
 #' @export
 #'
 #' @examples
-#' getHomologs(entrez, taxid = 10090)
-getHomologs <- function(entrez, taxid, verbose = FALSE) {
+#' getHomologs(entrez, species = "mouse")
+getHomologs <- function(entrez, species, verbose=FALSE) {
   suppressMessages({
     require(getPPIs)
   })
+  # Get taxid of provided species.
+  dbs <- mappingDBs()
+  all_species <- sapply(dbs,"[[","alias")
+  idx <- grep(species,sapply(dbs,"[[","alias"))
+  if (length(idx) == 0) { 
+  	  stop(paste0("Please provide a valid species alias: ",
+	       	     paste(all_species,collapse=", "),"."))
+  }
+  taxid <- dbs[[idx]][["taxid"]]
   # Download and load NCBI homology gene data.
   downloads <- getwd()
   url <- "ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data"

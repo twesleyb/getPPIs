@@ -1,4 +1,3 @@
-#------------------------------------------------------------------------------
 #' installDBs
 #'
 #' Installation of organism specific mapping databases from BioConductor.
@@ -46,8 +45,7 @@ installDBs <- function() {
     if (requireNamespace(package, quietly = TRUE)) {
       message(paste(package, "is already installed!"))
     } else {
-      BiocManager::install(package)
+      BiocManager::install(package,update=FALSE,ask=FALSE)
     }
   }
 }
-#------------------------------------------------------------------------------

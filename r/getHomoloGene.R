@@ -1,6 +1,6 @@
 #' getHomologene
 #'
-#' Downloading the NCBI holoogy database. Mapping proteins to species of
+#' Downloading the NCBI homology database. Mapping proteins to species of
 #' interest.
 #'
 #' @param hitpredict (data.table) - HitPredict data.
@@ -28,7 +28,7 @@ getHomoloGene <- function(hitpredict, taxid, quiet = TRUE) {
   url <- "ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data"
   destfile <- file.path(downloads, "homologene.data")
   message("Downloading NCBI HomoloGene data...")
-  download.file(url, destfile, quiet)
+  download.file(url, destfile, quiet=quiet)
   homologene <- data.table::fread(destfile, header = FALSE)
   # Remove raw data.
   unlink(destfile)

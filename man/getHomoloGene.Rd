@@ -15,7 +15,7 @@ getHomoloGene(hitpredict, taxid, quiet = TRUE)
 none
 }
 \description{
-Downloading the NCBI holoogy database. Mapping proteins to species of
+Downloading the NCBI homology database. Mapping proteins to species of
 interest.
 }
 \examples{

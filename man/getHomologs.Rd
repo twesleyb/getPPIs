@@ -4,10 +4,10 @@
 \alias{getHomologs}
 \title{getHomologs}
 \usage{
-getHomologs(entrez, taxid, verbose = FALSE)
+getHomologs(entrez, species, verbose = FALSE)
 }
 \arguments{
-\item{taxid}{(integer) - taxonomic identifier for species of interest}
+\item{species}{(character) - species alias for species of interest}
 
 \item{hitpredict}{(data.table) - HitPredict data.}
 }
@@ -19,7 +19,7 @@ Downloading the NCBI holoogy database. Mapping proteins to species of
 interest.
 }
 \examples{
-getHomologs(entrez, taxid = 10090)
+getHomologs(entrez, species = "mouse")
 }
 \references{
 none
