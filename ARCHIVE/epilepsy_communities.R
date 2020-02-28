@@ -1,4 +1,6 @@
-# Build networks of proteins associated with epilepsy genes.
+#!/usr/bin/env Rscript
+
+## Build networks of proteins associated with epilepsy genes.
 
 library(getPPIs)
 
