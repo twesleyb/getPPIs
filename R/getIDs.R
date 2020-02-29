@@ -1,4 +1,4 @@
-#' mapIDs
+#' getIDs
 #'
 #' Mapping gene identifiers.
 #' An easier to use wrapper around AnnotationDbi::mapIds().
@@ -25,8 +25,8 @@
 #' @export
 #'
 #' @examples
-#' mapIds(mygenes, from = "symbol", to = "entrez", species = "mouse")
-mapIDs <- function(identifiers, from, to, species=NULL, taxid=NULL,
+#' getIDs(mygenes, from = "symbol", to = "entrez", species = "mouse")
+getIDs <- function(identifiers, from, to, species=NULL, taxid=NULL,
 		   multiVals="first", ...) {
   # Wrapper around AnnotationDbi::mapIds()
   #require(getPPIs)
@@ -34,7 +34,6 @@ mapIDs <- function(identifiers, from, to, species=NULL, taxid=NULL,
   if (sum(is.na(identifiers))) {
 	  message("Warning: missing values (NA) detected in input identifiers.")
   }
-
   # Get organism specific mapping database.
   annotationDBs <- mappingDBs()
   if (!is.null(taxid)){

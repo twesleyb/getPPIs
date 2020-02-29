@@ -3,6 +3,7 @@
 export(buildNetwork)
 export(getHitPredict)
 export(getHomologs)
+export(getIDs)
 export(getInteractionMethods)
 export(getPPIs)
 export(installDBs)
