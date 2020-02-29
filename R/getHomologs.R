@@ -19,19 +19,31 @@
 #'
 #' @examples
 #' getHomologs(entrez, species = "mouse")
-getHomologs <- function(entrez, species, quiet=TRUE) {
+getHomologs <- function(entrez, species=NULL,taxid=NULL,quiet=TRUE) {
   suppressMessages({
     require(getPPIs)
   })
   # Get taxid of provided species.
   dbs <- mappingDBs()
-  all_species <- sapply(dbs,"[[","alias")
-  idx <- grep(species,sapply(dbs,"[[","alias"))
-  if (length(idx) == 0) { 
-  	  stop(paste0("Please provide a valid species alias: ",
-	       	     paste(all_species,collapse=", "),"."))
+  # Check that user has provided a species or taxid.
+  if (is.null(species) & is.null(taxid)) { 
+	  stop(paste("Please provide either a taxid or species alias."))
   }
+  # Check if species is valid.
+  if (!is.null(species)){
+	  all_species <- sapply(dbs,"[[","alias")
+	  idx <- grep(species,sapply(dbs,"[[","alias"))
+	  if (length(idx) == 0) { 
+  	  stop(paste0("Please provide a valid species taxid or alias: ",
+	       	     paste(all_species,collapse=", "),"."))
+	  }
   taxid <- dbs[[idx]][["taxid"]]
+  }
+  # Check if taxid is valid.
+  if (!is.null(taxid)) {
+	  check <- taxid %in% sapply(dbs,"[[",1)
+	  if (!check) { stop("Please provide a valid taxid.") }
+  }
   # Download and load NCBI homology gene data.
   downloads <- getwd()
   url <- "ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data"
