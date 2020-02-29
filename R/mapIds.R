@@ -26,16 +26,24 @@
 #'
 #' @examples
 #' mapIds(mygenes, from = "symbol", to = "entrez", species = "mouse")
-mapIDs <- function(identifiers, from, to, species, multiVals="first", ...) {
+mapIDs <- function(identifiers, from, to, species=NULL, taxid=NULL,
+		   multiVals="first", ...) {
   # Wrapper around AnnotationDbi::mapIds()
   #require(getPPIs)
   # Check input identifiers.
   if (sum(is.na(identifiers))) {
 	  message("Warning: missing values (NA) detected in input identifiers.")
   }
+
   # Get organism specific mapping database.
   annotationDBs <- mappingDBs()
-  orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 3) == tolower(species)])
+  if (!is.null(taxid)){
+	  orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 1) == taxid])
+  } else if (!is.null(species)) {
+	  orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 3) == tolower(species)])
+  } else {
+	  stop("Please provide a species or taxid for gene identifiers.")
+  }
   names(orgDB) <- sapply(strsplit(names(orgDB), "\\."), "[", 2)
   suppressPackageStartupMessages({
     eval(parse(text = paste0("require(", orgDB[["database"]], ",quietly=TRUE)")))
