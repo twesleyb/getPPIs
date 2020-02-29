@@ -4,7 +4,7 @@
 \alias{getHomologs}
 \title{getHomologs}
 \usage{
-getHomologs(entrez, species, quiet = TRUE)
+getHomologs(entrez, species = NULL, taxid = NULL, quiet = TRUE)
 }
 \arguments{
 \item{species}{(character) - species alias for species of interest}

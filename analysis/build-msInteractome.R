@@ -47,5 +47,5 @@ save(musInteractome,file="musInteractome.rda")
 # In my experience, when working with mouse proteins, it is useful to
 # only consider interactions identified in mouse, human, and/or rat.
 orgs <- c(10090,9606,10116)
-idx <- msInteractome$Interactor_A_Taxonomy %in% orgs
-ppis <- subset(msInteractome, idx)
+idx <- musInteractome$Interactor_A_Taxonomy %in% orgs
+ppis <- subset(musInteractome, idx)
