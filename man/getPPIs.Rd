@@ -4,7 +4,7 @@
 \alias{getPPIs}
 \title{getPPIs}
 \usage{
-getPPIs(dataset = "all", species)
+getPPIs(dataset = "all", species, quiet = FALSE)
 }
 \arguments{
 \item{dataset}{(character) dataset to be downloaded from HitPredict.}

@@ -10,6 +10,7 @@ getIDs(
   to,
   species = NULL,
   taxid = NULL,
+  quiet = TRUE,
   multiVals = "first",
   ...
 )
