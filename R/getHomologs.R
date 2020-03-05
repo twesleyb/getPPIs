@@ -20,9 +20,6 @@
 #' @examples
 #' getHomologs(entrez, species = "mouse")
 getHomologs <- function(entrez, species=NULL,taxid=NULL,quiet=TRUE) {
-  suppressMessages({
-    #require(getPPIs)
-  })
   # Get taxid of provided species.
   dbs <- mappingDBs()
   # Check that user has provided a species or taxid.

@@ -24,7 +24,6 @@
 getHitPredict <- function(dataset = "all",quiet=TRUE) {
   # Imports.
   suppressPackageStartupMessages({
-    #require(getPPIs)
     library(dplyr)
   })
   # Available HitPredict datasets:
