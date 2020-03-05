@@ -9,5 +9,5 @@ library(getPPIs)
 hsInteractome <- getPPIs("HitPredict", species="human")
 
 # Save as rda object.
-save(hsInteractome,file="hsInteractome.rda")
+save(hsInteractome,file="../data/hsInteractome.rda",version=2)
 

@@ -20,7 +20,7 @@
 #'
 #' @examples
 #' getPPIs()
-getPPIs <- function(dataset="all", species, quiet = FALSE) {
+getPPIs <- function(dataset="all", species, quiet = TRUE) {
   # Download HitPredict database.
   hitpredict <- getHitPredict(dataset,quiet)
   # Map genes to homologous mouse genes.

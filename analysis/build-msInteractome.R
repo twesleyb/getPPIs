@@ -31,18 +31,19 @@ taxids <- sapply(dbs,"[",3)
 names(taxids) <- sapply(dbs,"[",1)
 
 # Summary.
+message("Number of interactions from each species:")
 colnames(df) <- taxids[colnames(df)]
 df <- apply(df,1,function(x) formatC(x,big.mark=","))
-message("Number of interactions from each species:")
 knitr::kable(t(df))
 
 # Table summarizing number of interactions from each database.
+message("Number of interactions from each database:")
 df <- t(table(musInteractome$Source_database))
 df <- apply(df,1,function(x) formatC(x,big.mark=","))
 knitr::kable(t(df))
 
 # Save as rda object.
-save(musInteractome,file="musInteractome.rda")
+save(musInteractome,file="../data/musInteractome.rda",version=2)
 
 # In my experience, when working with mouse proteins, it is useful to
 # only consider interactions identified in mouse, human, and/or rat.
