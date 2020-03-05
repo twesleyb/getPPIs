@@ -21,7 +21,7 @@
 #' getHomologs(entrez, species = "mouse")
 getHomologs <- function(entrez, species=NULL,taxid=NULL,quiet=TRUE) {
   suppressMessages({
-    require(getPPIs)
+    #require(getPPIs)
   })
   # Get taxid of provided species.
   dbs <- mappingDBs()
@@ -48,7 +48,7 @@ getHomologs <- function(entrez, species=NULL,taxid=NULL,quiet=TRUE) {
   downloads <- getwd()
   url <- "ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data"
   destfile <- file.path(downloads, "homologene.data")
-  message("Downloading NCBI HomoloGene data...")
+  if (!quiet) { message("Downloading NCBI HomoloGene data...") }
   download.file(url, destfile, quiet = quiet)
   homologene <- data.table::fread(destfile, header = FALSE)
   # Remove raw data.
@@ -78,10 +78,11 @@ getHomologs <- function(entrez, species=NULL,taxid=NULL,quiet=TRUE) {
   # Status report.
   is_missing <- is.na(osEntrez)
   n <- length(is_missing)
-    message(paste0(round(100 * sum(!is_missing) / n, 2),
-		   "% of supplied entrez IDs were mapped to homologous genes in ",
-		   organism, "."))
-  # osEntrez <- osEntrez[!is_missing]
+  if (!quiet) {
+	  message(paste0(round(100 * sum(!is_missing) / n, 2),
+			 "% of supplied entrez IDs were successfully ",
+			 "mapped to homologous genes in ", organism, "."))
+  }
   # Return data with genes mapped to gene specific entrez.
   return(osEntrez)
 }

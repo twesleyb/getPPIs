@@ -27,9 +27,8 @@
 #' @examples
 #' getIDs(mygenes, from = "symbol", to = "entrez", species = "mouse")
 getIDs <- function(identifiers, from, to, species=NULL, taxid=NULL,
-		   multiVals="first", ...) {
+		   quiet = TRUE, multiVals="first", ...) {
   # Wrapper around AnnotationDbi::mapIds()
-  #require(getPPIs)
   # Check input identifiers.
   if (sum(is.na(identifiers))) {
 	  message("Warning: missing values (NA) detected in input identifiers.")
@@ -87,7 +86,7 @@ getIDs <- function(identifiers, from, to, species=NULL, taxid=NULL,
   }
   # Check that all nodes (entrez) are mapped to gene symbols.
   not_mapped <- is.na(output)
-  if (sum(is.na(output)) != 0) {
+  if (!quiet & sum(is.na(output)) != 0) {
     message(paste0(
       "Warning: Unable to map ", sum(not_mapped), " ", species, " ",
       from, "(s)", " to ", to, " identifiers!"

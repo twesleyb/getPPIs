@@ -23,7 +23,7 @@ getInteractionMethods <- function(hitpredict,quiet=TRUE) {
   downloads <- getwd()
   myfile <- file.path(downloads, "mi.owl")
   url <- "https://github.com/HUPO-PSI/psi-mi-CV/raw/master/psi-mi.obo"
-  message("Downloading molecular ontology!")
+  if (!quiet) { message("Downloading molecular interaction ontology!") }
   download.file(url, destfile = myfile,quiet=quiet)
   ontology <- ontologyIndex::get_ontology(myfile)
   unlink(myfile)
@@ -34,7 +34,6 @@ getInteractionMethods <- function(hitpredict,quiet=TRUE) {
     return(z)
   }
   # Get method names.
-  message("Annotating hitpredict data with more detailed method names...")
   mi <- hitpredict$Interaction_detection_methods
   meth <- lapply(mi, getMethod)
   namen <- unlist(lapply(meth, function(x) paste(x, collapse = " | ")))
