@@ -12,6 +12,8 @@
 #'
 #' @keywords none
 #'
+#' @import BiocManager
+#' 
 #' @export
 #'
 #' @examples

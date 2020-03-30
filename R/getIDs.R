@@ -22,6 +22,8 @@
 #'
 #' @keywords none
 #'
+#' @import AnnotationDbi
+#'
 #' @export
 #'
 #' @examples

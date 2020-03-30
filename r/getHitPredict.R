@@ -22,10 +22,6 @@
 #' @examples
 #' getHitPredict(dataset = "HitPredict")
 getHitPredict <- function(dataset = "all",quiet=TRUE) {
-  # Imports.
-  suppressPackageStartupMessages({
-    library(dplyr)
-  })
   # Available HitPredict datasets:
   datasets <- list(all="HitPredict",
 		   human="H_sapiens",
