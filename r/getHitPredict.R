@@ -25,6 +25,8 @@ getHitPredict <- function(dataset = "all",quiet=TRUE) {
   # Imports.
   suppressPackageStartupMessages({
     library(dplyr)
+    library(rvest)
+    library(xml2)
   })
   # Available HitPredict datasets:
   datasets <- list(all="HitPredict",
