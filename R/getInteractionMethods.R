@@ -16,6 +16,10 @@
 #'
 #' @import dplyr
 #'
+#' @importFrom ontologyIndex get_ontology
+#'
+#' @importFrom data.table data.table as.data.table
+#'
 #' @export
 #'
 #' @examples

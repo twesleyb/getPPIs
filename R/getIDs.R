@@ -1,20 +1,21 @@
 #' getIDs
 #'
 #' Mapping gene identifiers.
-#' An easier to use wrapper around AnnotationDbi::mapIds().
+#' An easy-to-use and robust wrapper around AnnotationDbi::mapIds().
 #'
-#' @param identifiers
+#' @param identifiers - input gene identifiers
 #'
-#' @param from - One of c("ACCNUM", "ALIAS", "ENSEMBL", "ENSEMBLPROT",
+#' @param from - input identifier type, one of (case insensitive):
+#' `c("ACCNUM", "ALIAS", "ENSEMBL", "ENSEMBLPROT",
 #' "ENSEMBLTRANS", "ENTREZID", "ENZYME", "EVIDENCE", "EVIDENCEALL", "GENENAME",
 #' "GO", "GOALL", "IPI", "MGI", "ONTOLOGY", "ONTOLOGYALL", "PATH",
-#' "PFAM", "PMID", "PROSITE", "REFSEQ", "SYMBOL", "UNIGENE", "UNIPROT")
+#' "PFAM", "PMID", "PROSITE", "REFSEQ", "SYMBOL", "UNIGENE", "UNIPROT")`
 #'
-#' @param to - see from
+#' @param to - output identifier type, see `from`.
 #'
-#' @param species
+#' @param species - organism identifier for input genes.
 #'
-#' @return none
+#' @return output gene identifiers
 #'
 #' @author Tyler W Bradshaw, \email{tyler.w.bradshaw@duke.edu}
 #'
@@ -22,7 +23,9 @@
 #'
 #' @keywords none
 #'
-#' @import AnnotationDbi
+#' @importFrom AnnotationDbi mapIds
+#'
+#' @importFrom data.table data.table
 #'
 #' @export
 #'

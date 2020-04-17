@@ -4,35 +4,28 @@
 \alias{getIDs}
 \title{getIDs}
 \usage{
-getIDs(
-  identifiers,
-  from,
-  to,
-  species = NULL,
-  taxid = NULL,
-  quiet = TRUE,
-  multiVals = "first",
-  ...
-)
+getIDs(identifiers, from, to, species = NULL, taxid = NULL,
+  quiet = TRUE, multiVals = "first", ...)
 }
 \arguments{
-\item{identifiers}{}
+\item{identifiers}{- input gene identifiers}
 
-\item{from}{- One of c("ACCNUM", "ALIAS", "ENSEMBL", "ENSEMBLPROT",
+\item{from}{- input identifier type, one of (case insensitive):
+`c("ACCNUM", "ALIAS", "ENSEMBL", "ENSEMBLPROT",
 "ENSEMBLTRANS", "ENTREZID", "ENZYME", "EVIDENCE", "EVIDENCEALL", "GENENAME",
 "GO", "GOALL", "IPI", "MGI", "ONTOLOGY", "ONTOLOGYALL", "PATH",
-"PFAM", "PMID", "PROSITE", "REFSEQ", "SYMBOL", "UNIGENE", "UNIPROT")}
+"PFAM", "PMID", "PROSITE", "REFSEQ", "SYMBOL", "UNIGENE", "UNIPROT")`}
 
-\item{to}{- see from}
+\item{to}{- output identifier type, see `from`.}
 
-\item{species}{}
+\item{species}{- organism identifier for input genes.}
 }
 \value{
-none
+output gene identifiers
 }
 \description{
 Mapping gene identifiers.
-An easier to use wrapper around AnnotationDbi::mapIds().
+An easy-to-use and robust wrapper around AnnotationDbi::mapIds().
 }
 \examples{
 getIDs(mygenes, from = "symbol", to = "entrez", species = "mouse")

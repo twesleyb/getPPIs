@@ -14,8 +14,6 @@
 #'
 #' @keywords none
 #'
-#' @import dplyr
-#'
 #' @export
 #'
 #' @examples
