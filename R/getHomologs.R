@@ -1,11 +1,11 @@
 #' getHomologs
 #'
-#' Downloading the NCBI holoogy database. Mapping proteins to species of
-#' interest.
+#' Downloading the NCBI holoogy database. Mapping Entrez IDs to homologs in
+#' a given species of interest.
 #'
 #' @param hitpredict (data.table) - HitPredict data.
 #'
-#' @param species (character) - species alias for species of interest
+#' @param entrez (character) - Entrez IDs -- can be from any species
 #'
 #' @return none
 #'
