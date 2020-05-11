@@ -1,5 +1,8 @@
 #!/usr/bin/env Rscript
 
+# Load renv.
+renv::load(getrd())
+
 # Input arguments.
 git_user <- "twesleyb"
 package_name <- "getPPIs"

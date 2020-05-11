@@ -4,8 +4,16 @@
 \alias{getIDs}
 \title{getIDs}
 \usage{
-getIDs(identifiers, from, to, species = NULL, taxid = NULL,
-  quiet = TRUE, multiVals = "first", ...)
+getIDs(
+  identifiers,
+  from,
+  to,
+  species = NULL,
+  taxid = NULL,
+  quiet = TRUE,
+  multiVals = "first",
+  ...
+)
 }
 \arguments{
 \item{identifiers}{- input gene identifiers}

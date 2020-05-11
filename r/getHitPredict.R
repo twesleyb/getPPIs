@@ -4,7 +4,7 @@
 #'
 #' @param dataset - (character) which dataset to be downloaded from HitPredict.
 #' One of HitPredict (all interactions), H_sapiens, M_musculus, R_norvegicus,
-#' A_thaliana, C_elegans, C_jejuni, D_melanogaster, E_coli, H_pylori, 
+#' A_thaliana, C_elegans, C_jejuni, D_melanogaster, E_coli, H_pylori,
 #' P_falciparum, S_cerevisiae, or S_pombe.
 #'
 #' @return data - (data.table) HitPredict dataset with genes mapped to entrez.
@@ -15,7 +15,7 @@
 #'
 #' @keywords none
 #'
-#' @import dplyr 
+#' @import dplyr
 #'
 #' @importFrom data.table data.table as.data.table
 #'
@@ -27,29 +27,35 @@
 #'
 #' @examples
 #' getHitPredict(dataset = "HitPredict")
-getHitPredict <- function(dataset = "all",quiet=TRUE) {
+getHitPredict <- function(dataset = "all", quiet = TRUE) {
   # Available HitPredict datasets:
-  datasets <- list(all="HitPredict",
-		   human="H_sapiens",
-		   mouse="M_musculus",
-		   rat="R_norvegicus",
-		   arabidopsis="A_thaliana",
-		   fly="D_melanogaster",
-		   worm="C_elegans",
-		   campylobacter="C_jejuni",
-		   yeast="S_cerevisiae",
-		   pombe="S_pombe",
-		   ecoli="E_coli",
-		   pylori="H_pylori",
-		   plasmodium="P_falciparum")
+  datasets <- list(
+    all = "HitPredict",
+    human = "H_sapiens",
+    mouse = "M_musculus",
+    rat = "R_norvegicus",
+    arabidopsis = "A_thaliana",
+    fly = "D_melanogaster",
+    worm = "C_elegans",
+    campylobacter = "C_jejuni",
+    yeast = "S_cerevisiae",
+    pombe = "S_pombe",
+    ecoli = "E_coli",
+    pylori = "H_pylori",
+    plasmodium = "P_falciparum"
+  )
   # Check that the provided dataset is valid.
-  check1 <- any(grepl(tolower(dataset),tolower(names(datasets))))
-  check2 <- any(grepl(tolower(dataset),tolower(datasets)))
+  check1 <- any(grepl(tolower(dataset), tolower(names(datasets))))
+  check2 <- any(grepl(tolower(dataset), tolower(datasets)))
   if (!check1 & !check2) {
-	  stop(paste("Please provide a valid dataset alias. One of:",
-		   paste(names(datasets),collapse=", ")))
+    stop(paste(
+      "Please provide a valid dataset alias. One of:",
+      paste(names(datasets), collapse = ", ")
+    ))
   }
-  if (check1) { dataset <- datasets[[tolower(dataset)]] }
+  if (check1) {
+    dataset <- datasets[[tolower(dataset)]]
+  }
   # Parse HitPredict Downloads page.
   downloads <- getwd()
   url <- "http://www.hitpredict.org/download.html"
@@ -65,7 +71,7 @@ getHitPredict <- function(dataset = "all",quiet=TRUE) {
   gzfile <- file.path(downloads, basename(url))
   myfile <- tools::file_path_sans_ext(gzfile)
   message(paste("Downloading", dataset, "PPIs from HitPredict.org..."))
-  download.file(url, gzfile,quiet=quiet)
+  download.file(url, gzfile, quiet = quiet)
   untar(gzfile, exdir = downloads)
   rawdat <- data.table::fread(myfile, header = TRUE, skip = 5)
   unlink(gzfile)
@@ -95,7 +101,8 @@ getHitPredict <- function(dataset = "all",quiet=TRUE) {
     filtdat <- data %>% dplyr::filter(Interactor_A_Taxonomy != species & Interactor_B_Taxonomy != species)
     uniprot <- subdat %>%
       dplyr::select(Interactor_A_ID, Interactor_B_ID) %>%
-      stack() %>% pull(values)
+      stack() %>%
+      pull(values)
     # Get organism specific mapping database.
     orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 1) == species])
     names(orgDB) <- sapply(strsplit(names(orgDB), "\\."), "[", 2)

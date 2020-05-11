@@ -7,7 +7,7 @@
 getHomologs(entrez, species = NULL, taxid = NULL, quiet = TRUE)
 }
 \arguments{
-\item{species}{(character) - species alias for species of interest}
+\item{entrez}{(character) - Entrez IDs -- can be from any species}
 
 \item{hitpredict}{(data.table) - HitPredict data.}
 }
@@ -15,8 +15,8 @@ getHomologs(entrez, species = NULL, taxid = NULL, quiet = TRUE)
 none
 }
 \description{
-Downloading the NCBI holoogy database. Mapping proteins to species of
-interest.
+Downloading the NCBI holoogy database. Mapping Entrez IDs to homologs in
+a given species of interest.
 }
 \examples{
 getHomologs(entrez, species = "mouse")

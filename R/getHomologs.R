@@ -23,33 +23,39 @@
 #'
 #' @examples
 #' getHomologs(entrez, species = "mouse")
-getHomologs <- function(entrez, species=NULL,taxid=NULL,quiet=TRUE) {
+getHomologs <- function(entrez, species = NULL, taxid = NULL, quiet = TRUE) {
   # Get taxid of provided species.
   dbs <- mappingDBs()
   # Check that user has provided a species or taxid.
-  if (is.null(species) & is.null(taxid)) { 
-	  stop(paste("Please provide either a taxid or species alias."))
+  if (is.null(species) & is.null(taxid)) {
+    stop(paste("Please provide either a taxid or species alias."))
   }
   # Check if species is valid.
-  if (!is.null(species)){
-	  all_species <- sapply(dbs,"[[","alias")
-	  idx <- grep(species,sapply(dbs,"[[","alias"))
-	  if (length(idx) == 0) { 
-  	  stop(paste0("Please provide a valid species taxid or alias: ",
-	       	     paste(all_species,collapse=", "),"."))
-	  }
-  taxid <- dbs[[idx]][["taxid"]]
+  if (!is.null(species)) {
+    all_species <- sapply(dbs, "[[", "alias")
+    idx <- grep(species, sapply(dbs, "[[", "alias"))
+    if (length(idx) == 0) {
+      stop(paste0(
+        "Please provide a valid species taxid or alias: ",
+        paste(all_species, collapse = ", "), "."
+      ))
+    }
+    taxid <- dbs[[idx]][["taxid"]]
   }
   # Check if taxid is valid.
   if (!is.null(taxid)) {
-	  check <- taxid %in% sapply(dbs,"[[",1)
-	  if (!check) { stop("Please provide a valid taxid.") }
+    check <- taxid %in% sapply(dbs, "[[", 1)
+    if (!check) {
+      stop("Please provide a valid taxid.")
+    }
   }
   # Download and load NCBI homology gene data.
   downloads <- getwd()
   url <- "ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data"
   destfile <- file.path(downloads, "homologene.data")
-  if (!quiet) { message("Downloading NCBI HomoloGene data...") }
+  if (!quiet) {
+    message("Downloading NCBI HomoloGene data...")
+  }
   download.file(url, destfile, quiet = quiet)
   homologene <- data.table::fread(destfile, header = FALSE)
   # Remove raw data.
@@ -80,9 +86,11 @@ getHomologs <- function(entrez, species=NULL,taxid=NULL,quiet=TRUE) {
   is_missing <- is.na(osEntrez)
   n <- length(is_missing)
   if (!quiet) {
-	  message(paste0(round(100 * sum(!is_missing) / n, 2),
-			 "% of supplied entrez IDs were successfully ",
-			 "mapped to homologous genes in ", organism, "."))
+    message(paste0(
+      round(100 * sum(!is_missing) / n, 2),
+      "% of supplied entrez IDs were successfully ",
+      "mapped to homologous genes in ", organism, "."
+    ))
   }
   # Return data with genes mapped to gene specific entrez.
   return(osEntrez)

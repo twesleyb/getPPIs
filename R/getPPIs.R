@@ -18,24 +18,28 @@
 #'
 #' @examples
 #' getPPIs()
-getPPIs <- function(dataset="all", species, quiet = TRUE) {
+getPPIs <- function(dataset = "all", species, quiet = TRUE) {
   # Download HitPredict database.
-  hitpredict <- getHitPredict(dataset,quiet)
+  hitpredict <- getHitPredict(dataset, quiet)
   # Map genes to homologous mouse genes.
-  hitpredict$osEntrezA <- getHomologs(hitpredict$EntrezA,species,quiet)
-  hitpredict$osEntrezB <- getHomologs(hitpredict$EntrezB,species,quiet)
+  hitpredict$osEntrezA <- getHomologs(hitpredict$EntrezA, species, quiet)
+  hitpredict$osEntrezB <- getHomologs(hitpredict$EntrezB, species, quiet)
   # Remove missing ids.
   is_missing <- is.na(hitpredict$osEntrezA) | is.na(hitpredict$osEntrezB)
-  hitpredict <- subset(hitpredict,!is_missing)
+  hitpredict <- subset(hitpredict, !is_missing)
   # Status report.
-  nPPIs <- formatC(nrow(hitpredict),big.mark=",")
+  nPPIs <- formatC(nrow(hitpredict), big.mark = ",")
   if (!quiet) {
-	  message(paste(nPPIs,"Protein-protein interactions were successfully",
-			"mapped to", species,"Entrez IDs."))
+    message(paste(
+      nPPIs, "Protein-protein interactions were successfully",
+      "mapped to", species, "Entrez IDs."
+    ))
   }
   # Annotate hitpredict data with method names.
   hitpredict <- getInteractionMethods(hitpredict)
   # Status.
-  if (!quiet) { message("Complete!") }
+  if (!quiet) {
+    message("Complete!")
+  }
   return(hitpredict)
 }

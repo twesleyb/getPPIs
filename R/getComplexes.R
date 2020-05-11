@@ -12,29 +12,20 @@
 #'
 #' @keywords none
 #'
-#' @import dplyr 
-#'
-#' @importFrom 
-#'
-#' @importFrom xml2 read_html
-#'
-#' @importFrom rvest html_nodes html_attr
+#' @import dplyr
 #'
 #' @export
-#'
-#' @examples
-#' getHitPredict(dataset = "HitPredict")
 
-getComplexes <- function(,download=getwd(),quiet=TRUE) {
+getComplexes <- function(download = getwd(), quiet = TRUE) {
 
   # Download data.
   url <- "https://mips.helmholtz-muenchen.de/corum/download/coreComplexes.txt.zip"
   zip_file <- file.path(downloads, basename(url))
   myfile <- tools::file_path_sans_ext(zip_file)
   message(paste("Downloading Core PPIs Complexes from CORUM database..."))
-  download.file(url, zip_file,quiet=quiet)
+  download.file(url, zip_file, quiet = quiet)
   # Extract zipped file and clean-up.
-  unzip(zip_file,exdir=downloads)
+  unzip(zip_file, exdir = downloads)
   rawdat <- data.table::fread(myfile)
   unlink(zip_file)
   unlink(myfile)
@@ -66,7 +57,8 @@ getComplexes <- function(,download=getwd(),quiet=TRUE) {
     filtdat <- data %>% dplyr::filter(Interactor_A_Taxonomy != species & Interactor_B_Taxonomy != species)
     uniprot <- subdat %>%
       dplyr::select(Interactor_A_ID, Interactor_B_ID) %>%
-      stack() %>% pull(values)
+      stack() %>%
+      pull(values)
     # Get organism specific mapping database.
     orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 1) == species])
     names(orgDB) <- sapply(strsplit(names(orgDB), "\\."), "[", 2)

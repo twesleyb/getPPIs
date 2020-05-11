@@ -31,21 +31,21 @@
 #'
 #' @examples
 #' getIDs(mygenes, from = "symbol", to = "entrez", species = "mouse")
-getIDs <- function(identifiers, from, to, species=NULL, taxid=NULL,
-		   quiet = TRUE, multiVals="first", ...) {
+getIDs <- function(identifiers, from, to, species = NULL, taxid = NULL,
+                   quiet = TRUE, multiVals = "first", ...) {
   # Wrapper around AnnotationDbi::mapIds()
   # Check input identifiers.
   if (sum(is.na(identifiers))) {
-	  message("Warning: missing values (NA) detected in input identifiers.")
+    message("Warning: missing values (NA) detected in input identifiers.")
   }
   # Get organism specific mapping database.
   annotationDBs <- mappingDBs()
-  if (!is.null(taxid)){
-	  orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 1) == taxid])
+  if (!is.null(taxid)) {
+    orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 1) == taxid])
   } else if (!is.null(species)) {
-	  orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 3) == tolower(species)])
+    orgDB <- unlist(annotationDBs[sapply(annotationDBs, "[", 3) == tolower(species)])
   } else {
-	  stop("Please provide a species or taxid for gene identifiers.")
+    stop("Please provide a species or taxid for gene identifiers.")
   }
   names(orgDB) <- sapply(strsplit(names(orgDB), "\\."), "[", 2)
   suppressPackageStartupMessages({
@@ -57,21 +57,25 @@ getIDs <- function(identifiers, from, to, species=NULL, taxid=NULL,
   colIDfrom <- grep(toupper(from), columns(osDB))
   # Check that from and to map to a single column.
   keys <- keytypes(osDB)
-  msg <- paste0("Please provide one of the following",
-		"(case insensitive): ", paste(keys,collapse=", "),".")
-  if (length(colIDto) > 1) { 
-	  stop(paste("Multiple matching keys (to).\n",msg)) 
+  msg <- paste0(
+    "Please provide one of the following",
+    "(case insensitive): ", paste(keys, collapse = ", "), "."
+  )
+  if (length(colIDto) > 1) {
+    stop(paste("Multiple matching keys (to).\n", msg))
   }
-  if (length(colIDfrom) > 1) { 
-	  stop(paste("Multiple matching keys (from).\n",msg)) 
+  if (length(colIDfrom) > 1) {
+    stop(paste("Multiple matching keys (from).\n", msg))
   }
   # Check MGI format if input is MGI.
   if (columns(osDB)[colIDfrom] == "MGI") {
-	  if (!any(grepl("MGI:",identifiers))) {
-		  stop("Please provide MGI identifiers as MGI:ID")
-	  }
-	  identifiers <- paste0("MGI:MGI:",
-				sapply(strsplit(identifiers,"MGI:"),tail,1))
+    if (!any(grepl("MGI:", identifiers))) {
+      stop("Please provide MGI identifiers as MGI:ID")
+    }
+    identifiers <- paste0(
+      "MGI:MGI:",
+      sapply(strsplit(identifiers, "MGI:"), tail, 1)
+    )
   }
   # Map gene identifiers.
   suppressMessages({
@@ -84,10 +88,10 @@ getIDs <- function(identifiers, from, to, species=NULL, taxid=NULL,
   })
   # Check if output is a list.
   if (is.list(output)) {
-	  # Replace NULL
-	  is_null <- sapply(output,is.null)
-	  output[is_null] <- NA
-	  output <- unlist(output)
+    # Replace NULL
+    is_null <- sapply(output, is.null)
+    output[is_null] <- NA
+    output <- unlist(output)
   }
   # Check that all nodes (entrez) are mapped to gene symbols.
   not_mapped <- is.na(output)
