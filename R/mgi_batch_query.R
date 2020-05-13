@@ -15,7 +15,7 @@
 #' @export
 #'
 mgi_batch_query <- function(ids, from = "Uniprot", to = "Entrez",
-                            download = TRUE, quiet = TRUE) {
+                            download = FALSE, quiet = TRUE) {
 
   # Map gene identifiers using MGI mapping data.
   # FIXME: Currently only supports uniprot to entrez mapping.
@@ -101,6 +101,7 @@ mgi_batch_query <- function(ids, from = "Uniprot", to = "Entrez",
     # Merge the two tables.
     dtC <- inner_join(dtA, dtB, by = "MGI") %>% as.data.table()
     MGI_Gene_Map <- dtC
+    save(MGI_Gene_Map, file = "MGI_Gene_Map.rda", version = 2)
   } # Ends chunk that builds a map.
 
   # Map IDs.
@@ -108,7 +109,7 @@ mgi_batch_query <- function(ids, from = "Uniprot", to = "Entrez",
   entrez <- MGI_Gene_Map$Entrez[idx]
   n_missing <- sum(is.na(entrez))
   if (n_missing > 0) {
-    warn(paste(
+    warning(paste(
       "Unable to map", n_missing,
       "gene identifiers to entrez."
     ))

@@ -8,7 +8,7 @@ mgi_batch_query(
   ids,
   from = "Uniprot",
   to = "Entrez",
-  download = TRUE,
+  download = FALSE,
   quiet = TRUE
 )
 }
