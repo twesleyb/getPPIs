@@ -1,4 +1,4 @@
-#importFrom' getIDs
+#' getIDs
 #'
 #' Mapping gene identifiers.
 #' An easy-to-use and robust wrapper around AnnotationDbi's mapIds function.

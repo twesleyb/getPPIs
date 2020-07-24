@@ -2,8 +2,7 @@
 % Please edit documentation in R/getIDs.R
 \name{getIDs}
 \alias{getIDs}
-\title{Mapping gene identifiers.
-An easy-to-use and robust wrapper around AnnotationDbi's mapIds function.}
+\title{getIDs}
 \usage{
 getIDs(
   identifiers,
