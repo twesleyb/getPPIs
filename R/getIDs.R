@@ -1,7 +1,7 @@
-#' getIDs
+#importFrom' getIDs
 #'
 #' Mapping gene identifiers.
-#' An easy-to-use and robust wrapper around AnnotationDbi::mapIds().
+#' An easy-to-use and robust wrapper around AnnotationDbi's mapIds function.
 #'
 #' @param identifiers - input gene identifiers
 #'
@@ -23,7 +23,7 @@
 #'
 #' @keywords none
 #'
-#' @import AnnotationDbi mapIds data.table
+#' @import AnnotationDbi data.table
 #'
 #' @export
 #'
