@@ -14,11 +14,7 @@
 #'
 #' @keywords annotation database org.db entrez
 #'
-#' @import dplyr
-#'
-#' @importFrom ontologyIndex get_ontology
-#'
-#' @importFrom data.table data.table as.data.table
+#' @import dplyr ontologyIndex
 #'
 #' @export
 #'

@@ -23,9 +23,7 @@
 #'
 #' @keywords none
 #'
-#' @importFrom AnnotationDbi mapIds
-#'
-#' @importFrom data.table data.table
+#' @import AnnotationDbi mapIds data.table
 #'
 #' @export
 #'

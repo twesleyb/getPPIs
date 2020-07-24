@@ -15,13 +15,7 @@
 #'
 #' @keywords none
 #'
-#' @import dplyr
-#'
-#' @importFrom data.table data.table as.data.table
-#'
-#' @importFrom xml2 read_html
-#'
-#' @importFrom rvest html_nodes html_attr
+#' @import dplyr data.table xml2 rvest
 #'
 #' @export
 #'

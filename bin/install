@@ -1,7 +1,8 @@
 #!/usr/bin/env Rscript
 
 # Load renv.
-renv::load(getrd())
+root <- dirname(getwd())
+renv::load(root)
 
 # Input arguments.
 git_user <- "twesleyb"

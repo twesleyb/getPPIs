@@ -15,9 +15,7 @@
 #'
 #' @keywords none
 #'
-#' @import dplyr
-#'
-#' @importFrom data.table data.table as.data.table
+#' @import dplyr data.table
 #'
 #' @export
 #'
