@@ -25,7 +25,7 @@ gene_map <- data.table('Yeast Gene' = homologs$"Gene Standard Name",
 gene_map <- gene_map %>% filter(`Yeast Gene` != "") %>% as.data.table()
 gene_map <- gene_map %>% group_by(`Yeast Gene`) %>%
 	dplyr::summarize(Entrez = paste(unique(`Human Entrez`),collapse=";"),
-			 Source = paste(unique(Source),collapse=";"))
+			 Source = paste(unique(Source),collapse=";"),.groups="drop")
 
 # Map Yeast genes to their human homolog.
 idxA <- match(interactions$"Gene A Standard Name", gene_map$"Yeast Gene")
@@ -55,6 +55,16 @@ ms_interactions <- hs_interactions %>%
 # Make column headers more clear.
 colnames(ms_interactions)[1] <- "Yeast Gene A"
 colnames(ms_interactions)[2] <- "Yeast Gene B"
+
+# Add gene symbols.
+entrezA <- ms_interactions$"Mouse Homolog A"
+entrezB <- ms_interactions$"Mouse Homolog B"
+ms_interactions$"SymbolA" <- getIDs(entrezA,from="entrez",to="symbol",species="mouse")
+ms_interactions$"SymbolB" <- getIDs(entrezB,from="entrez",to="symbol",species="mouse")
+
+#idx <- grepl("Atp6v",ms_interactions$SymbolA) | any(grepl("Atp6v",ms_interactions$SymbolB))
+#subdat <- ms_interactions[idx,]
+#fwrite(subdat,"foo.csv")
 
 # Save the data. 
 y2h2m_interactions <- ms_interactions
