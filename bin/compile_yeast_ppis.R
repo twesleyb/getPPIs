@@ -33,7 +33,7 @@ idxB <- match(interactions$"Gene B Standard Name", gene_map$"Yeast Gene")
 interactions$"Human Homolog A" <- gene_map$"Entrez"[idxA]
 interactions$"Human Homolog B" <- gene_map$"Entrez"[idxB]
 
-# Seperate rows with multiple homologs.
+# Seperate rows (yeast interactions) with multiple human homologs.
 interactions <- interactions %>% 
 	tidyr::separate_rows(`Human Homolog A`, sep=";") %>%
 	tidyr::separate_rows(`Human Homolog B`, sep=";")
@@ -42,6 +42,21 @@ interactions <- interactions %>%
 hs_interactions <- interactions %>% 
 	filter(!is.na(`Human Homolog A`) & !is.na(`Human Homolog B`))
 
-# Save the data.
-subdat <- hs_interactions[sample(nrow(hs_interactions),1000),]
-fwrite(subdat,"data.csv")
+# Map human genes to mouse homologs.
+geneA <- hs_interactions$"Human Homolog A"
+geneB <- hs_interactions$"Human Homolog B"
+hs_interactions$"Mouse Homolog A" <- getHomologs(geneA, species="mouse")
+hs_interactions$"Mouse Homolog B" <- getHomologs(geneB, species="mouse")
+
+# Subset, keep interactions between mouse homologs.
+ms_interactions <- hs_interactions %>% 
+	filter(!is.na(`Mouse Homolog A`) & !is.na(`Mouse Homolog B`))
+
+# Make column headers more clear.
+colnames(ms_interactions)[1] <- "Yeast Gene A"
+colnames(ms_interactions)[2] <- "Yeast Gene B"
+
+# Save the data. 
+y2h2m_interactions <- ms_interactions
+datadir <- file.path(root,"data")
+save(y2h2m_interactions,file=file.path(datadir,"y2h2m_interactions.rda"),version=2)
