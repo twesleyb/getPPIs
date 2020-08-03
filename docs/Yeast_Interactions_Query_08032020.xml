@@ -1,0 +1,5 @@
+<query model="genomic" view="Gene.secondaryIdentifier Gene.symbol Gene.interactions.participant2.secondaryIdentifier Gene.interactions.participant2.symbol Gene.interactions.details.experiment.name Gene.interactions.details.relationshipType Gene.interactions.details.annotationType Gene.interactions.details.role1 Gene.interactions.details.experiment.interactionDetectionMethods.identifier Gene.interactions.details.experiment.publication.pubMedId Gene.interactions.details.experiment.publication.pubXrefId Gene.interactions.details.experiment.publication.citation" sortOrder="Gene.secondaryIdentifier ASC" constraintLogic="A and B" >
+  <constraint path="Gene.interactions.participant2" type="Gene" />
+  <constraint path="Gene.organism.shortName" op="=" value="S. cerevisiae" code="A" />
+  <constraint path="Gene.interactions.details.relationshipType" op="=" value="physical" code="B" />
+</query>
