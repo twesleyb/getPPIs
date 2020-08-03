@@ -18,5 +18,6 @@ homologs <- data.table::fread(file.path(downdir,data_files[1]))
 interactions <- data.table::fread(file.path(downdir,data_files[2]))
 
 # Save the data as rda.
-save(homologs,file="yeast_homologs.rda",version=2)
-save(interactions,file="yeast_interactions.rda",version=2)
+datadir <- file.path(root,"data")
+save(homologs,file=file.path(datadir,"yeast_homologs.rda"),version=2)
+save(interactions,file=file.path(datadir,"yeast_interactions.rda"),version=2)
