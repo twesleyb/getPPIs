@@ -7,8 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "tyler.w.bradshaw@duke.edu",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: Download and compile protein-protein interactions from the
-HitPredict database.
+Description: Download and compile protein-protein interactions from the HitPredict database.
 License: GNU V3
 Encoding: UTF-8
 LazyData: false
