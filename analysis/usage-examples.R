@@ -1,27 +1,21 @@
-#------------------------------------------------------------------------------
 ## Installation.
-#------------------------------------------------------------------------------
 
 # Install from github.
 devtools::install_github("twesleyb/getPPIs")
 
-#------------------------------------------------------------------------------
 ## Installing Organism mapping databases.
-#------------------------------------------------------------------------------
 
 library(getPPIs)
 
 installDBs()
 
-#------------------------------------------------------------------------------
 ## Building an interactome from scratch.
-#------------------------------------------------------------------------------
 
 # Load the library.
 library(getPPIs)
 
-# Download all PPIs in the HitPredict database.
-# This function will also annotate HitPredict proteins with Entrez IDs, a 
+# download all ppis in the hitpredict database.
+# this function will also annotate hitpredict proteins with entrez ids, a
 # stable, unique gene identifier, and discard those which are not mapped.
 hitpredict <- getHitPredict(organism="HitPredict")
 
@@ -35,11 +29,9 @@ hitpredict <- getMethods(hitpredict)
 # getPPIs does the previous three steps.
 hitpredict <- getPPIs("HitPredict", taxid=10090)
 
-#------------------------------------------------------------------------------
 ## Using the pre-built mouse Interactome.
-#------------------------------------------------------------------------------
 # If you work in mice, and you just want to find PPIs among your proteins of
-# interest, you can skip building your own interactome, and just load the 
+# interest, you can skip building your own interactome, and just load the
 # pre-built mouse interactome.
 
 library(getPPIs)
@@ -47,19 +39,18 @@ library(getPPIs)
 # Load the mouse interactome.
 data(musInteractome)
 
-# Load your genes of interest into R.
-# For example, Uniprot identifiers for the iPSD proteome were mapped to Entrez
-# IDs using the MGI website: http://www.informatics.jax.org/batch.
-# Your data just needs to have a column containing the word 'entrez' (case-insensitive).
-# Data file should be `.txt` or `.csv` format. 
+# Load your genes of interest into R.  For example, Uniprot
+# identifiers for the iPSD proteome were mapped to Entrez IDs using
+# the MGI website: http://www.informatics.jax.org/batch.  Your data
+# just needs to have a column containing the word 'entrez'
+# (case-insensitive).  Data file should be `.txt` or `.csv` format.
 myfile <- file.path("./data","MGIBatchReport_20191024_171834.txt")
 
 # Collect PPIs among your proteins and build a PPI graph.
 ppis <- buildNetwork(musInteractome,mygenes=myfile,taxid=10090)
 
-#------------------------------------------------------------------------------
+
 ## Using the BioID datasets.
-#------------------------------------------------------------------------------
 
 library(getPPIs)
 
@@ -74,10 +65,8 @@ ipsd <- buildNetwork(hitpredict=musInteractome, mygenes=iPSD, taxid=10090)
 wrp <- buildNetwork(hitpredict=musInteractome, mygenes=Wrp, taxid=10090)
 epsd <- buildNetwork(hitpredict=musInteractome, mygenes=ePSD, taxid=10090)
 
-#------------------------------------------------------------------------------
 ## Mapping gene identifiers programmatically.
-#------------------------------------------------------------------------------
-# Load the InSyn1 GFP-trap data from Uezu et al., 2016. Map gene names to 
+# Load the InSyn1 GFP-trap data from Uezu et al., 2016. Map gene names to
 # Entrez Ids.
 
 library(getPPIs)
@@ -99,10 +88,8 @@ data(musInteractome)
 # build a ppi graph.
 g <- buildNetwork(musInteractome,mygenes,taxid=10090)
 
-#------------------------------------------------------------------------------
-## Using the RCy3 module to interact with Cytoscape. 
-#------------------------------------------------------------------------------
 
+## Using the RCy3 module to interact with Cytoscape.
 # Install getPPIs
 devtools::install_github("twesleyb/getPPIs")
 
@@ -130,7 +117,7 @@ createNetworkFromIgraph(g,"compiled_iPSD")
 loadTableData(noa)
 
 # Apply FD layout.
-layoutNetwork(layout.name = "force-directed") 
+layoutNetwork(layout.name = "force-directed")
 
 # Customize the style
 library(TBmiscr)
@@ -145,9 +132,8 @@ nodeLabels <- mapVisualProperty('node label','symbol','p')
 createVisualStyle(style, defaults, list(nodeLabels))
 lockNodeDimensions(TRUE, style)
 
-#------------------------------------------------------------------------------
+
 ## Community detection with the Leiden algorithm.
-#------------------------------------------------------------------------------
 
 library(leiden)
 
@@ -156,7 +142,8 @@ profile <- list()
 resolution <- seq(0,1,0.01)
 for (i in 1:length(resolution)){
 	print(i)
-	partition <- leiden(g, partition_type = "ModularityVertexPartition",
+	partition <- leiden(g,
+			    partition_type = "ModularityVertexPartition",
 			    resolution_parameter = resolution[i], seed = NULL, n_iterations = -1)
 	profile[[i]] <- partition
 }
@@ -169,7 +156,6 @@ q <- unlist(lapply(profile, function(x) modularity(g, membership=x)))
 
 q[q==max(q)]
 
-
 nodes <- names(V(g))
 names(nodes) <- vertex_attr(g, "symbol")
 
@@ -178,37 +164,34 @@ g <- set_vertex_attr(g, "p1", value=partition)
 
 vertex_attr_names(g)
 
-#------------------------------------------------------------------------------
 ## Analysis of the mouse interactome.
-#------------------------------------------------------------------------------
 
 # Load the data.
 library(getPPIs)
 data(musInteractome)
 
 # Build a network.
-mygenes <- unique(c(musInteractome$osEntrezA,musInteractome$osEntrezB))
+mygenes <- unique(c(musInteractome$osEntrezA,
+		    musInteractome$osEntrezB))
 
-# Add ability to use cuttoff score... 
+# Add ability to use cuttoff score...
 data <- buildNetwork(musInteractome,mygenes)
 
 g <- data$network
 ppis <- data$ppis
 
-gphn <- 268566 
+gphn <- 268566
 subg <- make_ego_graph(g, order = 1, nodes = V(g)[names(V(g)) == "Gphn"])[[1]]
 
 # Partition the network.
-# The function getProfile 
+# The function getProfile
 partition <- getProfile(g,partition_type="ModularityVertexPartition",nsteps=1)
 
 partition_type="ModularityVertexPartition"
 nsteps=1
 
 
-#------------------------------------------------------------------------------
 # Finding the shortest path between proteins.
-#------------------------------------------------------------------------------
 
 library(getPPIs)
 
@@ -221,5 +204,3 @@ g <- netDat$network
 
 # Find shortest paths between two proteins.
 paths <- shortest_paths(g, from="Gphn", to="Nrcam", output = c("vpath", "epath", "both"))
-
-
