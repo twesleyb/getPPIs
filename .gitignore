@@ -6,6 +6,7 @@
 /temp
 *.swp
 venv/
+renv.lock
 renv/
 pyenv/
 ARCHIVE/
