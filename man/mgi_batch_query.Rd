@@ -4,13 +4,7 @@
 \alias{mgi_batch_query}
 \title{mgi_batch_query()}
 \usage{
-mgi_batch_query(
-  ids,
-  from = "Uniprot",
-  to = "Entrez",
-  download = FALSE,
-  quiet = TRUE
-)
+mgi_batch_query(ids, from = "Uniprot", to = "Entrez")
 }
 \arguments{
 \item{none}{}
@@ -22,7 +16,7 @@ none
 map uniprot IDs to entrez gene IDs using the MGI batch query tool.
 }
 \references{
-none
+http://www.informatics.jax.org/downloads/reports/MRK_Sequence.rpt
 }
 \author{
 Tyler W Bradshaw, \email{tyler.w.bradshaw@duke.edu}

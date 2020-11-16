@@ -1,5 +1,9 @@
 # getPPIs
 
+#### 11/16/2020
+* the functions that used to scrape the HitPredict site no longer work
+* These have been archived in src
+
 #### FIXME
 * project's namespace needs work because there a lot of unnecessary warnings
   when importing this package, e.g. `library(getPPIs)`.

@@ -15,7 +15,7 @@ getHomologs(entrez, species = NULL, taxid = NULL, quiet = TRUE)
 none
 }
 \description{
-Downloading the NCBI holoogy database. Mapping Entrez IDs to homologs in
+Download the NCBI homology database and map input Entrez ids to homologs in
 a given species of interest.
 }
 \examples{
