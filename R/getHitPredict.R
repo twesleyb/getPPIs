@@ -15,9 +15,14 @@
 #'
 #' @keywords none
 #'
-#' @import dplyr data.table xml2 rvest
+#' @importFrom dplyr %>% select filter
+#' @importFrom data.table as.data.table fread
+#' @importFrom rvest html_attr html_nodes
+#' @importFrom xml2 read_html
+#' @importFrom tools file_path_sans_ext
+#' @importFrom AnnotationDbi mapIds
 #'
-#' @export
+#' @export getHitPredict
 #'
 #' @examples
 #' getHitPredict(dataset = "HitPredict")
@@ -60,6 +65,7 @@ getHitPredict <- function(dataset = "all", quiet = TRUE) {
   namen <- sapply(strsplit(basename(hrefs), "_interactions"), "[", 1)
   hrefs <- as.list(hrefs)
   names(hrefs) <- namen
+
   # Download HitPredict database as MITAB-2.5 format.
   url <- file.path("http://www.hitpredict.org", hrefs[[dataset]])
   gzfile <- file.path(downloads, basename(url))

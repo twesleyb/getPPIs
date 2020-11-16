@@ -25,7 +25,7 @@
 #'
 #' @import AnnotationDbi data.table
 #'
-#' @export
+#' @export getIDs
 #'
 #' @examples
 #' getIDs(mygenes, from = "symbol", to = "entrez", species = "mouse")
