@@ -1,6 +1,6 @@
 #' getHomologs
 #'
-#' Downloading the NCBI holoogy database. Mapping Entrez IDs to homologs in
+#' Download the NCBI homology database -> Mapping Entrez IDs to homologs in
 #' a given species of interest.
 #'
 #' @param hitpredict (data.table) - HitPredict data.
