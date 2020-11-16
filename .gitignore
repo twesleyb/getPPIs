@@ -10,3 +10,4 @@ renv.lock
 renv/
 pyenv/
 ARCHIVE/
+.Rprofile

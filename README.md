@@ -1,5 +1,9 @@
 # getPPIs
 
+#### FIXME
+* project's namespace needs work because there a lot of unnecessary warnings
+  when importing this package, e.g. `library(getPPIs)`.
+
 ## Description
 _getPPIs_ is an __R__ package that facilitates the compilation of experimentally identified,
 confidence scored protein-protein interactions (PPIs) from [HitPredict](http://hintdb.hgc.jp/htp/).
