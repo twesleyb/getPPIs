@@ -1,6 +1,0 @@
-#!/usr/bin/env Rscript
-# Update a R packages documentation.
-
-root <- dirname(getwd())
-renv::load(root)
-devtools::document()

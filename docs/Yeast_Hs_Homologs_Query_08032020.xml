@@ -1,5 +1,0 @@
-<query model="genomic" view="Gene.symbol Gene.secondaryIdentifier Gene.name Gene.homologues.homologue.symbol Gene.homologues.homologue.organism.shortName Gene.homologues.homologue.primaryIdentifier Gene.homologues.dataSets.dataSource.name" sortOrder="Gene.symbol ASC" constraintLogic="A and B and C and D" >
-  <constraint path="Gene.organism.shortName" op="=" value="S. cerevisiae" code="B" />
-  <constraint path="Gene.homologues.homologue.organism.shortName" op="=" value="H. sapiens" code="C" />
-  <constraint path="Gene.homologues.homologue.crossReferences.source.name" op="=" value="MIM" code="D" />
-</query>

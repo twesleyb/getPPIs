@@ -1,8 +1,0 @@
-#!/usr/bin/env Rscript
-
-# Load renv.
-root <- dirname(getwd())
-renv::load(root)
-
-# Styles R files.
-styler::style_dir("../R")
