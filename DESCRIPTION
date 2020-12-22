@@ -1,7 +1,7 @@
 Package: getPPIs
 Title: Compile from the HitPredict Database
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R:
     person(given = "Tyler",
            family = "Bradshaw",
            role = c("aut", "cre"),
@@ -10,6 +10,6 @@ Authors@R:
 Description: Download and compile protein-protein interactions from the HitPredict database.
 License: GNU V3
 Encoding: UTF-8
-LazyData: false
+LazyData: true
 RoxygenNote: 7.1.1
 Import: AnnotationDbi, BiocManager, data.table, dplyr, ontologyIndex, rvest, xml2
